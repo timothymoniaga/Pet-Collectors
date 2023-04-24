@@ -7,10 +7,29 @@
 
 import UIKit
 
+struct Place {
+    var name:String
+    var address:String
+    var image:UIImage
+}
+
 class TableTableViewController: UITableViewController {
+    
+    var placeList = [Place]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tableView.backgroundColor = UIColor(red: 247.0/255, green: 247.0/255, blue: 247.0/255, alpha: 1.0)
+
+        self.tableView.separatorStyle = .none
+
+        
+        placeList.append(Place(name: "Google", address: "1600 Amphitheatre Parkway", image:  UIImage(systemName: "person.fill")!))
+        placeList.append(Place(name: "Facebook", address: "1 Hacker Way Menlo Park", image:  UIImage(systemName: "person.fill")!))
+        placeList.append(Place(name: "Apple", address: "One Infinite Loop", image:  UIImage(systemName: "person.fill")!))
+        
+
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -23,24 +42,33 @@ class TableTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return placeList.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        // let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
+        let cell = Bundle(for: TableViewCell.self).loadNibNamed("TableViewCell", owner: self,options: nil)?.first as! TableViewCell
         // Configure the cell...
+        
+        cell.placeName.text = placeList[indexPath.row].name
+        cell.address.text = placeList[indexPath.row].address
+        cell.placeImage.image = placeList[indexPath.row].image
 
         return cell
     }
-    */
+    
 
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110.0
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
