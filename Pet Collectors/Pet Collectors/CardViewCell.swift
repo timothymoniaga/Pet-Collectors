@@ -64,9 +64,10 @@ class CardViewCell: UICollectionViewCell {
     
     func configure(with card: Card) {
         breed.text = card.breed
-        loadImageFromURL(urlString: card.imageURL ?? "")
         details.text = card.details
+        image.image = UIImage(named: "PlaceholderPaw")
         self.backgroundColor = card.colour
+        loadImageFromURL(urlString: card.imageURL ?? "")
     }
     
     func loadImageFromURL(urlString: String) {

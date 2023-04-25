@@ -28,10 +28,12 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     private let REUSE_IDENTIFIER = "CardCell"
     private var collectionView: UICollectionView!
     var cards: [Card] = []
+    let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        callAPI()
     }
     
     // MARK: UICollectionViewDataSource
@@ -69,7 +71,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBAction func addCard(_ sender: Any) {
         callAPI()
-        cards.append(Card(breed: "test", details: loremIpsum, colour: .lightGray, imageURL: imageURL ?? ""))
+        getDogDetails(dogBreed: getDogBreed())
+        let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
+        cards.append(Card(breed: breed, details: loremIpsum, colour: .lightGray, imageURL: imageURL ?? ""))
         collectionView.reloadData()
     }
     
@@ -104,8 +108,54 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
 
         task.resume()
     }
+    
+    func capitalizeFirstLetterAndAfterSpace(_ string: String) -> String {
+        var capitalizedString = string.capitalized
+        
+        for i in capitalizedString.indices {
+            if capitalizedString[i] == " " && i < capitalizedString.index(before: capitalizedString.endIndex) {
+                let nextIndex = capitalizedString.index(after: i)
+                capitalizedString.replaceSubrange(nextIndex...nextIndex, with: String(capitalizedString[nextIndex]).capitalized)
+            }
+        }
+        
+        return capitalizedString
+    }
+    
+    func getDogDetails(dogBreed: String) {
+        let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let url = URL(string: "https://api.api-ninjas.com/v1/dogs?name="+name!)!
+        var request = URLRequest(url: url)
+        request.setValue(API_KEY, forHTTPHeaderField: "X-Api-Key")
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            guard let data = data else {
+                print("Error: No data received")
+                return
+            }
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Response status code: \(httpResponse.statusCode)")
+            }
+            print(String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
+    }
 
     
+    func getDogBreed() -> String {
+        if let range = imageURL?.range(of: #"breeds/([\w-]+)/"#, options: .regularExpression) {
+            var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
+            breed = breed.replacingOccurrences(of: "breeds/", with: "")
+            breed = breed.replacingOccurrences(of: "/", with: "")
+
+            return breed
+        }
+        return "golden retiever"
+    }
+
     func setup() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal

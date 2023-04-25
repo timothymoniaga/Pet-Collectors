@@ -14,13 +14,13 @@
             filePath = "Pet Collectors/CollectionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "callAPI()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "1FBF2BC2-F78C-429B-B2B1-F8A1A9332E21 - 8b7cf320a84b5ff1"
+                  uuid = "1FBF2BC2-F78C-429B-B2B1-F8A1A9332E21 - 8b7cf320a84b5f75"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -30,24 +30,88 @@
                   urlString = "file:///Volumes/tmon0012/Documents/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/CollectionViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77"
-                  offsetFromSymbolStart = "192">
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "288">
                </Location>
                <Location
-                  uuid = "1FBF2BC2-F78C-429B-B2B1-F8A1A9332E21 - 8b7cf320a84b5ff1"
+                  uuid = "1FBF2BC2-F78C-429B-B2B1-F8A1A9332E21 - 6969aa85a3bf761"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Pet_Collectors.CollectionViewController.callAPI() -&gt; ()"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Pet_Collectors.CollectionViewController.callAPI() -&gt; ()"
                   moduleName = "Pet Collectors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Volumes/tmon0012/Documents/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/CollectionViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77"
-                  offsetFromSymbolStart = "276">
+                  startingLineNumber = "82"
+                  endingLineNumber = "82"
+                  offsetFromSymbolStart = "192">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "312AB359-0E0F-405F-9D30-053AC1AC57C0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pet Collectors/CardViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "configure(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pet Collectors/CardViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "loadImageFromURL(urlString:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0 - 8c4ed1d44fcfe062"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.CardViewCell.loadImageFromURL(urlString: Swift.String) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/tmon0012/Documents/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/CardViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "384">
+               </Location>
+               <Location
+                  uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0 - 8c4ed1d44fcfe062"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.CardViewCell.loadImageFromURL(urlString: Swift.String) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/tmon0012/Documents/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/CardViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "920">
                </Location>
             </Locations>
          </BreakpointContent>
