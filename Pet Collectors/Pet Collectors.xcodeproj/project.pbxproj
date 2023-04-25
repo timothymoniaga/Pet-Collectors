@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
+		9F0CC67029F75CF900B5A612 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66F29F75CF900B5A612 /* Card.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
 		9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2E29F6402400005981 /* SceneDelegate.swift */; };
 		9F818B3429F6402400005981 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B3229F6402400005981 /* Main.storyboard */; };
@@ -15,13 +17,15 @@
 		9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B4229F6426100005981 /* TableTableViewController.swift */; };
 		9F818B4829F642C100005981 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B4629F642C100005981 /* TableViewCell.swift */; };
 		9F818B4929F642C100005981 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B4729F642C100005981 /* TableViewCell.xib */; };
-		9FC3E94A29F68E7000B3156D /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E94929F68E7000B3156D /* CollectionViewController.swift */; };
+		9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E94929F68E7000B3156D /* ExampleCollectionViewController.swift */; };
 		9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E94C29F6908C00B3156D /* CollectionViewCell.swift */; };
 		9FC3E94F29F6908C00B3156D /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FC3E94D29F6908C00B3156D /* CollectionViewCell.xib */; };
-		9FC3E95129F691C300B3156D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E95029F691C300B3156D /* ViewController.swift */; };
+		9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E95029F691C300B3156D /* CollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
+		9F0CC66F29F75CF900B5A612 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F818B2C29F6402400005981 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F818B2E29F6402400005981 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,10 +36,10 @@
 		9F818B4229F6426100005981 /* TableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTableViewController.swift; sourceTree = "<group>"; };
 		9F818B4629F642C100005981 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		9F818B4729F642C100005981 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
-		9FC3E94929F68E7000B3156D /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		9FC3E94929F68E7000B3156D /* ExampleCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewController.swift; sourceTree = "<group>"; };
 		9FC3E94C29F6908C00B3156D /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		9FC3E94D29F6908C00B3156D /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
-		9FC3E95029F691C300B3156D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9FC3E95029F691C300B3156D /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,14 +72,16 @@
 		9F818B2B29F6402400005981 /* Pet Collectors */ = {
 			isa = PBXGroup;
 			children = (
-				9FC3E95029F691C300B3156D /* ViewController.swift */,
 				9FC3E94B29F68E9A00B3156D /* Examples */,
 				9F818B2C29F6402400005981 /* AppDelegate.swift */,
+				9FC3E95029F691C300B3156D /* CollectionViewController.swift */,
 				9F818B2E29F6402400005981 /* SceneDelegate.swift */,
 				9F818B3229F6402400005981 /* Main.storyboard */,
 				9F818B3529F6402500005981 /* Assets.xcassets */,
 				9F818B3729F6402500005981 /* LaunchScreen.storyboard */,
 				9F818B3A29F6402500005981 /* Info.plist */,
+				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
+				9F0CC66F29F75CF900B5A612 /* Card.swift */,
 			);
 			path = "Pet Collectors";
 			sourceTree = "<group>";
@@ -83,7 +89,7 @@
 		9FC3E94B29F68E9A00B3156D /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				9FC3E94929F68E7000B3156D /* CollectionViewController.swift */,
+				9FC3E94929F68E7000B3156D /* ExampleCollectionViewController.swift */,
 				9F818B4229F6426100005981 /* TableTableViewController.swift */,
 				9F818B4629F642C100005981 /* TableViewCell.swift */,
 				9F818B4729F642C100005981 /* TableViewCell.xib */,
@@ -166,11 +172,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FC3E94A29F68E7000B3156D /* CollectionViewController.swift in Sources */,
+				9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */,
+				9F0CC67029F75CF900B5A612 /* Card.swift in Sources */,
 				9F818B4829F642C100005981 /* TableViewCell.swift in Sources */,
+				9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */,
 				9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */,
 				9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */,
-				9FC3E95129F691C300B3156D /* ViewController.swift in Sources */,
+				9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */,
 				9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */,
 				9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */,
 			);

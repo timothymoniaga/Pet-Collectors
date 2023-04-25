@@ -9,7 +9,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class ExampleCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     // Create a collection view and set its flow layout to horizontal
     let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
