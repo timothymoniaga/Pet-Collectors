@@ -55,18 +55,16 @@ class CardViewCell: UICollectionViewCell {
         ])
     }
     
-    func getRandomColor() -> UIColor {
-        let randomRed = CGFloat.random(in: 0...1)
-        let randomGreen = CGFloat.random(in: 0...1)
-        let randomBlue = CGFloat.random(in: 0...1)
-        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
-    }
-    
     func configure(with card: Card) {
         breed.text = card.breed
-        details.text = card.details
+        //details.text = card.details
+        // print(String(data: card.statistics!, encoding: .utf8))
         image.image = UIImage(named: "PlaceholderPaw")
-        self.backgroundColor = card.colour
+        setColor(rarity: card.cardRarity.rawValue)
+        
+        
+        
+        decodeJSON(jsonData: card.statistics!)
         loadImageFromURL(urlString: card.imageURL ?? "")
     }
     
@@ -79,6 +77,42 @@ class CardViewCell: UICollectionViewCell {
                 }
             }
         }
+    }
+    
+    func setColor(rarity: Int) {
+        switch rarity {
+        case 0:
+            self.backgroundColor = .lightGray
+        case 1:
+            self.backgroundColor = .systemBlue
+        case 2:
+            self.backgroundColor = .purple
+        case 3:
+            self.backgroundColor = .yellow
+        case 4:
+            self.backgroundColor = .systemRed
+        default:
+            self.backgroundColor = .lightGray
+        }
+    }
+    
+    func decodeJSON(jsonData: Data) {
+        // Assume jsonData is the JSON data received from API
+        do {
+            let cardDetails = try JSONDecoder().decode([CardDetails].self, from: jsonData)
+            
+            print(cardDetails)
+            // Accessing properties
+            let name = cardDetails[0].grooming
+            
+            // Displaying data in UI
+            details.text = String(name)
+            print(name)
+            // ...
+        } catch {
+            print("Error decoding JSON: \(error)")
+        }
+
     }
     
 }

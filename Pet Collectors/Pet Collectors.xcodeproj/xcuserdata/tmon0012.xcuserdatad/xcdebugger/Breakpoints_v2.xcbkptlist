@@ -14,8 +14,8 @@
             filePath = "Pet Collectors/CollectionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "callAPI()"
             landmarkType = "7">
             <Locations>
@@ -62,8 +62,8 @@
             filePath = "Pet Collectors/CardViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "configure(with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -72,19 +72,19 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pet Collectors/CardViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "loadImageFromURL(urlString:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0 - 8c4ed1d44fcfe062"
+                  uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0 - 8c4ed1d44fcfe128"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -94,12 +94,12 @@
                   urlString = "file:///Volumes/tmon0012/Documents/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/CardViewCell.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "384">
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "397">
                </Location>
                <Location
-                  uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0 - 8c4ed1d44fcfe062"
+                  uuid = "F27ED37C-7CD4-46DE-819C-C5A19D4D5EF0 - 8c4ed1d44fcfe128"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -109,11 +109,43 @@
                   urlString = "file:///Volumes/tmon0012/Documents/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/CardViewCell.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "920">
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "955">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58802F95-7C88-44C0-B2A9-3C444AC93B63"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pet Collectors/CardViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "decodeJSON(jsonData:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D81F2D0-1EB8-41CD-AEC8-3A4C07CA8845"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pet Collectors/CardViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "decodeJSON(jsonData:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
