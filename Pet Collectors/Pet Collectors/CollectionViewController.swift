@@ -20,9 +20,6 @@ struct Image: Decodable {
 }
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    
-    let loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean iaculis aliquam urna, at ultricies purus pellentesque ac. Quisque commodo felis ac feugiat iaculis. Mauris mattis velit nec mi mattis, nec gravida metus consequat. Duis pretium ornare libero, at cursus est sagittis a. Vivamus a eros at sem tempor tempor in eu est. Cras pharetra mauris ex, non lobortis lacus ultricies ac. Vestibulum nec mauris at arcu rutrum hendrerit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque ut faucibus lectus. Vivamus et nibh eu mi ultricies tincidunt. Duis vitae risus eu magna convallis cursus quis hendrerit tortor. Sed non tincidunt enim. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed ut faucibus tortor, ac mollis magna. \n Nunc nec arcu ut nibh fermentum aliquet a sit amet mi. Aenean vitae neque cursus, ullamcorper lorem sed, feugiat felis. Aliquam erat volutpat. Nullam sit amet nisl hendrerit, rutrum lectus at, lacinia metus. Nunc tristique feugiat sollicitudin. Vivamus ac rhoncus mauris. Aenean laoreet mi sit amet est sodales, pharetra dapibus dui porttitor. Phasellus vitae tempus dolor, sit amet auctor augue. Sed condimentum nisi et convallis dapibus. Sed vestibulum lorem id purus euismod tempor. Aenean lacinia tincidunt diam eget vehicula. Etiam dictum ligula odio, sed posuere mi imperdiet id. Vestibulum facilisis ut justo vel faucibus. Quisque tincidunt purus tincidunt, rhoncus lorem ac, molestie dolor."
-    
     var imageURL: String?
     var data: Data?
     private let REUSE_IDENTIFIER = "CardCell"
@@ -32,8 +29,14 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let icon = UIImage(named: "Collection")?.withRenderingMode(.alwaysOriginal)
+        let iconSelected = UIImage(named: "Collection Selected")?.withRenderingMode(.alwaysOriginal)
+        let item = UITabBarItem(title: "Collection", image: icon, selectedImage: iconSelected)
+        self.tabBarItem = item
+        
         setup()
-        callAPI()
+        getRandomDogAPI()
     }
     
     // MARK: UICollectionViewDataSource
@@ -70,14 +73,14 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     @IBAction func addCard(_ sender: Any) {
-        callAPI()
+        getRandomDogAPI()
         getDogDetails(dogBreed: getDogBreed()) { result in
             switch result {
             case .success(let data):
                 let breed = self.capitalizeFirstLetterAndAfterSpace(self.getDogBreed())
                 let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
                 let randomInt = self.chooseEventIndex(probs: rarityArr)
-                self.cards.append(Card(breed: breed, details: self.loremIpsum, rarity: randomInt, imageURL: self.imageURL ?? "", statistics: data))
+                self.cards.append(Card(breed: breed, details: "Hello", rarity: randomInt, imageURL: self.imageURL ?? "", statistics: data))
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
@@ -90,7 +93,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
-    func callAPI() {
+    func getRandomDogAPI() {
         guard let url = URL(string: "https://dog.ceo/api/breeds/image/random") else {
             return
         }

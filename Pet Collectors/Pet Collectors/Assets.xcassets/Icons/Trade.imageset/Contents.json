@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "PlaceholderDog.png",
+      "filename" : "Trade.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "PlaceholderDog 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "PlaceholderDog 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

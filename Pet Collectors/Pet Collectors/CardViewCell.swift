@@ -103,11 +103,13 @@ class CardViewCell: UICollectionViewCell {
             
             print(cardDetails)
             // Accessing properties
-            let name = cardDetails[0].grooming
-            
+            guard let grooming = cardDetails.first?.grooming else {
+                // Handle the case where the `grooming` property is nil or the `cardDetails` array is empty
+                return
+            }
+
             // Displaying data in UI
-            details.text = String(name)
-            print(name)
+            details.text = String(grooming)
             // ...
         } catch {
             print("Error decoding JSON: \(error)")
