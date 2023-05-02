@@ -11,10 +11,13 @@ class ImageViewController: UIViewController {
     
     @IBOutlet var image: UIImageView!
     var imageURL: String?
+    var dogBreed: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadImageFromURL(urlString: imageURL ?? "")
+        
+        title = dogBreed ?? "Image"
 
         // Do any additional setup after loading the view.
     }

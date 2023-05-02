@@ -9,9 +9,9 @@ import UIKit
 
 class UsersTableViewController: UITableViewController {
     
-    let CELL_IDENTIFIER = "userCell"
-    var users: [User]?
-
+    let CELL_IDENTIFIER = UserTableViewCell.reuseIdentifier
+    var users: [User] = []
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,29 +20,37 @@ class UsersTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: CELL_IDENTIFIER)
+
+        setup()
+        
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return users.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath) as! UserTableViewCell
+        let user = users[indexPath.row]
+        cell.configure(with: user)
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70 // return the desired height for the cell
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -88,5 +96,12 @@ class UsersTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func setup() {
+        let image = UIImage(named: "Blank_Profile")
+        users.append(User(image: image, userName: "test", details: "test"))
+        users.append(User(image: image, userName: "hello", details: "hello"))
+
+    }
 
 }

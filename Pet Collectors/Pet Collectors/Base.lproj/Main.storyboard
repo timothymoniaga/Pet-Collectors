@@ -35,7 +35,7 @@
             </objects>
             <point key="canvasLocation" x="3619.0839694656488" y="-27.464788732394368"/>
         </scene>
-        <!--Image-->
+        <!--Image View Controller-->
         <scene sceneID="hOS-IU-JCZ">
             <objects>
                 <viewController id="afw-Ly-cog" customClass="ImageViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
@@ -56,7 +56,7 @@
                             <constraint firstItem="8lW-nB-ftx" firstAttribute="trailing" secondItem="KX2-vf-7xO" secondAttribute="trailing" id="tRf-ui-luT"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Image" id="6Ws-1d-rLS"/>
+                    <navigationItem key="navigationItem" id="6Ws-1d-rLS"/>
                     <connections>
                         <outlet property="image" destination="KX2-vf-7xO" id="YPx-LN-Ssj"/>
                     </connections>
@@ -163,7 +163,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCell" id="VTs-q6-VKN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="VTs-q6-VKN">
                                 <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VTs-q6-VKN" id="zJm-DU-0JW">

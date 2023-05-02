@@ -84,6 +84,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
                if let destinationVC = segue.destination as? ImageViewController {
                    // Pass any necessary data to the destination view controller
                    destinationVC.imageURL = selectedImage
+                   destinationVC.dogBreed = currentDog
                }
            }
     }
@@ -156,15 +157,14 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
                 capitalizedString.replaceSubrange(nextIndex...nextIndex, with: String(capitalizedString[nextIndex]).capitalized)
             }
         }
-        
+        self.currentDog = capitalizedString
+
         return capitalizedString
     }
     
     func getDogDetails(completion: @escaping (Result<Data, Error>) -> Void) {
         let dogBreed = getDogBreed()
         let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        print("dog details name: ",name)
-        print("dog details url: ", imageURL)
         let url = URL(string: "https://api.api-ninjas.com/v1/dogs?name="+name!)!
         var request = URLRequest(url: url)
         request.setValue(API_KEY, forHTTPHeaderField: "X-Api-Key")
@@ -197,7 +197,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
             breed = breed.replacingOccurrences(of: "breeds/", with: "")
             breed = breed.replacingOccurrences(of: "/", with: "")
-            
             return breed
         }
         return "golden retiever"

@@ -14,10 +14,11 @@ class User: NSObject {
     var userName: String?
     var details: String?
     
-    init(image: UIImage, userName: String, details: String) {
+    init(image: UIImage?, userName: String?, details: String?) {
         self.image = image
         self.userName = userName
         self.details = details
     }
 }
+
 
