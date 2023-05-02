@@ -26,17 +26,19 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     private var collectionView: UICollectionView!
     var cards: [Card] = []
     let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
+    var currentDog: String?
+    var selectedImage: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let icon = UIImage(named: "Collection")?.withRenderingMode(.alwaysOriginal)
-        let iconSelected = UIImage(named: "Collection Selected")?.withRenderingMode(.alwaysOriginal)
-        let item = UITabBarItem(title: "Collection", image: icon, selectedImage: iconSelected)
-        self.tabBarItem = item
+//        let icon = UIImage(named: "Collection")?.withRenderingMode(.alwaysOriginal)
+//        let iconSelected = UIImage(named: "Collection Selected")?.withRenderingMode(.alwaysOriginal)
+//        let item = UITabBarItem(title: "Collection", image: icon, selectedImage: iconSelected)
+//        self.tabBarItem = item
         
         setup()
-        getRandomDogAPI()
+        //getRandomDogAPI()
     }
     
     // MARK: UICollectionViewDataSource
@@ -72,58 +74,78 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         return 30
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedImage = cards[indexPath.row].imageURL
+        performSegue(withIdentifier: "imageSegue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "imageSegue" {
+               if let destinationVC = segue.destination as? ImageViewController {
+                   // Pass any necessary data to the destination view controller
+                   destinationVC.imageURL = selectedImage
+               }
+           }
+    }
+    
     @IBAction func addCard(_ sender: Any) {
-        getRandomDogAPI()
-        getDogDetails(dogBreed: getDogBreed()) { result in
-            switch result {
-            case .success(let data):
-                let breed = self.capitalizeFirstLetterAndAfterSpace(self.getDogBreed())
-                let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
-                let randomInt = self.chooseEventIndex(probs: rarityArr)
-                self.cards.append(Card(breed: breed, details: "Hello", rarity: randomInt, imageURL: self.imageURL ?? "", statistics: data))
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
+        getRandomDogAPI { imageURL in
+            self.getDogDetails() { result in
+                switch result {
+                case .success(let data):
+                    let breed = self.capitalizeFirstLetterAndAfterSpace(self.getDogBreed())
+                    let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
+                    let randomInt = self.chooseEventIndex(probs: rarityArr)
+                    self.cards.append(Card(breed: breed, details: "Hello", rarity: randomInt, imageURL: self.imageURL, statistics: data))
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                    // Process the data here
+                case .failure(let error):
+                    print(error)
+                    break
+                    // Handle the error here
                 }
-                // Process the data here
-            case .failure(let error):
-                print(error)
-                break
-                // Handle the error here
             }
         }
     }
+
     
-    func getRandomDogAPI() {
+    
+    func getRandomDogAPI(completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = URL(string: "https://dog.ceo/api/breeds/image/random") else {
+            completion(.failure(NSError(domain: "Error: Invalid URL", code: -1, userInfo: nil)))
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                print("Error: \(error.localizedDescription)")
+                completion(.failure(error))
                 return
             }
             
             guard let data = data else {
-                print("Error: No data received")
+                completion(.failure(NSError(domain: "Error: No data received", code: -1, userInfo: nil)))
                 return
             }
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                 guard let message = json?["message"] as? String else {
-                    print("Error: Failed to extract image URL from response")
+                    completion(.failure(NSError(domain: "Error: Failed to extract image URL from response", code: -1, userInfo: nil)))
                     return
                 }
                 print("Image URL: \(message)")
                 self.imageURL = message
+                completion(.success(message))
             } catch {
-                print("Error: \(error.localizedDescription)")
+                completion(.failure(error))
             }
         }
         
         task.resume()
     }
+
     
     func capitalizeFirstLetterAndAfterSpace(_ string: String) -> String {
         var capitalizedString = string.capitalized
@@ -138,8 +160,11 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         return capitalizedString
     }
     
-    func getDogDetails(dogBreed: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    func getDogDetails(completion: @escaping (Result<Data, Error>) -> Void) {
+        let dogBreed = getDogBreed()
         let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        print("dog details name: ",name)
+        print("dog details url: ", imageURL)
         let url = URL(string: "https://api.api-ninjas.com/v1/dogs?name="+name!)!
         var request = URLRequest(url: url)
         request.setValue(API_KEY, forHTTPHeaderField: "X-Api-Key")

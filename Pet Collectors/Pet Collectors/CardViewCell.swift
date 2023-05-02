@@ -45,13 +45,14 @@ class CardViewCell: UICollectionViewCell {
         
         details.translatesAutoresizingMaskIntoConstraints = false
         details.numberOfLines = 0
+        details.adjustsFontSizeToFitWidth = true
         self.addSubview(details)
         
         NSLayoutConstraint.activate([
             details.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             details.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             details.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10),
-            details.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -150)
+            details.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50)
         ])
     }
     
@@ -61,8 +62,6 @@ class CardViewCell: UICollectionViewCell {
         // print(String(data: card.statistics!, encoding: .utf8))
         image.image = UIImage(named: "PlaceholderPaw")
         setColor(rarity: card.cardRarity.rawValue)
-        
-        
         
         decodeJSON(jsonData: card.statistics!)
         loadImageFromURL(urlString: card.imageURL ?? "")
@@ -101,20 +100,41 @@ class CardViewCell: UICollectionViewCell {
         do {
             let cardDetails = try JSONDecoder().decode([CardDetails].self, from: jsonData)
             
-            print(cardDetails)
-            // Accessing properties
-            guard let grooming = cardDetails.first?.grooming else {
-                // Handle the case where the `grooming` property is nil or the `cardDetails` array is empty
-                return
+            if let firstCard = cardDetails.first {
+                var text = "Good with children: \(String(firstCard.goodWithChildren))\n"
+                
+                text += "Good with other dogs: \(String(firstCard.goodWithOtherDogs))\n"
+                
+                text += "Shedding level: \(String(firstCard.shedding))\n"
+                
+                text += "Grooming level: \(String(firstCard.grooming))\n"
+                
+                text += "Drooling level: \(String(firstCard.drooling))\n"
+                
+                text += "Coat length: \(String(firstCard.coatLength))\n"
+                
+                text += "Good with strangers: \(String(firstCard.goodWithStrangers))\n"
+                
+                text += "Playfulness level: \(String(firstCard.playfulness))\n"
+                
+                text += "Protectiveness level: \(String(firstCard.protectiveness))\n"
+                
+                text += "Trainability level: \(String(firstCard.trainability))\n"
+                
+                text += "Energy level: \(String(firstCard.energy))\n"
+                
+                text += "Barking level: \(String(firstCard.barking))\n"
+                
+                details.text = text
+            } else {
+                details.text = ""
+
             }
 
-            // Displaying data in UI
-            details.text = String(grooming)
-            // ...
         } catch {
             print("Error decoding JSON: \(error)")
         }
-
+        
     }
     
 }

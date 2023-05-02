@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C69531D29FF6F9C004349D8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69531C29FF6F9B004349D8 /* TabBarController.swift */; };
 		1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69531E29FF7956004349D8 /* TradeViewController.swift */; };
 		1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532029FF7970004349D8 /* OpenViewController.swift */; };
+		1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953222A00AAB0004349D8 /* ImageViewController.swift */; };
+		1C6953252A00AFF3004349D8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953242A00AFF3004349D8 /* SearchViewController.swift */; };
+		1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953262A00B38C004349D8 /* UserTableViewCell.swift */; };
+		1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953282A00B46C004349D8 /* UsersTableViewController.swift */; };
+		1C69532B2A00B514004349D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* User.swift */; };
 		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
 		9F0CC67029F75CF900B5A612 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66F29F75CF900B5A612 /* Card.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
@@ -28,9 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1C69531C29FF6F9B004349D8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		1C69531E29FF7956004349D8 /* TradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeViewController.swift; sourceTree = "<group>"; };
 		1C69532029FF7970004349D8 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
+		1C6953222A00AAB0004349D8 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		1C6953242A00AFF3004349D8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		1C6953262A00B38C004349D8 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		1C6953282A00B46C004349D8 /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
+		1C69532A2A00B514004349D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		9F0CC66F29F75CF900B5A612 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,9 +99,13 @@
 				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
 				9FBA689D29F8954F00E77871 /* CardDetails.swift */,
 				9F0CC66F29F75CF900B5A612 /* Card.swift */,
-				1C69531C29FF6F9B004349D8 /* TabBarController.swift */,
 				1C69531E29FF7956004349D8 /* TradeViewController.swift */,
 				1C69532029FF7970004349D8 /* OpenViewController.swift */,
+				1C6953222A00AAB0004349D8 /* ImageViewController.swift */,
+				1C6953242A00AFF3004349D8 /* SearchViewController.swift */,
+				1C6953262A00B38C004349D8 /* UserTableViewCell.swift */,
+				1C6953282A00B46C004349D8 /* UsersTableViewController.swift */,
+				1C69532A2A00B514004349D8 /* User.swift */,
 			);
 			path = "Pet Collectors";
 			sourceTree = "<group>";
@@ -186,12 +198,16 @@
 			files = (
 				9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */,
 				9F0CC67029F75CF900B5A612 /* Card.swift in Sources */,
+				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
-				1C69531D29FF6F9C004349D8 /* TabBarController.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
+				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
 				9F818B4829F642C100005981 /* TableViewCell.swift in Sources */,
+				1C69532B2A00B514004349D8 /* User.swift in Sources */,
 				9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */,
+				1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */,
 				9FBA689E29F8954F00E77871 /* CardDetails.swift in Sources */,
+				1C6953252A00AFF3004349D8 /* SearchViewController.swift in Sources */,
 				9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */,
 				9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */,
 				9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */,
