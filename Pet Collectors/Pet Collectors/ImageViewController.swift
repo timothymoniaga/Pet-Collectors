@@ -3,7 +3,7 @@
 //  Pet Collectors
 //
 //  Created by Timothy Moniaga on 2/5/2023.
-//
+// TODO: make image zoomable and rotatable via genstures?
 
 import UIKit
 

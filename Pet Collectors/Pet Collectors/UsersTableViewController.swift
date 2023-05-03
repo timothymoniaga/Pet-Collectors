@@ -11,6 +11,7 @@ class UsersTableViewController: UITableViewController {
     
     let CELL_IDENTIFIER = UserTableViewCell.reuseIdentifier
     var users: [User] = []
+    var selectedUser: User?
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,13 @@ class UsersTableViewController: UITableViewController {
         return 70 // return the desired height for the cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedUser = users[indexPath.row]
+        performSegue(withIdentifier: "userSegue", sender: nil)
+        
+    }
+
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -87,15 +95,19 @@ class UsersTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "userSegue" {
+               if let destinationVC = segue.destination as? UserViewController {
+                   // Pass any necessary data to the destination view controller
+                   destinationVC.user = selectedUser
+               }
+           }
     }
-    */
+    
     
     func setup() {
         let image = UIImage(named: "Blank_Profile")

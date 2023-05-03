@@ -3,7 +3,7 @@
 //  Pet Collectors
 //
 //  Created by Timothy Moniaga on 25/4/2023.
-//
+// TODO: ✅create better colours, maybe art? for the card sides
 
 import UIKit
 
@@ -40,6 +40,7 @@ class CardViewCell: UICollectionViewCell {
         
         image.frame = CGRect(x: 0, y: 50, width: self.frame.width,height: 150)
         image.contentMode = .scaleAspectFit
+        image.layer.cornerRadius = 15
         self.addSubview(image)
         
         
@@ -58,8 +59,6 @@ class CardViewCell: UICollectionViewCell {
     
     func configure(with card: Card) {
         breed.text = card.breed
-        //details.text = card.details
-        // print(String(data: card.statistics!, encoding: .utf8))
         image.image = UIImage(named: "PlaceholderPaw")
         setColor(rarity: card.cardRarity.rawValue)
         
@@ -72,7 +71,9 @@ class CardViewCell: UICollectionViewCell {
         DispatchQueue.global().async {
             if let imageData = try? Data(contentsOf: url) {
                 DispatchQueue.main.async {
-                    self.image.image = UIImage(data: imageData)
+                    let dogImage = UIImage(data: imageData)
+                    let roundedImage = dogImage?.roundedImage(cornerRadius: 1000)
+                    self.image.image = roundedImage
                 }
             }
         }
@@ -81,17 +82,17 @@ class CardViewCell: UICollectionViewCell {
     func setColor(rarity: Int) {
         switch rarity {
         case 0:
-            self.backgroundColor = .lightGray
+            self.backgroundColor = #colorLiteral(red: 0.6443734765, green: 0.6593127847, blue: 0.6590517163, alpha: 1)
         case 1:
-            self.backgroundColor = .systemBlue
+            self.backgroundColor = #colorLiteral(red: 0.3268340826, green: 0.6946660876, blue: 0.905626595, alpha: 1)
         case 2:
-            self.backgroundColor = .purple
+            self.backgroundColor = #colorLiteral(red: 0.6719612479, green: 0.3691940308, blue: 0.9197270274, alpha: 1)
         case 3:
-            self.backgroundColor = .yellow
+            self.backgroundColor = #colorLiteral(red: 0.9144165516, green: 0.7269795537, blue: 0, alpha: 1)
         case 4:
-            self.backgroundColor = .systemRed
+            self.backgroundColor = #colorLiteral(red: 0.9476212859, green: 0.264480412, blue: 0.2327539623, alpha: 1)
         default:
-            self.backgroundColor = .lightGray
+            self.backgroundColor = #colorLiteral(red: 0.6443734765, green: 0.6593127847, blue: 0.6590517163, alpha: 1)
         }
     }
     
@@ -101,30 +102,28 @@ class CardViewCell: UICollectionViewCell {
             let cardDetails = try JSONDecoder().decode([CardDetails].self, from: jsonData)
             
             if let firstCard = cardDetails.first {
-                var text = "Good with children: \(String(firstCard.goodWithChildren))\n"
+                var keys = [  ["Good with children", String(firstCard.goodWithChildren)],
+                  ["Good with other dogs", String(firstCard.goodWithOtherDogs)],
+                  ["Shedding level", String(firstCard.shedding)],
+                  ["Grooming level", String(firstCard.grooming)],
+                  ["Drooling level", String(firstCard.drooling)],
+                  ["Coat length", String(firstCard.coatLength)],
+                  ["Good with strangers", String(firstCard.goodWithStrangers)],
+                  ["Playfulness level", String(firstCard.playfulness)],
+                  ["Protectiveness level", String(firstCard.protectiveness)],
+                  ["Trainability level", String(firstCard.trainability)],
+                  ["Energy level", String(firstCard.energy)],
+                  ["Barking level", String(firstCard.barking)]
+                ]
                 
-                text += "Good with other dogs: \(String(firstCard.goodWithOtherDogs))\n"
-                
-                text += "Shedding level: \(String(firstCard.shedding))\n"
-                
-                text += "Grooming level: \(String(firstCard.grooming))\n"
-                
-                text += "Drooling level: \(String(firstCard.drooling))\n"
-                
-                text += "Coat length: \(String(firstCard.coatLength))\n"
-                
-                text += "Good with strangers: \(String(firstCard.goodWithStrangers))\n"
-                
-                text += "Playfulness level: \(String(firstCard.playfulness))\n"
-                
-                text += "Protectiveness level: \(String(firstCard.protectiveness))\n"
-                
-                text += "Trainability level: \(String(firstCard.trainability))\n"
-                
-                text += "Energy level: \(String(firstCard.energy))\n"
-                
-                text += "Barking level: \(String(firstCard.barking))\n"
-                
+                var text = ""
+                for key in keys {
+                    text += "\(key[0]): \(key[1])/5\n"
+                }
+
+                //can get json object to string but it is more efficient to use decodable rather than looping through all characters of the json data
+                //let text = String(data: jsonData, encoding: .utf8)
+                print(text)
                 details.text = text
             } else {
                 details.text = ""
@@ -138,3 +137,17 @@ class CardViewCell: UICollectionViewCell {
     }
     
 }
+
+extension UIImage {
+    func roundedImage(cornerRadius: CGFloat) -> UIImage? {
+        let rect = CGRect(origin: .zero, size: size)
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+        path.addClip()
+        draw(in: rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
+

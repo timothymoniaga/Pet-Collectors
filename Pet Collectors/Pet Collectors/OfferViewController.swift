@@ -1,18 +1,17 @@
 //
-//  TradeViewController.swift
+//  OfferViewController.swift
 //  Pet Collectors
 //
-//  Created by Timothy Moniaga on 1/5/2023.
-// TODO: Create firebase login auth for users and add to database etc...
+//  Created by Timothy Moniaga on 3/5/2023.
+//
 
 import UIKit
 
-class TradeViewController: UIViewController {
+class OfferViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Trade"
         // Do any additional setup after loading the view.
     }
     

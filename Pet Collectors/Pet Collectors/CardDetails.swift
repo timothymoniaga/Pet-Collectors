@@ -52,26 +52,5 @@ class CardDetails: Decodable {
         barking = try container.decode(Int.self, forKey: .barking)
     }
     
-//    func getJSONString() throws -> String {
-//            let encoder = JSONEncoder()
-//            encoder.outputFormatting = .prettyPrinted
-//            
-//            // select the desired keys
-//            let selectedKeys: [String] = ["good_with_children", "good_with_other_dogs", "shedding", "grooming"]
-//
-//            // create a dictionary with the selected keys and their values
-//            var selectedValues: [String: Int] = [:]
-//            for key in selectedKeys {
-//                selectedValues[key] = self.value(forKey: key) as? Int
-//            }
-//
-//            // encode the dictionary to a JSON string
-//            let jsonData = try encoder.encode(selectedValues)
-//            guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-//                throw NSError(domain: "JSON encoding failed", code: 0, userInfo: nil)
-//            }
-//            return jsonString
-//        }
-    
 }
 

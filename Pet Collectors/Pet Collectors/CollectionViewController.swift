@@ -3,6 +3,7 @@
 //  Pet Collectors
 //
 //  Created by Timothy Moniaga on 24/4/2023.
+// TODO: Move card creating functionality to Open View controller, add core data and persistent storage to pass data along from Open to Collection view. Make collection view 'zoomable'
 //
 
 import UIKit

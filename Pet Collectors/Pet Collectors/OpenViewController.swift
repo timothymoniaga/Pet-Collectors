@@ -3,7 +3,7 @@
 //  Pet Collectors
 //
 //  Created by Timothy Moniaga on 1/5/2023.
-//
+// TODO: creat func that allows user to 'open' 3 cards when timer runs out.
 
 import UIKit
 

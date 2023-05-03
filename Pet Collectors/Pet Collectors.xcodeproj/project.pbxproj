@@ -14,6 +14,8 @@
 		1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953262A00B38C004349D8 /* UserTableViewCell.swift */; };
 		1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953282A00B46C004349D8 /* UsersTableViewController.swift */; };
 		1C69532B2A00B514004349D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* User.swift */; };
+		1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532C2A01CEA1004349D8 /* UserViewController.swift */; };
+		1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532E2A01DBFE004349D8 /* OfferViewController.swift */; };
 		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
 		9F0CC67029F75CF900B5A612 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66F29F75CF900B5A612 /* Card.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
@@ -39,6 +41,8 @@
 		1C6953262A00B38C004349D8 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		1C6953282A00B46C004349D8 /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		1C69532A2A00B514004349D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1C69532C2A01CEA1004349D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		1C69532E2A01DBFE004349D8 /* OfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewController.swift; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		9F0CC66F29F75CF900B5A612 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,12 +94,12 @@
 			children = (
 				9FC3E94B29F68E9A00B3156D /* Examples */,
 				9F818B2C29F6402400005981 /* AppDelegate.swift */,
-				9FC3E95029F691C300B3156D /* CollectionViewController.swift */,
 				9F818B2E29F6402400005981 /* SceneDelegate.swift */,
 				9F818B3229F6402400005981 /* Main.storyboard */,
 				9F818B3529F6402500005981 /* Assets.xcassets */,
 				9F818B3729F6402500005981 /* LaunchScreen.storyboard */,
 				9F818B3A29F6402500005981 /* Info.plist */,
+				9FC3E95029F691C300B3156D /* CollectionViewController.swift */,
 				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
 				9FBA689D29F8954F00E77871 /* CardDetails.swift */,
 				9F0CC66F29F75CF900B5A612 /* Card.swift */,
@@ -106,6 +110,8 @@
 				1C6953262A00B38C004349D8 /* UserTableViewCell.swift */,
 				1C6953282A00B46C004349D8 /* UsersTableViewController.swift */,
 				1C69532A2A00B514004349D8 /* User.swift */,
+				1C69532C2A01CEA1004349D8 /* UserViewController.swift */,
+				1C69532E2A01DBFE004349D8 /* OfferViewController.swift */,
 			);
 			path = "Pet Collectors";
 			sourceTree = "<group>";
@@ -197,8 +203,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */,
+				1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */,
 				9F0CC67029F75CF900B5A612 /* Card.swift in Sources */,
 				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
+				1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
 				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
