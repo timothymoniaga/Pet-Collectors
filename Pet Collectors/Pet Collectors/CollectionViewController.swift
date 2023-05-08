@@ -33,10 +33,10 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let icon = UIImage(named: "Collection")?.withRenderingMode(.alwaysOriginal)
-//        let iconSelected = UIImage(named: "Collection Selected")?.withRenderingMode(.alwaysOriginal)
-//        let item = UITabBarItem(title: "Collection", image: icon, selectedImage: iconSelected)
-//        self.tabBarItem = item
+        //        let icon = UIImage(named: "Collection")?.withRenderingMode(.alwaysOriginal)
+        //        let iconSelected = UIImage(named: "Collection Selected")?.withRenderingMode(.alwaysOriginal)
+        //        let item = UITabBarItem(title: "Collection", image: icon, selectedImage: iconSelected)
+        //        self.tabBarItem = item
         
         setup()
         //getRandomDogAPI()
@@ -82,12 +82,12 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "imageSegue" {
-               if let destinationVC = segue.destination as? ImageViewController {
-                   // Pass any necessary data to the destination view controller
-                   destinationVC.imageURL = selectedImage
-                   destinationVC.dogBreed = currentDog
-               }
-           }
+            if let destinationVC = segue.destination as? ImageViewController {
+                // Pass any necessary data to the destination view controller
+                destinationVC.imageURL = selectedImage
+                destinationVC.dogBreed = currentDog
+            }
+        }
     }
     
     @IBAction func addCard(_ sender: Any) {
@@ -111,26 +111,27 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             }
         }
     }
-
+    
     
     
     func getRandomDogAPI(completion: @escaping (Result<String, Error>) -> Void) {
-        guard let url = URL(string: "https://dog.ceo/api/breeds/image/random") else {
-            completion(.failure(NSError(domain: "Error: Invalid URL", code: -1, userInfo: nil)))
-            return
-        }
+        let urlString = "https://dog.ceo/api/breeds/image/random"
+       guard let url = URL(string: urlString) else { return }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        ApiUtil.makeApiCall(url: url) { data, error in
             if let error = error {
-                completion(.failure(error))
+                // handle error
+                print("Error fetching data: \(error.localizedDescription)")
                 return
             }
             
             guard let data = data else {
-                completion(.failure(NSError(domain: "Error: No data received", code: -1, userInfo: nil)))
+                // handle missing data
+                print("No data returned")
                 return
             }
             
+            // handle data
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                 guard let message = json?["message"] as? String else {
@@ -144,42 +145,35 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
                 completion(.failure(error))
             }
         }
-        
-        task.resume()
     }
-
-    
-    func capitalizeFirstLetterAndAfterSpace(_ string: String) -> String {
-        var capitalizedString = string.capitalized
         
-        for i in capitalizedString.indices {
-            if capitalizedString[i] == " " && i < capitalizedString.index(before: capitalizedString.endIndex) {
-                let nextIndex = capitalizedString.index(after: i)
-                capitalizedString.replaceSubrange(nextIndex...nextIndex, with: String(capitalizedString[nextIndex]).capitalized)
+        
+        func capitalizeFirstLetterAndAfterSpace(_ string: String) -> String {
+            var capitalizedString = string.capitalized
+            
+            for i in capitalizedString.indices {
+                if capitalizedString[i] == " " && i < capitalizedString.index(before: capitalizedString.endIndex) {
+                    let nextIndex = capitalizedString.index(after: i)
+                    capitalizedString.replaceSubrange(nextIndex...nextIndex, with: String(capitalizedString[nextIndex]).capitalized)
+                }
             }
+            self.currentDog = capitalizedString
+            
+            return capitalizedString
         }
-        self.currentDog = capitalizedString
-
-        return capitalizedString
-    }
-    
+        
     func getDogDetails(completion: @escaping (Result<Data, Error>) -> Void) {
         let dogBreed = getDogBreed()
         let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let url = URL(string: "https://api.api-ninjas.com/v1/dogs?name="+name!)!
-        var request = URLRequest(url: url)
-        request.setValue(API_KEY, forHTTPHeaderField: "X-Api-Key")
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+        let urlString = "https://api.api-ninjas.com/v1/dogs?name=" + (name ?? "")
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Error: Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        let headers = ["X-Api-Key": API_KEY]
+        ApiUtil.makeApiCall(url: url, headers: headers) { data, error in
             if let error = error {
                 completion(.failure(error))
-                return
-            }
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(NSError(domain: "ResponseError", code: 0, userInfo: nil)))
-                return
-            }
-            guard (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(NSError(domain: "HTTPError", code: httpResponse.statusCode, userInfo: nil)))
                 return
             }
             guard let data = data else {
@@ -189,57 +183,57 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             print(String(data: data, encoding: .utf8)!)
             completion(.success(data))
         }
-        task.resume()
     }
-    
-    
-    func getDogBreed() -> String {
-        if let range = imageURL?.range(of: #"breeds/([\w-]+)/"#, options: .regularExpression) {
-            var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
-            breed = breed.replacingOccurrences(of: "breeds/", with: "")
-            breed = breed.replacingOccurrences(of: "/", with: "")
-            return breed
-        }
-        return "golden retiever"
-    }
-    
-    func chooseEventIndex(probs: [Double]) -> Int {
-        let totalProb = probs.reduce(0, +)
-        var random = Double.random(in: 0..<totalProb)
-        for (i, prob) in probs.enumerated() {
-            random -= prob
-            if random <= 0 {
-                return i
-            }
-        }
-        return 0
-    }
-    
-    
-    func setup() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 20
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CardViewCell.self, forCellWithReuseIdentifier: REUSE_IDENTIFIER)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        // collectionView.backgroundColor = .gray
-        
-        view.addSubview(collectionView)
-        
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150)
-        ])
-        
-    }
-    
-}
 
+        
+        
+        func getDogBreed() -> String {
+            if let range = imageURL?.range(of: #"breeds/([\w-]+)/"#, options: .regularExpression) {
+                var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
+                breed = breed.replacingOccurrences(of: "breeds/", with: "")
+                breed = breed.replacingOccurrences(of: "/", with: "")
+                return breed
+            }
+            return "golden retiever"
+        }
+        
+        func chooseEventIndex(probs: [Double]) -> Int {
+            let totalProb = probs.reduce(0, +)
+            var random = Double.random(in: 0..<totalProb)
+            for (i, prob) in probs.enumerated() {
+                random -= prob
+                if random <= 0 {
+                    return i
+                }
+            }
+            return 0
+        }
+        
+        
+        func setup() {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumInteritemSpacing = 10
+            layout.minimumLineSpacing = 20
+            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.register(CardViewCell.self, forCellWithReuseIdentifier: REUSE_IDENTIFIER)
+            collectionView.dataSource = self
+            collectionView.delegate = self
+            
+            // collectionView.backgroundColor = .gray
+            
+            view.addSubview(collectionView)
+            
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+                collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+                collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150)
+            ])
+            
+        }
+        
+    }
+    

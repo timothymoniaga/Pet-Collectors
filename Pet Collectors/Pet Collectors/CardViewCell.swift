@@ -72,7 +72,7 @@ class CardViewCell: UICollectionViewCell {
             if let imageData = try? Data(contentsOf: url) {
                 DispatchQueue.main.async {
                     let dogImage = UIImage(data: imageData)
-                    let roundedImage = dogImage?.roundedImage(cornerRadius: 1000)
+                    let roundedImage = dogImage?.roundedImage(cornerRadius: 10)
                     self.image.image = roundedImage
                 }
             }

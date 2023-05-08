@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4EE2D22A08AA8B008F0B7D /* Util.swift */; };
+		1C4EE2D72A08B0CD008F0B7D /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */; };
+		1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */; };
 		1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69531E29FF7956004349D8 /* TradeViewController.swift */; };
 		1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532029FF7970004349D8 /* OpenViewController.swift */; };
 		1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953222A00AAB0004349D8 /* ImageViewController.swift */; };
@@ -34,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C4EE2D22A08AA8B008F0B7D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
+		1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		1C69531E29FF7956004349D8 /* TradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeViewController.swift; sourceTree = "<group>"; };
 		1C69532029FF7970004349D8 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
 		1C6953222A00AAB0004349D8 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +79,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C4EE2D42A08B04B008F0B7D /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		1C4EE2D52A08B060008F0B7D /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */,
+				1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		9F818B2029F6402400005981 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +114,8 @@
 		9F818B2B29F6402400005981 /* Pet Collectors */ = {
 			isa = PBXGroup;
 			children = (
+				1C4EE2D52A08B060008F0B7D /* Database */,
+				1C4EE2D42A08B04B008F0B7D /* DataModel */,
 				9FC3E94B29F68E9A00B3156D /* Examples */,
 				9F818B2C29F6402400005981 /* AppDelegate.swift */,
 				9F818B2E29F6402400005981 /* SceneDelegate.swift */,
@@ -112,6 +136,7 @@
 				1C69532A2A00B514004349D8 /* User.swift */,
 				1C69532C2A01CEA1004349D8 /* UserViewController.swift */,
 				1C69532E2A01DBFE004349D8 /* OfferViewController.swift */,
+				1C4EE2D22A08AA8B008F0B7D /* Util.swift */,
 			);
 			path = "Pet Collectors";
 			sourceTree = "<group>";
@@ -208,7 +233,9 @@
 				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
 				1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
+				1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
+				1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */,
 				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
 				9F818B4829F642C100005981 /* TableViewCell.swift in Sources */,
 				1C69532B2A00B514004349D8 /* User.swift in Sources */,
@@ -221,6 +248,7 @@
 				9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */,
 				9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */,
 				9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */,
+				1C4EE2D72A08B0CD008F0B7D /* DatabaseProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
