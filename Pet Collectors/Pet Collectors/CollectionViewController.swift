@@ -24,7 +24,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     var listenerType = ListenerType.card
     var imageURL: String?
     var data: Data?
-    private let REUSE_IDENTIFIER = "CardCell"
+    private let REUSE_IDENTIFIER = CardViewCell.reuseIdentifier
     private var collectionView: UICollectionView!
     var allCards: [Card] = []
     let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
