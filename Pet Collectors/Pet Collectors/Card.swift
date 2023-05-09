@@ -8,30 +8,8 @@
 import Foundation
 import UIKit
 
-enum Rarity: Int {
-    case common = 0
-    case rare = 1
-    case epic = 2
-    case legendary = 3
-    case mythic = 4
-}
 
-enum CodingKeys: String, CodingKey {
-    case good_with_children
-    case good_with_other_dogs
-    case grooming
-    case drooling
-    case coat_length
-    case good_with_strangers
-    case playfulness
-    case protectiveness
-    case trainability
-    case energy
-    case barking
-}
-
-
-class Card: NSObject {
+class Card2: NSObject {
     
     var breed: String?
     var details: String?
@@ -48,14 +26,14 @@ class Card: NSObject {
     }
 }
 
-extension Card {
-    var cardRarity: Rarity {
-        get {
-            return Rarity(rawValue: self.rarity ?? 1)!
-        }
-        
-        set {
-            self.rarity = newValue.rawValue
-        }
-    }
-}
+//extension Card {
+//    var cardRarity: Rarity {
+//        get {
+//            return Rarity(rawValue: self.rarity ?? 1)!
+//        }
+//        
+//        set {
+//            self.rarity = newValue.rawValue
+//        }
+//    }
+//}

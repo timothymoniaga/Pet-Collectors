@@ -12,16 +12,21 @@ class OpenViewController: UIViewController {
     let countdownLabel = UILabel()
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
+    var cardTaps = 2
+    let placeHolderCard = UIView()
+    weak var databaseController: DatabaseProtocol?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        databaseController = appDelegate?.databaseController
         setup()
-        startCountdown()
         // Do any additional setup after loading the view.
     }
     
     func startCountdown() {
+        countdownLabel.isHidden = false
         // Invalidate the timer if it's already running
         timer?.invalidate()
 
@@ -57,17 +62,49 @@ class OpenViewController: UIViewController {
         countdownLabel.adjustsFontSizeToFitWidth = true
         countdownLabel.textAlignment = .center
         
+        placeHolderCard.backgroundColor = .lightGray
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClick))
+
+        placeHolderCard.addGestureRecognizer(tapGesture)
+        view.addSubview(placeHolderCard)
         view.addSubview(countdownLabel)
         
+        placeHolderCard.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             countdownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             countdownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             countdownLabel.widthAnchor.constraint(equalToConstant: 300),
-            countdownLabel.heightAnchor.constraint(equalToConstant: 150)
+            countdownLabel.heightAnchor.constraint(equalToConstant: 150),
+            
+            placeHolderCard.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            placeHolderCard.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            placeHolderCard.widthAnchor.constraint(equalToConstant: 300),
+            placeHolderCard.heightAnchor.constraint(equalToConstant: 500)
         ])
+        countdownLabel.isHidden = true
         
     }
+    
+    @objc func onClick() {
+        cardTaps -= 1
+        if(cardTaps == 1) {
+            CardUtil.createCard { result in
+                switch result {
+                case .success(let cardData):
+                    self.databaseController?.addCard(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
+                    print(cardData)
+                case .failure(let error):
+                    // Handle the error here
+                    print(error)
+                }
+            }
+        } else if (cardTaps == 0) {
+            placeHolderCard.isHidden = true
+            
+        }
+        
+   }
     
 
     /*

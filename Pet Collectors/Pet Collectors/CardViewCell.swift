@@ -12,8 +12,8 @@ class CardViewCell: UICollectionViewCell {
     static let reuseIdentifier = "CardCell"
     let breed = UILabel()
     let image = UIImageView()
+    let statistics = UILabel()
     let details = UILabel()
-    let statistice = UILabel()
     let scrollView = UIScrollView()
     
     override init(frame: CGRect) {
@@ -44,16 +44,16 @@ class CardViewCell: UICollectionViewCell {
         self.addSubview(image)
         
         
-        details.translatesAutoresizingMaskIntoConstraints = false
-        details.numberOfLines = 0
-        details.adjustsFontSizeToFitWidth = true
-        self.addSubview(details)
+        statistics.translatesAutoresizingMaskIntoConstraints = false
+        statistics.numberOfLines = 0
+        statistics.adjustsFontSizeToFitWidth = true
+        self.addSubview(statistics)
         
         NSLayoutConstraint.activate([
-            details.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            details.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            details.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10),
-            details.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50)
+            statistics.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            statistics.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            statistics.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10),
+            statistics.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50)
         ])
     }
     
@@ -61,8 +61,8 @@ class CardViewCell: UICollectionViewCell {
         breed.text = card.breed
         image.image = UIImage(named: "PlaceholderPaw")
         setColor(rarity: card.cardRarity.rawValue)
-        
-        decodeJSON(jsonData: card.statistics!)
+        statistics.text = card.statistics
+        // decodeJSON(jsonData: card.statistics!)
         loadImageFromURL(urlString: card.imageURL ?? "")
     }
     
@@ -79,7 +79,7 @@ class CardViewCell: UICollectionViewCell {
         }
     }
     
-    func setColor(rarity: Int) {
+    func setColor(rarity: Int32) {
         switch rarity {
         case 0:
             self.backgroundColor = #colorLiteral(red: 0.6443734765, green: 0.6593127847, blue: 0.6590517163, alpha: 1)
@@ -94,46 +94,6 @@ class CardViewCell: UICollectionViewCell {
         default:
             self.backgroundColor = #colorLiteral(red: 0.6443734765, green: 0.6593127847, blue: 0.6590517163, alpha: 1)
         }
-    }
-    
-    func decodeJSON(jsonData: Data) {
-        // Assume jsonData is the JSON data received from API
-        do {
-            let cardDetails = try JSONDecoder().decode([CardDetails].self, from: jsonData)
-            
-            if let firstCard = cardDetails.first {
-                var keys = [  ["Good with children", String(firstCard.goodWithChildren)],
-                  ["Good with other dogs", String(firstCard.goodWithOtherDogs)],
-                  ["Shedding level", String(firstCard.shedding)],
-                  ["Grooming level", String(firstCard.grooming)],
-                  ["Drooling level", String(firstCard.drooling)],
-                  ["Coat length", String(firstCard.coatLength)],
-                  ["Good with strangers", String(firstCard.goodWithStrangers)],
-                  ["Playfulness level", String(firstCard.playfulness)],
-                  ["Protectiveness level", String(firstCard.protectiveness)],
-                  ["Trainability level", String(firstCard.trainability)],
-                  ["Energy level", String(firstCard.energy)],
-                  ["Barking level", String(firstCard.barking)]
-                ]
-                
-                var text = ""
-                for key in keys {
-                    text += "\(key[0]): \(key[1])/5\n"
-                }
-
-                //can get json object to string but it is more efficient to use decodable rather than looping through all characters of the json data
-                //let text = String(data: jsonData, encoding: .utf8)
-                print(text)
-                details.text = text
-            } else {
-                details.text = ""
-
-            }
-
-        } catch {
-            print("Error decoding JSON: \(error)")
-        }
-        
     }
     
 }

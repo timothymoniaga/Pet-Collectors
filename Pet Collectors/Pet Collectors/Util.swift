@@ -35,7 +35,168 @@ class ApiUtil {
         
         task.resume()
     }
-
+    
     
 }
 
+class CardUtil {
+    
+    static var imageURL: String?
+    static let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
+    
+    static func createCard(completion: @escaping (Result<[String : Any], Error>) -> Void) {
+        getRandomDogAPI { imageURLResult in
+            switch imageURLResult {
+            case .success(let imageURL):
+                getDogDetails { detailsResult in
+                    switch detailsResult {
+                    case .success(let data):
+                        let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
+                        let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
+                        let randomInt = chooseEventIndex(probs: rarityArr)
+                        let statistics = decodeJSONStatistics(jsonData: data)
+                        let retval = ["breed": breed, "details": "hello", "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String : Any]
+                        completion(.success(retval))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    
+    static func getRandomDogAPI(completion: @escaping (Result<String, Error>) -> Void) {
+        let urlString = "https://dog.ceo/api/breeds/image/random"
+        guard let url = URL(string: urlString) else { return }
+        
+        ApiUtil.makeApiCall(url: url) { data, error in
+            if let error = error {
+                // handle error
+                print("Error fetching data: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data else {
+                // handle missing data
+                print("No data returned")
+                return
+            }
+            
+            // handle data
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                guard let message = json?["message"] as? String else {
+                    completion(.failure(NSError(domain: "Error: Failed to extract image URL from response", code: -1, userInfo: nil)))
+                    return
+                }
+                print("Image URL: \(message)")
+                self.imageURL = message
+                completion(.success(message))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func getDogDetails(completion: @escaping (Result<Data, Error>) -> Void) {
+        let dogBreed = getDogBreed()
+        let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let urlString = "https://api.api-ninjas.com/v1/dogs?name=" + (name ?? "")
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Error: Invalid URL", code: -1, userInfo: nil)))
+            return
+        }
+        let headers = ["X-Api-Key": API_KEY]
+        ApiUtil.makeApiCall(url: url, headers: headers) { data, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(NSError(domain: "DataError", code: 0, userInfo: nil)))
+                return
+            }
+            print(String(data: data, encoding: .utf8)!)
+            completion(.success(data))
+        }
+    }
+    
+    static func getDogBreed() -> String {
+        if let range = imageURL?.range(of: #"breeds/([\w-]+)/"#, options: .regularExpression) {
+            var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
+            breed = breed.replacingOccurrences(of: "breeds/", with: "")
+            breed = breed.replacingOccurrences(of: "/", with: "")
+            return breed
+        }
+        return "golden retiever"
+    }
+    
+    static func capitalizeFirstLetterAndAfterSpace(_ string: String) -> String {
+        var capitalizedString = string.capitalized
+        
+        for i in capitalizedString.indices {
+            if capitalizedString[i] == " " && i < capitalizedString.index(before: capitalizedString.endIndex) {
+                let nextIndex = capitalizedString.index(after: i)
+                capitalizedString.replaceSubrange(nextIndex...nextIndex, with: String(capitalizedString[nextIndex]).capitalized)
+            }
+        }
+        //self.currentDog = capitalizedString
+        return capitalizedString
+    }
+    
+    static func chooseEventIndex(probs: [Double]) -> Int {
+        let totalProb = probs.reduce(0, +)
+        var random = Double.random(in: 0..<totalProb)
+        for (i, prob) in probs.enumerated() {
+            random -= prob
+            if random <= 0 {
+                return i
+            }
+        }
+        return 0
+    }
+    
+    static func decodeJSONStatistics(jsonData: Data) -> String {
+        // Assume jsonData is the JSON data received from API
+        do {
+            var retVal = ""
+            let cardDetails = try JSONDecoder().decode([CardDetails].self, from: jsonData)
+            
+            if let firstCard = cardDetails.first {
+                var keys = [  ["Good with children", String(firstCard.goodWithChildren)],
+                              ["Good with other dogs", String(firstCard.goodWithOtherDogs)],
+                              ["Shedding level", String(firstCard.shedding)],
+                              ["Grooming level", String(firstCard.grooming)],
+                              ["Drooling level", String(firstCard.drooling)],
+                              ["Coat length", String(firstCard.coatLength)],
+                              ["Good with strangers", String(firstCard.goodWithStrangers)],
+                              ["Playfulness level", String(firstCard.playfulness)],
+                              ["Protectiveness level", String(firstCard.protectiveness)],
+                              ["Trainability level", String(firstCard.trainability)],
+                              ["Energy level", String(firstCard.energy)],
+                              ["Barking level", String(firstCard.barking)]
+                ]
+                
+                var text = ""
+                for key in keys {
+                    text += "\(key[0]): \(key[1])/5\n"
+                }
+                
+                //can get json object to string but it is more efficient to use decodable rather than looping through all characters of the json data
+                //let text = String(data: jsonData, encoding: .utf8)
+                print(text)
+                retVal = text
+            }
+            return retVal
+            
+        } catch {
+            print("Error decoding JSON: \(error)")
+        }
+        return ""
+        
+    }
+    
+}

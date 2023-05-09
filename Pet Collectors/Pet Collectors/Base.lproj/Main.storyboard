@@ -20,13 +20,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Collection" id="yAV-cK-Zj0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="abq-Yv-CiR">
-                            <connections>
-                                <action selector="addCard:" destination="BYZ-38-t0r" id="UDo-t3-PLc"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Collection" id="yAV-cK-Zj0"/>
                     <connections>
                         <segue destination="afw-Ly-cog" kind="show" identifier="imageSegue" id="9Fo-tF-KRQ"/>
                     </connections>
@@ -261,6 +255,7 @@
                 <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="79C-Y6-6Xx" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SXQ-4k-6ra">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
