@@ -10,15 +10,15 @@ import UIKit
 
 
 
-struct Image: Decodable {
-    let message: String
-    let status: String
-    
-    enum CodingKeys: String, CodingKey {
-        case message = "imageURL"
-        case status
-    }
-}
+//struct Image: Decodable {
+//    let message: String
+//    let status: String
+//    
+//    enum CodingKeys: String, CodingKey {
+//        case message = "imageURL"
+//        case status
+//    }
+//}
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     var listenerType = ListenerType.card
@@ -27,7 +27,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     private let REUSE_IDENTIFIER = CardViewCell.reuseIdentifier
     private var collectionView: UICollectionView!
     var allCards: [Card] = []
-    let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
     var currentDog: String?
     var selectedImage: String?
     weak var databaseController: DatabaseProtocol?

@@ -101,7 +101,7 @@ class OpenViewController: UIViewController {
             }
         } else if (cardTaps == 0) {
             placeHolderCard.isHidden = true
-            
+            startCountdown()
         }
         
    }
