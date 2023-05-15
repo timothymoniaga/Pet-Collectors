@@ -44,16 +44,16 @@ class CardViewCell: UICollectionViewCell {
         self.addSubview(image)
         
         
-        statistics.translatesAutoresizingMaskIntoConstraints = false
-        statistics.numberOfLines = 0
-        statistics.adjustsFontSizeToFitWidth = true
-        self.addSubview(statistics)
+        details.translatesAutoresizingMaskIntoConstraints = false
+        details.numberOfLines = 0
+        details.adjustsFontSizeToFitWidth = true
+        self.addSubview(details)
         
         NSLayoutConstraint.activate([
-            statistics.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            statistics.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            statistics.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10),
-            statistics.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50)
+            details.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            details.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            details.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10),
+            details.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50)
         ])
     }
     
@@ -61,7 +61,7 @@ class CardViewCell: UICollectionViewCell {
         breed.text = card.breed
         image.image = UIImage(named: "PlaceholderPaw")
         setColor(rarity: card.cardRarity.rawValue)
-        statistics.text = card.statistics
+        details.text = card.details
         // decodeJSON(jsonData: card.statistics!)
         loadImageFromURL(urlString: card.imageURL ?? "")
     }

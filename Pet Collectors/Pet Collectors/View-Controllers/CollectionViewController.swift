@@ -27,9 +27,10 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     private let REUSE_IDENTIFIER = CardViewCell.reuseIdentifier
     private var collectionView: UICollectionView!
     var allCards: [Card] = []
-    var currentDog: String?
+    var currentDog: Card?
     var selectedImage: String?
     weak var databaseController: DatabaseProtocol?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,16 +85,15 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedImage = allCards[indexPath.row].imageURL
-        performSegue(withIdentifier: "imageSegue", sender: nil)
+        currentDog = allCards[indexPath.row]
+        performSegue(withIdentifier: "moreInfoSegue", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "imageSegue" {
-            if let destinationVC = segue.destination as? ImageViewController {
+        if segue.identifier == "moreInfoSegue" {
+            if let destinationVC = segue.destination as? InfoViewController {
                 // Pass any necessary data to the destination view controller
-                destinationVC.imageURL = selectedImage
-                destinationVC.dogBreed = currentDog
+                destinationVC.selectedCard = currentDog
             }
         }
     }

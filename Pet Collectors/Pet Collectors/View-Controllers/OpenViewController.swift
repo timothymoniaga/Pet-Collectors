@@ -16,7 +16,6 @@ class OpenViewController: UIViewController {
     let placeHolderCard = UIView()
     weak var databaseController: DatabaseProtocol?
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -64,8 +63,9 @@ class OpenViewController: UIViewController {
         
         placeHolderCard.backgroundColor = .lightGray
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClick))
-
         placeHolderCard.addGestureRecognizer(tapGesture)
+        placeHolderCard.layer.cornerRadius = 15
+        
         view.addSubview(placeHolderCard)
         view.addSubview(countdownLabel)
         

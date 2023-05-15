@@ -48,20 +48,61 @@ class CardUtil {
         getRandomDogAPI { imageURLResult in
             switch imageURLResult {
             case .success(let imageURL):
-                getDogDetails { detailsResult in
-                    switch detailsResult {
+                getDogStatistics { statisticResult in
+                    switch statisticResult {
                     case .success(let data):
-                        let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
-                        let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
-                        let randomInt = chooseEventIndex(probs: rarityArr)
-                        let statistics = decodeJSONStatistics(jsonData: data)
-                        let retval = ["breed": breed, "details": "hello", "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String : Any]
-                        completion(.success(retval))
+                        getDogDetails { description in
+                            switch description {
+                            case .success(let detailData):
+                                let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
+                                let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
+                                let randomInt = chooseEventIndex(probs: rarityArr)
+                                let statistics = decodeJSONStatistics(jsonData: data)
+                                let retval = ["breed": breed, "details": detailData, "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String : Any]
+                                completion(.success(retval))
+                            case .failure(let error):
+                                completion(.failure(error))
+                            }
+                        }
                     case .failure(let error):
                         completion(.failure(error))
                     }
                 }
             case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func getDogDetails(completion: @escaping (Result<String, Error>) -> Void) {
+        let dogBreed = getDogBreed()
+        let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let urlString = "https://en.wikipedia.org/api/rest_v1/page/summary/"  + (name ?? "")
+        print(urlString)
+        guard let url = URL(string: urlString) else { return }
+        
+        ApiUtil.makeApiCall(url: url) { data, error in
+            if let error = error {
+                // handle error
+                print("Error fetching data: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data else {
+                // handle missing data
+                print("No data returned")
+                return
+            }
+            
+            // handle data
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                guard let description = json?["extract"] as? String else {
+                    completion(.failure(NSError(domain: "Error: Failed to get description", code: -1, userInfo: nil)))
+                    return
+                }
+                completion(.success(description))
+            } catch {
                 completion(.failure(error))
             }
         }
@@ -101,7 +142,7 @@ class CardUtil {
         }
     }
     
-    static func getDogDetails(completion: @escaping (Result<Data, Error>) -> Void) {
+    static func getDogStatistics(completion: @escaping (Result<Data, Error>) -> Void) {
         let dogBreed = getDogBreed()
         let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let urlString = "https://api.api-ninjas.com/v1/dogs?name=" + (name ?? "")

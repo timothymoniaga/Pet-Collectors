@@ -22,7 +22,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Collection" id="yAV-cK-Zj0"/>
                     <connections>
-                        <segue destination="afw-Ly-cog" kind="show" identifier="imageSegue" id="9Fo-tF-KRQ"/>
+                        <segue destination="NgK-BO-gzK" kind="show" identifier="moreInfoSegue" id="PwM-gQ-QLV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -57,7 +57,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="btz-18-T6x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3613" y="682"/>
+            <point key="canvasLocation" x="3619" y="1418"/>
+        </scene>
+        <!--Info View Controller-->
+        <scene sceneID="hff-pL-35E">
+            <objects>
+                <viewController id="NgK-BO-gzK" customClass="InfoViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WRA-Sv-7nR">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="eoC-ct-1O8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="QJR-bb-6Hw"/>
+                    <connections>
+                        <segue destination="afw-Ly-cog" kind="show" identifier="imageSegue" id="GiQ-kn-zgY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U3N-le-9kO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3618" y="682"/>
         </scene>
         <!--Table Table View Controller-->
         <scene sceneID="zQq-sb-Dhe">
