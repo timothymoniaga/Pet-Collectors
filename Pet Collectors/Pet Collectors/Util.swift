@@ -241,3 +241,52 @@ class CardUtil {
     }
     
 }
+
+class BreedUtil {
+    static func getAllBreeds(completion: @escaping (Result<String, Error>) -> Void) {
+        let urlString = "https://dog.ceo/api/breeds/list/all"
+        guard let url = URL(string: urlString) else { return }
+        
+        ApiUtil.makeApiCall(url: url) { data, error in
+            if let error = error {
+                // handle error
+                print("Error fetching data: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                // handle missing data
+                print("No data returned")
+                let error = NSError(domain: "Error: No data returned", code: -1, userInfo: nil)
+                completion(.failure(error))
+                return
+            }
+            
+            // handle data
+            do {
+                let jsonString = String(data: data, encoding: .utf8)
+                completion(.success(jsonString!))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    
+    static func parseJsonObject(_ jsonObject: [String: Any]) -> [String] {
+        var stringArray = [String]()
+        
+        for (key, value) in jsonObject {
+            if let subArray = value as? [String] {
+                for subValue in subArray {
+                    stringArray.append("\(key) \(subValue)")
+                }
+            }
+        }
+        
+        return stringArray
+    }
+    
+    
+}

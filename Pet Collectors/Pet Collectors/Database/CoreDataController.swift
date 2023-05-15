@@ -7,12 +7,20 @@
 
 import UIKit
 import CoreData
+import Firebase
+import FirebaseFirestoreSwift
 
 class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsControllerDelegate {
     
+    var breedList: [Breed]
+    var authController: Auth
+    var database: Firestore
+    var listeners = MulticastDelegate<DatabaseListener>()
+    var breedRef: CollectionReference?
+    var currentUser: FirebaseAuth.User?
     var cardFetchedResultsController: NSFetchedResultsController<Card>?
     var persistentContainer: NSPersistentContainer
-    var listeners = MulticastDelegate<DatabaseListener>()
+    //var listeners = MulticastDelegate<DatabaseListener>()
 
     override init() {
         persistentContainer = NSPersistentContainer(name: "DataModel")
@@ -21,6 +29,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 fatalError("Failed to load Core Data Stack with error: \(error)")
             }
         }
+        FirebaseApp.configure()
+        authController = Auth.auth()
+        database = Firestore.firestore()
+        breedList = [Breed]()
         super.init()
     }
     
@@ -36,6 +48,21 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         
         return card
     }
+    
+    
+    func addBreed(breedName: String) -> Breed {
+        let breed = Breed()
+        breed.breed = breedName
+        do {
+            if let breedRef = try breedRef?.addDocument(from: breed) {
+                breed.id = breedRef.documentID
+            }
+        } catch {
+            print("Failed to serialize hero")
+        }
+        return breed
+    }
+    
     
     func controllerDidChangeContent(_ controller:
     NSFetchedResultsController<NSFetchRequestResult>) {

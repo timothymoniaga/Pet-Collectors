@@ -9,6 +9,7 @@ import UIKit
 
 class OpenViewController: UIViewController {
     
+    
     let countdownLabel = UILabel()
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
@@ -105,6 +106,34 @@ class OpenViewController: UIViewController {
         }
         
    }
+    
+    @IBAction func addCard(_ sender: Any) {
+        BreedUtil.getAllBreeds{ result in
+            switch result {
+            case .success(let message):
+                print("List of all dog breeds: \(message)")
+                
+                let data = message.data(using: .utf8)
+                print(data)
+                do {
+                    if let jsonArray = try JSONSerialization.jsonObject(with: data!, options : .allowFragments) as? [Dictionary<String,Any>]
+                    {
+                       print(jsonArray) // use the json here
+                    } else {
+                        print("bad json")
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+
+
+            case .failure(let error):
+                print("Error fetching data: \(error.localizedDescription)")
+                // Handle the error here
+            }
+        }
+        
+        }
     
 
     /*

@@ -21,6 +21,7 @@ import UIKit
 //}
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
+    var allBreeds: [Breed] = []
     var listenerType = ListenerType.card
     var imageURL: String?
     var data: Data?

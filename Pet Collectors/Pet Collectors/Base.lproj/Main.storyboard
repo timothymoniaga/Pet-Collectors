@@ -261,7 +261,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Open" id="etO-Bf-MK0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="wn8-1K-Kio"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="wn8-1K-Kio">
+                            <connections>
+                                <action selector="addCard:" destination="E55-Kj-ovd" id="fEc-xA-dDh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGn-CQ-xve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
