@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestoreSwift
 
-class Breed: NSObject, Codable {
+class BreedFirebase: NSObject, Codable {
 
     @DocumentID var id: String?
     var breed: String?

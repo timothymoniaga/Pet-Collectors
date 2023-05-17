@@ -36,6 +36,44 @@ class ApiUtil {
         task.resume()
     }
     
+    static func wikipideaAPI(for dogBreed: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let encodedDogBreed = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let urlString = "https://en.wikipedia.org/api/rest_v1/page/summary/" + (encodedDogBreed ?? "")
+        //print(urlString)
+        guard let url = URL(string: urlString) else { return }
+        
+        ApiUtil.makeApiCall(url: url) { data, error in
+            if let error = error {
+                // handle error
+                print("Error fetching data: \(error.localizedDescription)")
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                // handle missing data
+                print("No data returned")
+                let error = NSError(domain: "Error: No data returned", code: -1, userInfo: nil)
+                completion(.failure(error))
+                return
+            }
+            
+            // handle data
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                guard let description = json?["extract"] as? String else {
+                    let error = NSError(domain: "Error: Failed to get description", code: -1, userInfo: nil)
+                    completion(.failure(error))
+                    return
+                }
+                completion(.success(description))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    
     
 }
 

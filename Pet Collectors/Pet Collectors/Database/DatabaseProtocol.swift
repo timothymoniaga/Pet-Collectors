@@ -35,6 +35,6 @@ protocol DatabaseProtocol: AnyObject {
     func removeListener(listener: DatabaseListener)
     func addCard(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String )
     -> Card
-    func addBreed(breedName: String) -> Breed
+    func addBreed(breedName: String) -> BreedFirebase
 }
 

@@ -7,6 +7,11 @@
 
 import UIKit
 
+struct DogBreeds: Codable {
+    let message: [String: [String]]
+    let status: String
+}
+
 class OpenViewController: UIViewController {
     
     
@@ -108,7 +113,77 @@ class OpenViewController: UIViewController {
    }
     
     @IBAction func addCard(_ sender: Any) {
-        BreedUtil.getAllBreeds{ result in
+        BreedUtil.getAllBreeds { result in
+            switch result {
+            case .success(let message):
+                print("List of all dog breeds: \(message)")
+                
+                let data = message.data(using: .utf8)
+                print(data)
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let breeds = try decoder.decode(DogBreeds.self, from: data!)
+                    
+                    var resultArray: [(String, String)] = []
+                    
+                    for (key, value) in breeds.message {
+                        if value.isEmpty {
+                            resultArray.append((key, ""))
+                        } else {
+                            for subBreed in value {
+                                resultArray.append((subBreed, key))
+                            }
+                        }
+                    }
+                    var breedArray = []
+                    for (key, value) in resultArray {
+                        if(value != "") {
+                            breedArray.append("\(key) \(value)")
+                        }
+                        else {
+                            breedArray.append(key)
+                        }
+                    }
+                    print(breedArray)
+
+                    for breedName in breedArray {
+                        ApiUtil.wikipideaAPI(for: breedName as! String) { result in
+                            switch result {
+                            case .success( _):
+                                self.databaseController?.addBreed(breedName: breedName as! String)
+
+                            case .failure(let error):
+                                print("Error fetching data: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                    //print(resultArray)
+                }
+                    
+//                do {
+//                    let breeds = try JSONDecoder().decode(DogBreeds.self, from: data!)
+//                    let breedArray = breeds.message.flatMap { breed in
+//                        breed.value.map { "\($0)" }
+//                    }
+//
+//
+//                    print(breedArray)
+//                }
+                catch {
+                    print("Error decoding JSON: \(error)")
+                }
+                
+            case .failure(let error):
+                print("Error fetching data: \(error.localizedDescription)")
+                // Handle the error here
+            }
+        }
+        
+    }
+    
+    func temp () {
+        BreedUtil.getAllBreeds { result in
             switch result {
             case .success(let message):
                 print("List of all dog breeds: \(message)")
@@ -116,24 +191,34 @@ class OpenViewController: UIViewController {
                 let data = message.data(using: .utf8)
                 print(data)
                 do {
-                    if let jsonArray = try JSONSerialization.jsonObject(with: data!, options : .allowFragments) as? [Dictionary<String,Any>]
-                    {
-                       print(jsonArray) // use the json here
-                    } else {
-                        print("bad json")
+                    let breeds = try JSONDecoder().decode(DogBreeds.self, from: data!)
+                    let breedArray = breeds.message.flatMap { breed in
+                        breed.value.map { "\($0)" }
                     }
-                } catch let error as NSError {
-                    print(error)
+                    
+                    for breedName in breedArray {
+                        ApiUtil.wikipideaAPI(for: breedName) { result in
+                            switch result {
+                            case .success( _):
+                                self.databaseController?.addBreed(breedName: breedName)
+                                
+                            case .failure(let error):
+                                print("Error fetching data: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                    
+                    print(breedArray)
+                } catch {
+                    print("Error decoding JSON: \(error)")
                 }
-
-
+                
             case .failure(let error):
                 print("Error fetching data: \(error.localizedDescription)")
                 // Handle the error here
             }
         }
-        
-        }
+    }
     
 
     /*
