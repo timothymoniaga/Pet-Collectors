@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ApiUtil {
     
@@ -81,36 +82,61 @@ class CardUtil {
     
     static var imageURL: String?
     static let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
-    
-    static func createCard(completion: @escaping (Result<[String : Any], Error>) -> Void) {
-        getRandomDogAPI { imageURLResult in
-            switch imageURLResult {
-            case .success(let imageURL):
-                getDogStatistics { statisticResult in
-                    switch statisticResult {
-                    case .success(let data):
-                        getDogDetails { description in
-                            switch description {
-                            case .success(let detailData):
-                                let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
-                                let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
-                                let randomInt = chooseEventIndex(probs: rarityArr)
-                                let statistics = decodeJSONStatistics(jsonData: data)
-                                let retval = ["breed": breed, "details": detailData, "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String : Any]
-                                completion(.success(retval))
-                            case .failure(let error):
-                                completion(.failure(error))
+    static weak var databaseController: DatabaseProtocol?
+
+    static func createCard(completion: @escaping (Result<[String: Any], Error>) -> Void) {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        databaseController = appDelegate?.databaseController
+        let breeds = databaseController?.breedList
+        print(breeds)
+        
+        //using recursion to repeat this function until there is a successful call of all 3 api's ensuring a card is created. If the firestroe database cannot be reached. It will exit automatically
+        func fetchCard() {
+            guard let breeds = breeds else {
+                completion(.failure(NSError(domain: "Error: Failed to fetch breeds", code: -1, userInfo: nil)))
+                return
+            }
+            
+            let dogbreed = breeds[Int.random(in: 0..<breeds.count)]
+            getRandomDogAPI(for: dogbreed) { imageURLResult in
+                switch imageURLResult {
+                case .success(let imageURL):
+                    getDogStatistics { statisticResult in
+                        switch statisticResult {
+                        case .success(let data):
+                            getDogDetails { description in
+                                switch description {
+                                case .success(let detailData):
+                                    let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
+                                    let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
+                                    let randomInt = chooseEventIndex(probs: rarityArr)
+                                    let statistics = decodeJSONStatistics(jsonData: data)
+                                    let retval = ["breed": breed, "details": detailData, "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String: Any]
+                                    
+                                    completion(.success(retval))
+                                case .failure(let error):
+                                    // Retry fetching the card
+                                    print("Error fetching dog details: \(error.localizedDescription)")
+                                    fetchCard()
+                                }
                             }
+                        case .failure(let error):
+                            // Retry fetching the card
+                            print("Error fetching dog statistics: \(error.localizedDescription)")
+                            fetchCard()
                         }
-                    case .failure(let error):
-                        completion(.failure(error))
                     }
+                case .failure(let error):
+                    // Retry fetching the card
+                    print("Error fetching random dog image URL: \(error.localizedDescription)")
+                    fetchCard()
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
+        
+        fetchCard()
     }
+
     
     static func getDogDetails(completion: @escaping (Result<String, Error>) -> Void) {
         let dogBreed = getDogBreed()
@@ -147,14 +173,15 @@ class CardUtil {
     }
     
     
-    static func getRandomDogAPI(completion: @escaping (Result<String, Error>) -> Void) {
-        let urlString = "https://dog.ceo/api/breeds/image/random"
+    static func getRandomDogAPI(for dogBreed: String, completion: @escaping (Result<String, Error>) -> Void) {
+        print(dogBreed)
+        let urlString = "https://dog.ceo/api/breed/\(dogBreed)/images/random"
         guard let url = URL(string: urlString) else { return }
-        
+        print(url)
         ApiUtil.makeApiCall(url: url) { data, error in
             if let error = error {
                 // handle error
-                print("Error fetching data: \(error.localizedDescription)")
+                print("Error fetching data in getRandomDogAPI: \(error.localizedDescription)")
                 return
             }
             
@@ -208,6 +235,9 @@ class CardUtil {
             var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
             breed = breed.replacingOccurrences(of: "breeds/", with: "")
             breed = breed.replacingOccurrences(of: "/", with: "")
+            breed = breed.split(separator: " ").reversed().joined(separator: " ")
+
+            print("this is the sod breed being parsed: \(breed)")
             return breed
         }
         return "golden retiever"

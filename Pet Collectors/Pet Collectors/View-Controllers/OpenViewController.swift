@@ -14,6 +14,7 @@ struct DogBreeds: Codable {
 
 class OpenViewController: UIViewController {
     
+    @IBOutlet weak var createbreeds: UIBarButtonItem!
     
     let countdownLabel = UILabel()
     var countdownTime: TimeInterval = 24 * 60 * 60
@@ -60,6 +61,10 @@ class OpenViewController: UIViewController {
     }
     
     func setup() {
+        createbreeds.isEnabled = false
+        createbreeds.isHidden = true
+        
+        
         countdownLabel.text = "Come back in 24:00:00 for your next pack!"
         countdownLabel.font = .boldSystemFont(ofSize: 36)
         
@@ -125,29 +130,33 @@ class OpenViewController: UIViewController {
                     let decoder = JSONDecoder()
                     let breeds = try decoder.decode(DogBreeds.self, from: data!)
                     
-                    var resultArray: [(String, String)] = []
-                    
+//                    var resultArray: [(String, String)] = []
+//
+//                    for (key, value) in breeds.message {
+//                        if value.isEmpty {
+//                            resultArray.append((key, ""))
+//                        } else {
+//                            for subBreed in value {
+//                                resultArray.append((subBreed, key))
+//                            }
+//                        }
+//                    }
+//                    var breedArray = []
+//                    for (key, value) in resultArray {
+//                        if(value != "") {
+//                            breedArray.append("\(key) \(value)")
+//                        }
+//                        else {
+//                            breedArray.append(key)
+//                        }
+//                    }
+                    var masterBreedArray = []
                     for (key, value) in breeds.message {
-                        if value.isEmpty {
-                            resultArray.append((key, ""))
-                        } else {
-                            for subBreed in value {
-                                resultArray.append((subBreed, key))
-                            }
-                        }
+                        masterBreedArray.append(key)
                     }
-                    var breedArray = []
-                    for (key, value) in resultArray {
-                        if(value != "") {
-                            breedArray.append("\(key) \(value)")
-                        }
-                        else {
-                            breedArray.append(key)
-                        }
-                    }
-                    print(breedArray)
+                    print(masterBreedArray)
 
-                    for breedName in breedArray {
+                    for breedName in masterBreedArray {
                         ApiUtil.wikipideaAPI(for: breedName as! String) { result in
                             switch result {
                             case .success( _):

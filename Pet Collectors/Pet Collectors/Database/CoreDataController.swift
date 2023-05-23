@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 
 class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsControllerDelegate {
     
-    var breedList: [Breed] = []
+    var breedList: [String] = []
     var authController: Auth
     var database: Firestore
     var listeners = MulticastDelegate<DatabaseListener>()
@@ -54,9 +54,39 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             
             // Proceed with further operations, such as writing to Firestore
             // or accessing protected resources
+
         }
 
         super.init()
+        self.copyBreedsToArray()
+
+    }
+    
+    private func copyBreedsToArray() {
+        breedRef?.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                // Handle the error
+                print("Error fetching documents: \(error.localizedDescription)")
+                return
+            }
+            
+            // Clear the existing breedList array
+            self.breedList.removeAll()
+            
+            // Iterate over the documents in the breeds collection
+            for document in querySnapshot!.documents {
+                // Extract the breed field from each document
+                if let breed = document.data()["breed"] as? String {
+                    // Create a new Breed object and add it to the breedList array
+//                    let newBreed = Breed()
+//                    newBreed.name = breed
+                    self.breedList.append(breed)
+                }
+            }
+            
+            // Notify listeners or perform any additional tasks
+            // ...
+        }
     }
     
     private func addBreed(name: String) -> Breed{
@@ -153,28 +183,29 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return [Card]()
     }
     
-    private func breedListInit () {
-        breedRef?.getDocuments { (querySnapshot, error) in
-            if let error = error {
-                // Handle the error
-                print("Error retrieving documents: \(error.localizedDescription)")
-                return
-            }
-            
-            // Iterate through the documents
-            for document in querySnapshot!.documents {
-                // Retrieve the "breed" attribute from each document
-                if let name = document.data()["breed"] as? String {
-                    // Add the breed to the array
-                    let breed = NSEntityDescription.insertNewObject(forEntityName: "Breed", into: self.persistentContainer.viewContext) as! Breed
-                    breed.name = name
-                }
-            }
-            
-            // The breedArray now contains the breeds from the collection
-            // print("Retrieved breeds: \(breedArray)")
-        }
-    }
+//    private func breedListInit () {
+//        breedRef?.getDocuments { (querySnapshot, error) in
+//            if let error = error {
+//                // Handle the error
+//                print("Error retrieving documents: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            // Iterate through the documents
+//            for document in querySnapshot!.documents {
+//                // Retrieve the "breed" attribute from each document
+//                if let name = document.data()["breed"] as? String {
+//                    // Add the breed to the array
+//                    let breed = NSEntityDescription.insertNewObject(forEntityName: "Breed", into: self.persistentContainer.viewContext) as! Breed
+//                    breed.name = name
+//                    self.breedList.append(breed)
+//                }
+//            }
+//
+//            // The breedArray now contains the breeds from the collection
+//            // print("Retrieved breeds: \(breedArray)")
+//        }
+//    }
     
 
 }

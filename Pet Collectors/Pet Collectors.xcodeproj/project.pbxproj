@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0B32752A0F900500147232 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0B32742A0F900500147232 /* FirebaseAuth */; };
+		1C0B32772A0F900500147232 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0B32762A0F900500147232 /* FirebaseFirestore */; };
+		1C0B32792A0F900500147232 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0B32782A0F900500147232 /* FirebaseFirestoreSwift */; };
+		1C0B327E2A0FA21B00147232 /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B327D2A0FA21B00147232 /* Breed.swift */; };
+		1C0B32802A0FA46C00147232 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B327F2A0FA46C00147232 /* FirebaseController.swift */; };
+		1C0B32822A11CFD400147232 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C0B32812A11CFD400147232 /* GoogleService-Info.plist */; };
+		1C0B32852A14C28000147232 /* Breed+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B32832A14C28000147232 /* Breed+CoreDataClass.swift */; };
+		1C0B32862A14C28000147232 /* Breed+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B32842A14C28000147232 /* Breed+CoreDataProperties.swift */; };
+		1C1DCF9B2A09D70C0013662D /* MulticastDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DCF9A2A09D70C0013662D /* MulticastDelegate.swift */; };
+		1C1DCF9E2A09D7250013662D /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DCF9C2A09D7250013662D /* DataModel.xcdatamodeld */; };
+		1C1DCFA12A09D7650013662D /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DCF9F2A09D7650013662D /* Card+CoreDataClass.swift */; };
+		1C1DCFA22A09D7650013662D /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1DCFA02A09D7650013662D /* Card+CoreDataProperties.swift */; };
 		1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4EE2D22A08AA8B008F0B7D /* Util.swift */; };
 		1C4EE2D72A08B0CD008F0B7D /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */; };
 		1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */; };
@@ -19,8 +31,10 @@
 		1C69532B2A00B514004349D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* User.swift */; };
 		1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532C2A01CEA1004349D8 /* UserViewController.swift */; };
 		1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532E2A01DBFE004349D8 /* OfferViewController.swift */; };
+		1CA327DC2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DA2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift */; };
+		1CA327DD2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift */; };
+		1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */; };
 		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
-		9F0CC67029F75CF900B5A612 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66F29F75CF900B5A612 /* Card.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
 		9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2E29F6402400005981 /* SceneDelegate.swift */; };
 		9F818B3429F6402400005981 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B3229F6402400005981 /* Main.storyboard */; };
@@ -37,6 +51,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C0B327D2A0FA21B00147232 /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
+		1C0B327F2A0FA46C00147232 /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
+		1C0B32812A11CFD400147232 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1C0B32832A14C28000147232 /* Breed+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Breed+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1C0B32842A14C28000147232 /* Breed+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Breed+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1C1DCF9A2A09D70C0013662D /* MulticastDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticastDelegate.swift; sourceTree = "<group>"; };
+		1C1DCF9D2A09D7250013662D /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		1C1DCF9F2A09D7650013662D /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Card+CoreDataClass.swift"; path = "../Card+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1C1DCFA02A09D7650013662D /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1C4EE2D22A08AA8B008F0B7D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
 		1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
@@ -49,8 +72,10 @@
 		1C69532A2A00B514004349D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1C69532C2A01CEA1004349D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		1C69532E2A01DBFE004349D8 /* OfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewController.swift; sourceTree = "<group>"; };
+		1CA327DA2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTImer+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1CA327DB2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTImer+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
-		9F0CC66F29F75CF900B5A612 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F818B2C29F6402400005981 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F818B2E29F6402400005981 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,15 +98,59 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C0B32752A0F900500147232 /* FirebaseAuth in Frameworks */,
+				1C0B32772A0F900500147232 /* FirebaseFirestore in Frameworks */,
+				1C0B32792A0F900500147232 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C0B327A2A0FA15600147232 /* View-Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9FC3E95029F691C300B3156D /* CollectionViewController.swift */,
+				1C69531E29FF7956004349D8 /* TradeViewController.swift */,
+				1C69532029FF7970004349D8 /* OpenViewController.swift */,
+				1C6953222A00AAB0004349D8 /* ImageViewController.swift */,
+				1C6953242A00AFF3004349D8 /* SearchViewController.swift */,
+				1C6953282A00B46C004349D8 /* UsersTableViewController.swift */,
+				1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */,
+				1C69532C2A01CEA1004349D8 /* UserViewController.swift */,
+				1C69532E2A01DBFE004349D8 /* OfferViewController.swift */,
+			);
+			path = "View-Controllers";
+			sourceTree = "<group>";
+		};
+		1C0B327B2A0FA18600147232 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
+				1C6953262A00B38C004349D8 /* UserTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		1C0B327C2A0FA1F700147232 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				1C0B327D2A0FA21B00147232 /* Breed.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		1C4EE2D42A08B04B008F0B7D /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				1C0B32832A14C28000147232 /* Breed+CoreDataClass.swift */,
+				1C0B32842A14C28000147232 /* Breed+CoreDataProperties.swift */,
+				1C1DCF9F2A09D7650013662D /* Card+CoreDataClass.swift */,
+				1C1DCFA02A09D7650013662D /* Card+CoreDataProperties.swift */,
+				1CA327DA2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift */,
+				1CA327DB2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift */,
+				1C69532A2A00B514004349D8 /* User.swift */,
+				1C1DCF9C2A09D7250013662D /* DataModel.xcdatamodeld */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -89,8 +158,10 @@
 		1C4EE2D52A08B060008F0B7D /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				1C1DCF9A2A09D70C0013662D /* MulticastDelegate.swift */,
 				1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */,
 				1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */,
+				1C0B327F2A0FA46C00147232 /* FirebaseController.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -114,6 +185,10 @@
 		9F818B2B29F6402400005981 /* Pet Collectors */ = {
 			isa = PBXGroup;
 			children = (
+				1C0B32812A11CFD400147232 /* GoogleService-Info.plist */,
+				1C0B327C2A0FA1F700147232 /* Firebase */,
+				1C0B327B2A0FA18600147232 /* Cells */,
+				1C0B327A2A0FA15600147232 /* View-Controllers */,
 				1C4EE2D52A08B060008F0B7D /* Database */,
 				1C4EE2D42A08B04B008F0B7D /* DataModel */,
 				9FC3E94B29F68E9A00B3156D /* Examples */,
@@ -123,19 +198,7 @@
 				9F818B3529F6402500005981 /* Assets.xcassets */,
 				9F818B3729F6402500005981 /* LaunchScreen.storyboard */,
 				9F818B3A29F6402500005981 /* Info.plist */,
-				9FC3E95029F691C300B3156D /* CollectionViewController.swift */,
-				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
 				9FBA689D29F8954F00E77871 /* CardDetails.swift */,
-				9F0CC66F29F75CF900B5A612 /* Card.swift */,
-				1C69531E29FF7956004349D8 /* TradeViewController.swift */,
-				1C69532029FF7970004349D8 /* OpenViewController.swift */,
-				1C6953222A00AAB0004349D8 /* ImageViewController.swift */,
-				1C6953242A00AFF3004349D8 /* SearchViewController.swift */,
-				1C6953262A00B38C004349D8 /* UserTableViewCell.swift */,
-				1C6953282A00B46C004349D8 /* UsersTableViewController.swift */,
-				1C69532A2A00B514004349D8 /* User.swift */,
-				1C69532C2A01CEA1004349D8 /* UserViewController.swift */,
-				1C69532E2A01DBFE004349D8 /* OfferViewController.swift */,
 				1C4EE2D22A08AA8B008F0B7D /* Util.swift */,
 			);
 			path = "Pet Collectors";
@@ -170,6 +233,11 @@
 			dependencies = (
 			);
 			name = "Pet Collectors";
+			packageProductDependencies = (
+				1C0B32742A0F900500147232 /* FirebaseAuth */,
+				1C0B32762A0F900500147232 /* FirebaseFirestore */,
+				1C0B32782A0F900500147232 /* FirebaseFirestoreSwift */,
+			);
 			productName = "Pet Collectors";
 			productReference = 9F818B2929F6402400005981 /* Pet Collectors.app */;
 			productType = "com.apple.product-type.application";
@@ -198,6 +266,9 @@
 				Base,
 			);
 			mainGroup = 9F818B2029F6402400005981;
+			packageReferences = (
+				1C0B32732A0F900500147232 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 9F818B2A29F6402400005981 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -217,6 +288,7 @@
 				9F818B3629F6402500005981 /* Assets.xcassets in Resources */,
 				9F818B3429F6402400005981 /* Main.storyboard in Resources */,
 				9FC3E94F29F6908C00B3156D /* CollectionViewCell.xib in Resources */,
+				1C0B32822A11CFD400147232 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,14 +299,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C0B32802A0FA46C00147232 /* FirebaseController.swift in Sources */,
 				9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */,
+				1C1DCFA12A09D7650013662D /* Card+CoreDataClass.swift in Sources */,
 				1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */,
-				9F0CC67029F75CF900B5A612 /* Card.swift in Sources */,
 				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
+				1C1DCF9B2A09D70C0013662D /* MulticastDelegate.swift in Sources */,
 				1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
 				1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
+				1C1DCF9E2A09D7250013662D /* DataModel.xcdatamodeld in Sources */,
+				1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */,
 				1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */,
 				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
 				9F818B4829F642C100005981 /* TableViewCell.swift in Sources */,
@@ -243,12 +319,18 @@
 				1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */,
 				9FBA689E29F8954F00E77871 /* CardDetails.swift in Sources */,
 				1C6953252A00AFF3004349D8 /* SearchViewController.swift in Sources */,
+				1C0B327E2A0FA21B00147232 /* Breed.swift in Sources */,
 				9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */,
+				1C0B32862A14C28000147232 /* Breed+CoreDataProperties.swift in Sources */,
+				1CA327DD2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift in Sources */,
 				9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */,
 				9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */,
 				9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */,
 				9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */,
 				1C4EE2D72A08B0CD008F0B7D /* DatabaseProtocol.swift in Sources */,
+				1CA327DC2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift in Sources */,
+				1C0B32852A14C28000147232 /* Breed+CoreDataClass.swift in Sources */,
+				1C1DCFA22A09D7650013662D /* Card+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +546,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1C0B32732A0F900500147232 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1C0B32742A0F900500147232 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C0B32732A0F900500147232 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		1C0B32762A0F900500147232 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C0B32732A0F900500147232 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		1C0B32782A0F900500147232 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C0B32732A0F900500147232 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		1C1DCF9C2A09D7250013662D /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1C1DCF9D2A09D7250013662D /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 1C1DCF9D2A09D7250013662D /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9F818B2129F6402400005981 /* Project object */;
 }
