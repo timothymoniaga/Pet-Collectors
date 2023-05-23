@@ -60,24 +60,32 @@ class CardViewCell: UICollectionViewCell {
     func configure(with card: Card) {
         breed.text = card.breed
         image.image = UIImage(named: "PlaceholderPaw")
-        setColor(rarity: card.cardRarity.rawValue)
+        let colour = CardUtil.setColor(rarity: card.cardRarity.rawValue)
+        self.backgroundColor = colour
         details.text = card.details
         // decodeJSON(jsonData: card.statistics!)
-        loadImageFromURL(urlString: card.imageURL ?? "")
-    }
-    
-    func loadImageFromURL(urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        DispatchQueue.global().async {
-            if let imageData = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    let dogImage = UIImage(data: imageData)
-                    let roundedImage = dogImage?.roundedImage(cornerRadius: 10)
-                    self.image.image = roundedImage
-                }
+        ApiUtil.loadImageFromURL(urlString: card.imageURL ?? "") { image in
+            if let image = image {
+                self.image.image = image
+            } else {
+                self.image.image = UIImage(named: "PlaceholderPaw")
             }
         }
     }
+    
+//    func loadImageFromURL(urlString: String) -> UIImage {
+//        guard let url = URL(string: urlString) else { return }
+//        DispatchQueue.global().async {
+//            if let imageData = try? Data(contentsOf: url) {
+//                DispatchQueue.main.async {
+//                    let dogImage = UIImage(data: imageData)
+//                    return dogImage
+////                    let roundedImage = dogImage?.roundedImage(cornerRadius: 10)
+////                    self.image.image = roundedImage
+//                }
+//            }
+//        }
+//    }
     
     func setColor(rarity: Int32) {
         switch rarity {

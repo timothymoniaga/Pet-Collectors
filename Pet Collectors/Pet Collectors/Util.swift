@@ -73,6 +73,27 @@ class ApiUtil {
             }
         }
     }
+    
+    static func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let imageData = try? Data(contentsOf: url) {
+                let dogImage = UIImage(data: imageData)
+                DispatchQueue.main.async {
+                    completion(dogImage)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+    }
+
 
     
     
@@ -307,6 +328,23 @@ class CardUtil {
         }
         return ""
         
+    }
+    
+    static func setColor(rarity: Int32) -> UIColor{
+        switch rarity {
+        case 0:
+            return #colorLiteral(red: 0.6443734765, green: 0.6593127847, blue: 0.6590517163, alpha: 1)
+        case 1:
+            return #colorLiteral(red: 0.3268340826, green: 0.6946660876, blue: 0.905626595, alpha: 1)
+        case 2:
+            return #colorLiteral(red: 0.6719612479, green: 0.3691940308, blue: 0.9197270274, alpha: 1)
+        case 3:
+            return #colorLiteral(red: 0.9144165516, green: 0.7269795537, blue: 0, alpha: 1)
+        case 4:
+            return #colorLiteral(red: 0.9476212859, green: 0.264480412, blue: 0.2327539623, alpha: 1)
+        default:
+            return #colorLiteral(red: 0.6443734765, green: 0.6593127847, blue: 0.6590517163, alpha: 1)
+        }
     }
     
 }

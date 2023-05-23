@@ -18,8 +18,8 @@ class OpenViewController: UIViewController {
     
     var packTimer: PackTimer?
     var currentTimer: [PackTimer]?
-
-    //var hourDifference: Int = 24
+    var currentCard: Card?
+    let image = UIImageView()
     let countdownLabel = UILabel()
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
@@ -114,8 +114,7 @@ class OpenViewController: UIViewController {
         createbreeds.isEnabled = false
         createbreeds.isHidden = true
         
-        
-        countdownLabel.text = "Come back in 24:00:00 for your next pack!"
+        countdownLabel.text = "Come back in for your next pack!"
         countdownLabel.font = .boldSystemFont(ofSize: 36)
         
         countdownLabel.numberOfLines = 0
@@ -146,6 +145,34 @@ class OpenViewController: UIViewController {
         countdownLabel.isHidden = true
         
     }
+    func changeCard() {
+        
+        DispatchQueue.main.async {
+            self.placeHolderCard.backgroundColor = CardUtil.setColor(rarity: self.currentCard?.cardRarity.rawValue ?? 0)
+        }
+
+        ApiUtil.loadImageFromURL(urlString: currentCard?.imageURL ?? "") { picture in
+            if let picture = picture {
+                self.image.image = picture
+            } else {
+                self.image.image = UIImage(named: "PlaceholderPaw")
+            }
+            
+        }
+        DispatchQueue.main.async {
+            self.image.contentMode = .scaleAspectFit
+            self.placeHolderCard.addSubview(self.image)
+            self.image.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                self.image.centerXAnchor.constraint(equalTo: self.placeHolderCard.centerXAnchor),
+                self.image.centerYAnchor.constraint(equalTo: self.placeHolderCard.centerYAnchor),
+                self.image.widthAnchor.constraint(equalTo: self.placeHolderCard.widthAnchor),
+                self.image.heightAnchor.constraint(equalTo: self.placeHolderCard.widthAnchor)
+            ])
+        }
+
+    }
     
     @objc func onClick() {
         cardTaps -= 1
@@ -153,8 +180,9 @@ class OpenViewController: UIViewController {
             CardUtil.createCard { result in
                 switch result {
                 case .success(let cardData):
-                    self.databaseController?.addCard(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
+                    self.currentCard = self.databaseController?.addCard(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
                     print(cardData)
+                    self.changeCard()
                 case .failure(let error):
                     // Handle the error here
                     print(error)
@@ -180,26 +208,6 @@ class OpenViewController: UIViewController {
                     let decoder = JSONDecoder()
                     let breeds = try decoder.decode(DogBreeds.self, from: data!)
                     
-//                    var resultArray: [(String, String)] = []
-//
-//                    for (key, value) in breeds.message {
-//                        if value.isEmpty {
-//                            resultArray.append((key, ""))
-//                        } else {
-//                            for subBreed in value {
-//                                resultArray.append((subBreed, key))
-//                            }
-//                        }
-//                    }
-//                    var breedArray = []
-//                    for (key, value) in resultArray {
-//                        if(value != "") {
-//                            breedArray.append("\(key) \(value)")
-//                        }
-//                        else {
-//                            breedArray.append(key)
-//                        }
-//                    }
                     var masterBreedArray = []
                     for (key, value) in breeds.message {
                         masterBreedArray.append(key)
