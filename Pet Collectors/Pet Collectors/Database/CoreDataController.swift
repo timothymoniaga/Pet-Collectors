@@ -12,12 +12,15 @@ import FirebaseFirestoreSwift
 
 class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsControllerDelegate {
     
+    //var startDateTime: Date?
+    //var endDateTime: Date?
     var breedList: [String] = []
     var authController: Auth
     var database: Firestore
     var listeners = MulticastDelegate<DatabaseListener>()
     var breedRef: CollectionReference?
     var currentUser: FirebaseAuth.User?
+    var timerFetchedResultsController: NSFetchedResultsController<PackTimer>?
     var cardFetchedResultsController: NSFetchedResultsController<Card>?
     var persistentContainer: NSPersistentContainer
     //var listeners = MulticastDelegate<DatabaseListener>()
@@ -29,6 +32,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 fatalError("Failed to load Core Data Stack with error: \(error)")
             }
         }
+        
         FirebaseApp.configure()
         authController = Auth.auth()
         database = Firestore.firestore()
@@ -88,6 +92,30 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             // ...
         }
     }
+    
+    func setDates(startDate: Date, endDate: Date) {
+        let packTimer = NSEntityDescription.insertNewObject(forEntityName: "PackTimer", into: persistentContainer.viewContext) as! PackTimer
+        packTimer.startDate = startDate
+        packTimer.endDate = endDate
+        
+    }
+    
+    func removeTimers() {
+        let fetchRequest: NSFetchRequest<PackTimer> = PackTimer.fetchRequest()
+        
+        do {
+            let timers = try persistentContainer.viewContext.fetch(fetchRequest)
+            
+            for timer in timers {
+                persistentContainer.viewContext.delete(timer)
+            }
+            
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("Failed to remove PackTimer objects: \(error)")
+        }
+    }
+
     
     private func addBreed(name: String) -> Breed{
         let breed = NSEntityDescription.insertNewObject(forEntityName: "Breed", into: persistentContainer.viewContext) as! Breed
@@ -159,6 +187,27 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         listeners.removeDelegate(listener)
     }
     
+    func fetchTimer() -> [PackTimer] {
+        if timerFetchedResultsController == nil {
+            let request: NSFetchRequest<PackTimer> = PackTimer.fetchRequest()
+            let nameSortDescriptor = NSSortDescriptor(key: "startDate", ascending: true)
+            request.sortDescriptors = [nameSortDescriptor]
+            
+            timerFetchedResultsController = NSFetchedResultsController<PackTimer>(fetchRequest: request, managedObjectContext: persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+            timerFetchedResultsController?.delegate = self
+            
+            do {
+                try timerFetchedResultsController?.performFetch()
+            } catch {
+                print("Timer fetch Request Failed: \(error)")
+            }
+        }
+        if let timer = timerFetchedResultsController?.fetchedObjects {
+            return timer
+        }
+        return [PackTimer]()
+    }
+    
     func fetchAllCards() -> [Card] {
         if cardFetchedResultsController == nil {
             let request: NSFetchRequest<Card> = Card.fetchRequest()
@@ -174,38 +223,14 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             do {
                 try cardFetchedResultsController?.performFetch()
             } catch {
-                print("Fetch Request Failed: \(error)")
+                print("Card fetch Request Failed: \(error)")
             }
         }
-        if let heroes = cardFetchedResultsController?.fetchedObjects {
-            return heroes
+        if let card = cardFetchedResultsController?.fetchedObjects {
+            return card
         }
         return [Card]()
     }
-    
-//    private func breedListInit () {
-//        breedRef?.getDocuments { (querySnapshot, error) in
-//            if let error = error {
-//                // Handle the error
-//                print("Error retrieving documents: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            // Iterate through the documents
-//            for document in querySnapshot!.documents {
-//                // Retrieve the "breed" attribute from each document
-//                if let name = document.data()["breed"] as? String {
-//                    // Add the breed to the array
-//                    let breed = NSEntityDescription.insertNewObject(forEntityName: "Breed", into: self.persistentContainer.viewContext) as! Breed
-//                    breed.name = name
-//                    self.breedList.append(breed)
-//                }
-//            }
-//
-//            // The breedArray now contains the breeds from the collection
-//            // print("Retrieved breeds: \(breedArray)")
-//        }
-//    }
     
 
 }

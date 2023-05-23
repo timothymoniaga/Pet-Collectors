@@ -16,6 +16,10 @@ class OpenViewController: UIViewController {
     
     @IBOutlet weak var createbreeds: UIBarButtonItem!
     
+    var packTimer: PackTimer?
+    var currentTimer: [PackTimer]?
+
+    //var hourDifference: Int = 24
     let countdownLabel = UILabel()
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
@@ -28,7 +32,53 @@ class OpenViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
         setup()
+        currentTimer = databaseController?.fetchTimer()
+        timerSetup()
+        
         // Do any additional setup after loading the view.
+    }
+    
+    func timerSetup() {
+        let currentDate = Date()
+        var dateComponent = DateComponents()
+        dateComponent.day = 1
+        let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
+        //print(currentTimer?.count)
+        
+        let calendar = Calendar.current
+        //let startDate = // The start date
+        //let endDate = // The end date
+        
+        if (currentTimer?.count ?? 0 < 1) {
+            
+            if let futureDate = futureDate {
+                print(futureDate)
+                databaseController?.setDates(startDate: currentDate, endDate: futureDate)
+                
+            } else {
+                print("Failed to calculate future date")
+                // Handle the case where future date calculation fails
+            }
+        }
+        else {
+            if let futureDate = futureDate {
+                let components = calendar.dateComponents([.second], from: currentDate, to: currentTimer?[0].endDate ?? futureDate)
+                print(currentTimer?[0].startDate)
+                print(currentTimer?[0].endDate)
+                if let seconds = components.second {
+                    if seconds <= 0 {
+                        databaseController?.removeTimers()
+                        databaseController?.setDates(startDate: currentDate, endDate: futureDate)
+                    } else {
+                        print(seconds)
+                        countdownTime = TimeInterval(seconds)
+                    }
+                    
+                }
+            }
+
+        }
+        
     }
     
     func startCountdown() {

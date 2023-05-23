@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@objc(PackTImer)
-public class PackTImer: NSManagedObject {
+@objc(PackTimer)
+public class PackTimer: NSManagedObject {
 
 }

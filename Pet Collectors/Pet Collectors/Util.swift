@@ -96,40 +96,41 @@ class CardUtil {
                 completion(.failure(NSError(domain: "Error: Failed to fetch breeds", code: -1, userInfo: nil)))
                 return
             }
-            
-            let dogbreed = breeds[Int.random(in: 0..<breeds.count)]
-            getRandomDogAPI(for: dogbreed) { imageURLResult in
-                switch imageURLResult {
-                case .success(let imageURL):
-                    getDogStatistics { statisticResult in
-                        switch statisticResult {
-                        case .success(let data):
-                            getDogDetails { description in
-                                switch description {
-                                case .success(let detailData):
-                                    let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
-                                    let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
-                                    let randomInt = chooseEventIndex(probs: rarityArr)
-                                    let statistics = decodeJSONStatistics(jsonData: data)
-                                    let retval = ["breed": breed, "details": detailData, "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String: Any]
-                                    
-                                    completion(.success(retval))
-                                case .failure(let error):
-                                    // Retry fetching the card
-                                    print("Error fetching dog details: \(error.localizedDescription)")
-                                    fetchCard()
+            if(!breeds.isEmpty) {
+                let dogbreed = breeds[Int.random(in: 0..<breeds.count)]
+                getRandomDogAPI(for: dogbreed) { imageURLResult in
+                    switch imageURLResult {
+                    case .success(let imageURL):
+                        getDogStatistics { statisticResult in
+                            switch statisticResult {
+                            case .success(let data):
+                                getDogDetails { description in
+                                    switch description {
+                                    case .success(let detailData):
+                                        let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
+                                        let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
+                                        let randomInt = chooseEventIndex(probs: rarityArr)
+                                        let statistics = decodeJSONStatistics(jsonData: data)
+                                        let retval = ["breed": breed, "details": detailData, "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String: Any]
+                                        
+                                        completion(.success(retval))
+                                    case .failure(let error):
+                                        // Retry fetching the card
+                                        print("Error fetching dog details: \(error.localizedDescription)")
+                                        fetchCard()
+                                    }
                                 }
+                            case .failure(let error):
+                                // Retry fetching the card
+                                print("Error fetching dog statistics: \(error.localizedDescription)")
+                                fetchCard()
                             }
-                        case .failure(let error):
-                            // Retry fetching the card
-                            print("Error fetching dog statistics: \(error.localizedDescription)")
-                            fetchCard()
                         }
+                    case .failure(let error):
+                        // Retry fetching the card
+                        print("Error fetching random dog image URL: \(error.localizedDescription)")
+                        fetchCard()
                     }
-                case .failure(let error):
-                    // Retry fetching the card
-                    print("Error fetching random dog image URL: \(error.localizedDescription)")
-                    fetchCard()
                 }
             }
         }

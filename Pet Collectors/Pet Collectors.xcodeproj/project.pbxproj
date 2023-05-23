@@ -31,8 +31,8 @@
 		1C69532B2A00B514004349D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* User.swift */; };
 		1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532C2A01CEA1004349D8 /* UserViewController.swift */; };
 		1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532E2A01DBFE004349D8 /* OfferViewController.swift */; };
-		1CA327DC2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DA2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift */; };
-		1CA327DD2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift */; };
+		1CA327DC2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */; };
+		1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */; };
 		1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */; };
 		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
@@ -72,8 +72,8 @@
 		1C69532A2A00B514004349D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1C69532C2A01CEA1004349D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		1C69532E2A01DBFE004349D8 /* OfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewController.swift; sourceTree = "<group>"; };
-		1CA327DA2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTImer+CoreDataClass.swift"; sourceTree = "<group>"; };
-		1CA327DB2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTImer+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,8 +147,8 @@
 				1C0B32842A14C28000147232 /* Breed+CoreDataProperties.swift */,
 				1C1DCF9F2A09D7650013662D /* Card+CoreDataClass.swift */,
 				1C1DCFA02A09D7650013662D /* Card+CoreDataProperties.swift */,
-				1CA327DA2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift */,
-				1CA327DB2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift */,
+				1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */,
+				1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */,
 				1C69532A2A00B514004349D8 /* User.swift */,
 				1C1DCF9C2A09D7250013662D /* DataModel.xcdatamodeld */,
 			);
@@ -322,13 +322,13 @@
 				1C0B327E2A0FA21B00147232 /* Breed.swift in Sources */,
 				9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */,
 				1C0B32862A14C28000147232 /* Breed+CoreDataProperties.swift in Sources */,
-				1CA327DD2A0AF55200BD5E6F /* PackTImer+CoreDataProperties.swift in Sources */,
+				1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */,
 				9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */,
 				9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */,
 				9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */,
 				9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */,
 				1C4EE2D72A08B0CD008F0B7D /* DatabaseProtocol.swift in Sources */,
-				1CA327DC2A0AF55200BD5E6F /* PackTImer+CoreDataClass.swift in Sources */,
+				1CA327DC2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift in Sources */,
 				1C0B32852A14C28000147232 /* Breed+CoreDataClass.swift in Sources */,
 				1C1DCFA22A09D7650013662D /* Card+CoreDataProperties.swift in Sources */,
 			);

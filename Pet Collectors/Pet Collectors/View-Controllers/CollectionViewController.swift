@@ -129,6 +129,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         ])
         
     }
+    func onTimerChange(change: DatabaseChange, timer: PackTimer) {
+    }
+    
     
 }
 
