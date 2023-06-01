@@ -8,16 +8,48 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F313D5AE-C19F-47F0-B061-2DE26BB0812E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pet Collectors/View-Controllers/OpenViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "changeCard()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F313D5AE-C19F-47F0-B061-2DE26BB0812E - 32f320ecea2e78af"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Pet_Collectors.OpenViewController.changeCard() -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/OpenViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "151"
+                  endingLineNumber = "151"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "F313D5AE-C19F-47F0-B061-2DE26BB0812E - 32f320ecea2e7bd7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in Pet_Collectors.OpenViewController.changeCard() -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/OpenViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "159"
+                  endingLineNumber = "159"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -56,7 +88,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E4645BA7-0F12-4034-AD42-A030EA8A0006"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pet Collectors/Util.swift"

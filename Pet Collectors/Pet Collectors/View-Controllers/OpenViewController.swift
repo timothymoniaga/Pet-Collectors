@@ -21,6 +21,7 @@ class OpenViewController: UIViewController {
     var currentCard: Card?
     let image = UIImageView()
     let countdownLabel = UILabel()
+    let activityIndicator = UIActivityIndicatorView()
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
     var cardTaps = 2
@@ -126,9 +127,13 @@ class OpenViewController: UIViewController {
         placeHolderCard.addGestureRecognizer(tapGesture)
         placeHolderCard.layer.cornerRadius = 15
         
+        activityIndicator.color = .black
+        
         view.addSubview(placeHolderCard)
         view.addSubview(countdownLabel)
-        
+        view.addSubview(activityIndicator)
+
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         placeHolderCard.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -140,7 +145,10 @@ class OpenViewController: UIViewController {
             placeHolderCard.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             placeHolderCard.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             placeHolderCard.widthAnchor.constraint(equalToConstant: 300),
-            placeHolderCard.heightAnchor.constraint(equalToConstant: 500)
+            placeHolderCard.heightAnchor.constraint(equalToConstant: 500),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         countdownLabel.isHidden = true
         
@@ -177,7 +185,12 @@ class OpenViewController: UIViewController {
     @objc func onClick() {
         cardTaps -= 1
         if(cardTaps == 1) {
+            activityIndicator.startAnimating()
+
             CardUtil.createCard { result in
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    }
                 switch result {
                 case .success(let cardData):
                     self.currentCard = self.databaseController?.addCard(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)

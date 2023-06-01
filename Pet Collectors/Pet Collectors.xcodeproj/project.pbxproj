@@ -31,8 +31,9 @@
 		1C69532B2A00B514004349D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* User.swift */; };
 		1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532C2A01CEA1004349D8 /* UserViewController.swift */; };
 		1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532E2A01DBFE004349D8 /* OfferViewController.swift */; };
-		1C90CBA92A25BF2200384A69 /* OpenAIAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBA82A25BF2200384A69 /* OpenAIAPIManager.swift */; };
 		1C90CBAB2A25CBD800384A69 /* APIKEYS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */; };
+		1C90CBAD2A28555F00384A69 /* OpenCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAC2A28555F00384A69 /* OpenCardView.swift */; };
+		1C90CBAF2A28572F00384A69 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAE2A28572F00384A69 /* CardView.swift */; };
 		1CA327DC2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */; };
 		1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */; };
 		1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */; };
@@ -74,8 +75,9 @@
 		1C69532A2A00B514004349D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1C69532C2A01CEA1004349D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		1C69532E2A01DBFE004349D8 /* OfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewController.swift; sourceTree = "<group>"; };
-		1C90CBA82A25BF2200384A69 /* OpenAIAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIAPIManager.swift; sourceTree = "<group>"; };
 		1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKEYS.swift; sourceTree = "<group>"; };
+		1C90CBAC2A28555F00384A69 /* OpenCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCardView.swift; sourceTree = "<group>"; };
+		1C90CBAE2A28572F00384A69 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
@@ -204,8 +206,9 @@
 				9F818B3A29F6402500005981 /* Info.plist */,
 				9FBA689D29F8954F00E77871 /* CardDetails.swift */,
 				1C4EE2D22A08AA8B008F0B7D /* Util.swift */,
-				1C90CBA82A25BF2200384A69 /* OpenAIAPIManager.swift */,
 				1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */,
+				1C90CBAC2A28555F00384A69 /* OpenCardView.swift */,
+				1C90CBAE2A28572F00384A69 /* CardView.swift */,
 			);
 			path = "Pet Collectors";
 			sourceTree = "<group>";
@@ -312,13 +315,14 @@
 				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
 				1C1DCF9B2A09D70C0013662D /* MulticastDelegate.swift in Sources */,
 				1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */,
-				1C90CBA92A25BF2200384A69 /* OpenAIAPIManager.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
 				1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
+				1C90CBAD2A28555F00384A69 /* OpenCardView.swift in Sources */,
 				1C1DCF9E2A09D7250013662D /* DataModel.xcdatamodeld in Sources */,
 				1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */,
 				1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */,
+				1C90CBAF2A28572F00384A69 /* CardView.swift in Sources */,
 				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
 				9F818B4829F642C100005981 /* TableViewCell.swift in Sources */,
 				1C69532B2A00B514004349D8 /* User.swift in Sources */,
