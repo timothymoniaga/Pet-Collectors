@@ -43,7 +43,6 @@ class CardViewCell: UICollectionViewCell {
         image.layer.cornerRadius = 15
         self.addSubview(image)
         
-        
         details.translatesAutoresizingMaskIntoConstraints = false
         details.numberOfLines = 0
         details.adjustsFontSizeToFitWidth = true

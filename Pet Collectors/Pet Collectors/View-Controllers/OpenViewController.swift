@@ -19,74 +19,87 @@ class OpenViewController: UIViewController {
     var packTimer: PackTimer?
     var currentTimer: [PackTimer]?
     var currentCard: Card?
-    let image = UIImageView()
     let countdownLabel = UILabel()
     let activityIndicator = UIActivityIndicatorView()
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
     var cardTaps = 2
-    let placeHolderCard = UIView()
+    var cards: [CardView] = []
     weak var databaseController: DatabaseProtocol?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
-        setup()
         currentTimer = databaseController?.fetchTimer()
         timerSetup()
+        setup()
         
-        // Do any additional setup after loading the view.
-    }
+        }
     
     func timerSetup() {
         let currentDate = Date()
         var dateComponent = DateComponents()
         dateComponent.day = 1
-        let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate)
-        //print(currentTimer?.count)
+        guard let futureDate = Calendar.current.date(byAdding: dateComponent, to: currentDate) else {
+            print("Failed to calculate future date")
+            return
+        }
         
-        let calendar = Calendar.current
-        //let startDate = // The start date
-        //let endDate = // The end date
-        
-        if (currentTimer?.count ?? 0 < 1) {
+        if currentTimer?.isEmpty ?? true {
+            databaseController?.setDates(startDate: currentDate, endDate: futureDate)
             
-            if let futureDate = futureDate {
-                print(futureDate)
+            // Adding cards into the array
+            createUnopenedCards()
+        } else if let endDate = currentTimer?[0].endDate {
+            let seconds = Int(endDate.timeIntervalSince(currentDate))
+            if seconds <= 0 {
+                databaseController?.removeTimers()
                 databaseController?.setDates(startDate: currentDate, endDate: futureDate)
                 
+                // Adding cards into the array
+                createUnopenedCards()
+                
             } else {
-                print("Failed to calculate future date")
-                // Handle the case where future date calculation fails
+                countdownTime = TimeInterval(seconds)
             }
         }
-        else {
-            if let futureDate = futureDate {
-                let components = calendar.dateComponents([.second], from: currentDate, to: currentTimer?[0].endDate ?? futureDate)
-                //print(currentTimer?[0].startDate)
-                //print(currentTimer?[0].endDate)
-                if let seconds = components.second {
-                    if seconds <= 0 {
-                        databaseController?.removeTimers()
-                        databaseController?.setDates(startDate: currentDate, endDate: futureDate)
-                    } else {
-                        print(seconds)
-                        countdownTime = TimeInterval(seconds)
-                    }
-                    
-                }
-            }
-
+    }
+    
+    func createUnopenedCards() {
+        var cardViews: [CardView] = []
+        
+        for _ in 1...3 {
+            let card = CardView()
+            //card.addGestureRecognizer(tapGesture)
+            cardViews.append(card)
         }
         
+        cards = cardViews
+        
+        for (i, card) in cards.enumerated() {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClick))
+            card.addGestureRecognizer(tapGesture)
+            view.addSubview(card)
+            
+            print(i)
+            card.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                //card.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(i) * 20.0),
+                card.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: CGFloat(i) * 7.5),
+                card.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(i) * -7.5),
+                card.heightAnchor.constraint(equalToConstant: CGFloat(card.HEIGHT)),
+                card.widthAnchor.constraint(equalToConstant: CGFloat(card.WIDTH))
+            ])
+        }
     }
+    
     
     func startCountdown() {
         countdownLabel.isHidden = false
         // Invalidate the timer if it's already running
         timer?.invalidate()
-
+        
         // Create a new timer that will fire every second
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             // Decrement the countdown time
@@ -122,19 +135,18 @@ class OpenViewController: UIViewController {
         countdownLabel.adjustsFontSizeToFitWidth = true
         countdownLabel.textAlignment = .center
         
-        placeHolderCard.backgroundColor = .lightGray
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClick))
-        placeHolderCard.addGestureRecognizer(tapGesture)
-        placeHolderCard.layer.cornerRadius = 15
+        //placeHolderCard.backgroundColor = .lightGray
+        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClick))
+        //placeHolderCard.addGestureRecognizer(tapGesture)
+        //placeHolderCard.layer.cornerRadius = 15
         
-        activityIndicator.color = .black
+        activityIndicator.color = .white
         
-        view.addSubview(placeHolderCard)
+        //view.addSubview(placeHolderCard)
         view.addSubview(countdownLabel)
         view.addSubview(activityIndicator)
-
+        
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        placeHolderCard.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             countdownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -142,71 +154,46 @@ class OpenViewController: UIViewController {
             countdownLabel.widthAnchor.constraint(equalToConstant: 300),
             countdownLabel.heightAnchor.constraint(equalToConstant: 150),
             
-            placeHolderCard.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            placeHolderCard.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            placeHolderCard.widthAnchor.constraint(equalToConstant: 300),
-            placeHolderCard.heightAnchor.constraint(equalToConstant: 500),
-            
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         countdownLabel.isHidden = true
         
     }
-    func changeCard() {
-        
-        DispatchQueue.main.async {
-            self.placeHolderCard.backgroundColor = CardUtil.setColor(rarity: self.currentCard?.cardRarity.rawValue ?? 0)
-        }
-
-        ApiUtil.loadImageFromURL(urlString: currentCard?.imageURL ?? "") { picture in
-            if let picture = picture {
-                self.image.image = picture
-            } else {
-                self.image.image = UIImage(named: "PlaceholderPaw")
-            }
-            
-        }
-        DispatchQueue.main.async {
-            self.image.contentMode = .scaleAspectFit
-            self.placeHolderCard.addSubview(self.image)
-            self.image.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                self.image.centerXAnchor.constraint(equalTo: self.placeHolderCard.centerXAnchor),
-                self.image.centerYAnchor.constraint(equalTo: self.placeHolderCard.centerYAnchor),
-                self.image.widthAnchor.constraint(equalTo: self.placeHolderCard.widthAnchor),
-                self.image.heightAnchor.constraint(equalTo: self.placeHolderCard.widthAnchor)
-            ])
-        }
-
-    }
     
     @objc func onClick() {
-        cardTaps -= 1
-        if(cardTaps == 1) {
+        view.bringSubviewToFront(activityIndicator)
+        let topCard = cards[cards.count - 1]
+        if(!topCard.isFlipped) {
             activityIndicator.startAnimating()
-
+            
             CardUtil.createCard { result in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    }
+                }
                 switch result {
                 case .success(let cardData):
                     self.currentCard = self.databaseController?.addCard(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
                     print(cardData)
-                    self.changeCard()
+                    topCard.changeCard(card: self.currentCard ?? Card())
+                    topCard.isFlipped = true
                 case .failure(let error):
                     // Handle the error here
                     print(error)
                 }
             }
-        } else if (cardTaps == 0) {
-            placeHolderCard.isHidden = true
+        } else if (topCard.isFlipped) {
+            //placeHolderCard.isHidden = true
+            topCard.isHidden = true
+            topCard.removeFromSuperview()
+            cards.removeLast()
+            //startCountdown()
+        }
+        if (cards.isEmpty) {
             startCountdown()
         }
         
-   }
+    }
     
     @IBAction func addCard(_ sender: Any) {
         BreedUtil.getAllBreeds { result in
@@ -226,13 +213,13 @@ class OpenViewController: UIViewController {
                         masterBreedArray.append(key)
                     }
                     print(masterBreedArray)
-
+                    
                     for breedName in masterBreedArray {
                         ApiUtil.wikipideaAPI(for: breedName as! String) { result in
                             switch result {
                             case .success( _):
                                 self.databaseController?.addBreed(breedName: breedName as! String)
-
+                                
                             case .failure(let error):
                                 print("Error fetching data: \(error.localizedDescription)")
                             }
@@ -240,7 +227,7 @@ class OpenViewController: UIViewController {
                     }
                     //print(resultArray)
                 }
-                    
+                
                 catch {
                     print("Error decoding JSON: \(error)")
                 }
@@ -253,53 +240,15 @@ class OpenViewController: UIViewController {
         
     }
     
-//    func temp () {
-//        BreedUtil.getAllBreeds { result in
-//            switch result {
-//            case .success(let message):
-//                print("List of all dog breeds: \(message)")
-//
-//                let data = message.data(using: .utf8)
-//                print(data)
-//                do {
-//                    let breeds = try JSONDecoder().decode(DogBreeds.self, from: data!)
-//                    let breedArray = breeds.message.flatMap { breed in
-//                        breed.value.map { "\($0)" }
-//                    }
-//
-//                    for breedName in breedArray {
-//                        ApiUtil.wikipideaAPI(for: breedName) { result in
-//                            switch result {
-//                            case .success( _):
-//                                self.databaseController?.addBreed(breedName: breedName)
-//
-//                            case .failure(let error):
-//                                print("Error fetching data: \(error.localizedDescription)")
-//                            }
-//                        }
-//                    }
-//
-//                    print(breedArray)
-//                } catch {
-//                    print("Error decoding JSON: \(error)")
-//                }
-//
-//            case .failure(let error):
-//                print("Error fetching data: \(error.localizedDescription)")
-//                // Handle the error here
-//            }
-//        }
-//    }
     
-
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

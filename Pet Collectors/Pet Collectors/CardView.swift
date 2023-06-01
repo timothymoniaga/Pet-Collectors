@@ -11,6 +11,9 @@ class CardView: UIView {
     
     let image = UIImageView()
     let petCollectorsLabel = UILabel()
+    let HEIGHT = 500
+    let WIDTH = 300
+    var isFlipped = false
     /*
      // Only override draw() if you perform custom drawing.
      // An empty implementation adversely affects performance during animation.
@@ -25,18 +28,22 @@ class CardView: UIView {
     }
     
     required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//        setup()
         fatalError("init(coder:) has not been implemented")
     }
     
     func setup() {
         
         petCollectorsLabel.text = "Pet Collectors"
-        petCollectorsLabel.font = .boldSystemFont(ofSize: 18)
+        petCollectorsLabel.font = .boldSystemFont(ofSize: 22)
+        petCollectorsLabel.textAlignment = .center
         
         image.image = UIImage(named: "PlaceholderPaw")
         image.contentMode = .scaleAspectFit
+        
+        self.backgroundColor = .lightGray
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = 0.5
+        self.layer.cornerRadius = 15
         
         self.addSubview(petCollectorsLabel)
         self.addSubview(image)
@@ -45,13 +52,14 @@ class CardView: UIView {
         image.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            
+            petCollectorsLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            petCollectorsLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            petCollectorsLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
+            
             image.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             image.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             image.widthAnchor.constraint(equalTo: self.widthAnchor),
-            
-            petCollectorsLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10),
-            petCollectorsLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            petCollectorsLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
             
             self.widthAnchor.constraint(equalToConstant: 300),
             self.heightAnchor.constraint(equalToConstant: 500)
