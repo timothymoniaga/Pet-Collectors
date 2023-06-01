@@ -93,8 +93,6 @@ class ApiUtil {
             }
         }
     }
-
-
     
     
 }
@@ -159,41 +157,6 @@ class CardUtil {
         
         fetchCard()
     }
-
-    
-//    static func getDogDetails(completion: @escaping (Result<String, Error>) -> Void) {
-//        let dogBreed = getDogBreed()
-//        let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-//        let urlString = "https://en.wikipedia.org/api/rest_v1/page/summary/"  + (name ?? "")
-//        print(urlString)
-//        guard let url = URL(string: urlString) else { return }
-//
-//        ApiUtil.makeApiCall(url: url) { data, error in
-//            if let error = error {
-//                // handle error
-//                print("Error fetching data: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            guard let data = data else {
-//                // handle missing data
-//                print("No data returned")
-//                return
-//            }
-//
-//            // handle data
-//            do {
-//                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-//                guard let description = json?["extract"] as? String else {
-//                    completion(.failure(NSError(domain: "Error: Failed to get description", code: -1, userInfo: nil)))
-//                    return
-//                }
-//                completion(.success(description))
-//            } catch {
-//                completion(.failure(error))
-//            }
-//        }
-//    }
     
     static func getDogDescription(completion: @escaping (Result<String, Error>) -> Void) {
         let dogBreed = getDogBreed()
@@ -260,65 +223,6 @@ class CardUtil {
         
         task.resume()
     }
-
-    
-//    static func getDogDetails(prompt: String, completion: @escaping (Result<String, Error>) -> Void) {
-//        let apiKey = "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"
-//        let urlString = "https://api.openai.com/v1/chat/completions"
-//        guard let url = URL(string: urlString) else {
-//            completion(.failure(NSError(domain: "Error: Invalid API URL", code: -1, userInfo: nil)))
-//            return
-//        }
-//
-//        let dogPrompt = "Describe the \(prompt) breed of dogs in a few sentences."
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let parameters: [String: Any] = [
-//            "model": "text-davinci-003",
-//            "messages": [{"role": "user", "content": dogPrompt}],
-//            "max_tokens": 100,
-//            "temperature": 0.7
-//        ]
-//
-//        guard let requestData = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
-//            completion(.failure(NSError(domain: "Error: Failed to serialize request data", code: -1, userInfo: nil)))
-//            return
-//        }
-//        request.httpBody = requestData
-//
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//
-//            guard let data = data else {
-//                completion(.failure(NSError(domain: "Error: No data returned", code: -1, userInfo: nil)))
-//                return
-//            }
-//
-//            do {
-//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-//                   let choices = json["choices"] as? [[String: Any]],
-//                   let description = choices.first?["text"] as? String {
-//                    completion(.success(description))
-//                } else {
-//                    completion(.failure(NSError(domain: "Error: Failed to parse response", code: -1, userInfo: nil)))
-//                }
-//            } catch {
-//                completion(.failure(error))
-//            }
-//        }
-//
-//        task.resume()
-//    }
-
-
-    
     
     static func getRandomDogAPI(for dogBreed: String, completion: @escaping (Result<String, Error>) -> Void) {
         print(dogBreed)

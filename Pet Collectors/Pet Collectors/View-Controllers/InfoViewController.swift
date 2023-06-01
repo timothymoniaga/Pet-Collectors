@@ -18,7 +18,6 @@ class InfoViewController: UIViewController {
         super.viewDidLoad()
 
         setup()
-        // Do any additional setup after loading the view.
     }
     
     func setup() {
@@ -26,22 +25,14 @@ class InfoViewController: UIViewController {
         let labelText = "Description: \n" + (selectedCard?.details ?? "")
         print(labelText.debugDescription)
         let attributedText = NSMutableAttributedString(string: labelText)
-
-        // Set font and size for the first word
-//        let range1 = (labelText as NSString).range(of: "Description:")
-//        let font1 = UIFont.boldSystemFont(ofSize: 18)
-//        attributedText.addAttribute(.font, value: font1, range: range1)
         
         title = selectedCard?.breed
         
         detailsLabel.text = selectedCard?.details
-        //detailsLabel.numberOfLines = 0
-        //detailsLabel.sizeToFit()
-        detailsLabel.contentMode = .top
-        //detailsLabel.adjustsFontSizeToFitWidth = true
         detailsLabel.layer.borderColor = UIColor.black.cgColor
         detailsLabel.layer.borderWidth = 0.5
         detailsLabel.font = .systemFont(ofSize: 16)
+        detailsLabel.isEditable = false
         
         statisticsLabel.text = selectedCard?.statistics
         detailsLabel.textContainerInset = .zero
@@ -67,16 +58,13 @@ class InfoViewController: UIViewController {
         NSLayoutConstraint.activate([
             image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             image.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            //image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             image.widthAnchor.constraint(equalToConstant: (view.frame.width - 30)),
             image.heightAnchor.constraint(equalToConstant: 200),
             
             detailsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             detailsLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 20),
-            //detailsLabel.bottomAnchor.constraint(equalTo: statisticsLabel.topAnchor, constant: 20),
             detailsLabel.widthAnchor.constraint(equalToConstant: (view.frame.width - 20)),
-            // detailsLabel.heightAnchor.constraint(equalToConstant: detailsLabel.frame.height),
-            //detailsLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
+            detailsLabel.heightAnchor.constraint(equalToConstant: 150),
             
             statisticsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             statisticsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
@@ -84,7 +72,6 @@ class InfoViewController: UIViewController {
             statisticsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
             
         ])
-        // countdownLabel.isHidden = true
         loadImageFromURL(urlString: selectedCard?.imageURL ?? "")
 
     }

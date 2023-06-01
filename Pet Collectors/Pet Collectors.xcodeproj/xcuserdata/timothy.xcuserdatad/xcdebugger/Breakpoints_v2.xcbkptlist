@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A051FBA2-E9F6-4B54-9EF8-7E53C1966AC7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pet Collectors/Util.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
-            landmarkName = "CardUtil"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "E4645BA7-0F12-4034-AD42-A030EA8A0006"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -46,8 +30,8 @@
             filePath = "Pet Collectors/Util.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "getDogDescription(completion:)"
             landmarkType = "7">
             <Locations>
