@@ -28,17 +28,16 @@ class InfoViewController: UIViewController {
         
         title = selectedCard?.breed
         
-        detailsLabel.text = selectedCard?.details
-        detailsLabel.layer.borderColor = UIColor.black.cgColor
-        detailsLabel.layer.borderWidth = 0.5
+        detailsLabel.text = "Description: \n" + (selectedCard?.details ?? "")
+//        detailsLabel.layer.borderColor = UIColor.black.cgColor
+//        detailsLabel.layer.borderWidth = 0.5
         detailsLabel.font = .systemFont(ofSize: 16)
         detailsLabel.isEditable = false
-        
-        statisticsLabel.text = selectedCard?.statistics
         detailsLabel.textContainerInset = .zero
-        
-        print(detailsLabel.frame.height)
 
+        
+        statisticsLabel.text = "Statistics: \n" + (selectedCard?.statistics ?? "")
+        statisticsLabel.font = .systemFont(ofSize: 16)
         statisticsLabel.numberOfLines = 0
         statisticsLabel.adjustsFontSizeToFitWidth = true
         
@@ -68,7 +67,7 @@ class InfoViewController: UIViewController {
             
             statisticsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             statisticsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            statisticsLabel.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 10),
+            statisticsLabel.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: -10),
             statisticsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
             
         ])

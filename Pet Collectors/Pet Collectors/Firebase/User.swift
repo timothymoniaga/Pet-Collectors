@@ -7,9 +7,11 @@
 
 import Foundation
 import UIKit
+import FirebaseFirestoreSwift
 
-class User: NSObject {
+class User: NSObject{
     
+    @DocumentID var id: String?
     var image: UIImage?
     var userName: String?
     var details: String?

@@ -46,5 +46,7 @@ protocol DatabaseProtocol: AnyObject {
     func removeTimers()
     func fetchTimer() -> [PackTimer]
     
+    func login(email: String, password: String, completion: @escaping (String?) -> Void)
+    func signup(email: String, password: String, completion: @escaping (String?) -> Void)
 }
 

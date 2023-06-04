@@ -32,9 +32,7 @@ class OpenViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
         currentTimer = databaseController?.fetchTimer()
-        timerSetup()
         setup()
-        
         }
     
     func timerSetup() {
@@ -62,6 +60,8 @@ class OpenViewController: UIViewController {
                 
             } else {
                 countdownTime = TimeInterval(seconds)
+                print(countdownTime)
+                startCountdown()
             }
         }
     }
@@ -71,7 +71,6 @@ class OpenViewController: UIViewController {
         
         for _ in 1...3 {
             let card = CardView()
-            //card.addGestureRecognizer(tapGesture)
             cardViews.append(card)
         }
         
@@ -85,7 +84,6 @@ class OpenViewController: UIViewController {
             print(i)
             card.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                //card.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: CGFloat(i) * 20.0),
                 card.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: CGFloat(i) * 7.5),
                 card.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(i) * -7.5),
                 card.heightAnchor.constraint(equalToConstant: CGFloat(card.HEIGHT)),
@@ -104,7 +102,6 @@ class OpenViewController: UIViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
             // Decrement the countdown time
             self?.countdownTime -= 1
-            
             // Format the countdown time as a string
             let hours = Int(self?.countdownTime ?? 0) / 3600
             let minutes = (Int(self?.countdownTime ?? 0) / 60) % 60
@@ -135,19 +132,14 @@ class OpenViewController: UIViewController {
         countdownLabel.adjustsFontSizeToFitWidth = true
         countdownLabel.textAlignment = .center
         
-        //placeHolderCard.backgroundColor = .lightGray
-        //let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onClick))
-        //placeHolderCard.addGestureRecognizer(tapGesture)
-        //placeHolderCard.layer.cornerRadius = 15
-        
         activityIndicator.color = .white
         
-        //view.addSubview(placeHolderCard)
         view.addSubview(countdownLabel)
         view.addSubview(activityIndicator)
         
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             countdownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             countdownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -158,6 +150,8 @@ class OpenViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         countdownLabel.isHidden = true
+        
+        timerSetup()
         
     }
     

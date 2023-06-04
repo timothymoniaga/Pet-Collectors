@@ -16,9 +16,10 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     //var endDateTime: Date?
     var breedList: [String] = []
     var authController: Auth
-    var database: Firestore
+    var firestoreDatabase: Firestore
     var listeners = MulticastDelegate<DatabaseListener>()
     var breedRef: CollectionReference?
+    var usersRef: CollectionReference?
     var currentUser: FirebaseAuth.User?
     var timerFetchedResultsController: NSFetchedResultsController<PackTimer>?
     var cardFetchedResultsController: NSFetchedResultsController<Card>?
@@ -35,31 +36,31 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         
         FirebaseApp.configure()
         authController = Auth.auth()
-        database = Firestore.firestore()
-        breedRef = database.collection("breeds")
+        firestoreDatabase = Firestore.firestore()
+        breedRef = firestoreDatabase.collection("breeds")
         
-        authController.signInAnonymously { authResult, error in
-            if let error = error {
-                // Handle the error
-                print("Anonymous sign-in failed: \(error.localizedDescription)")
-                return
-            }
-            
-            // Anonymous sign-in successful
-            // You can access the anonymous user's information from `authResult.user`
-            guard let user = authResult?.user else {
-                print("Anonymous user not available")
-                return
-            }
-            
-            // Use the anonymous user's information as needed
-            let uid = user.uid
-            print("Anonymous user ID: \(uid)")
-            
-            // Proceed with further operations, such as writing to Firestore
-            // or accessing protected resources
-
-        }
+//        authController.signInAnonymously { authResult, error in
+//            if let error = error {
+//                // Handle the error
+//                print("Anonymous sign-in failed: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            // Anonymous sign-in successful
+//            // You can access the anonymous user's information from `authResult.user`
+//            guard let user = authResult?.user else {
+//                print("Anonymous user not available")
+//                return
+//            }
+//
+//            // Use the anonymous user's information as needed
+//            let uid = user.uid
+//            print("Anonymous user ID: \(uid)")
+//
+//            // Proceed with further operations, such as writing to Firestore
+//            // or accessing protected resources
+//
+//        }
 
         super.init()
         self.copyBreedsToArray()
@@ -231,6 +232,122 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
         return [Card]()
     }
+    
+//    func setupCardListener() {
+//        usersRef = database.collection("users")
+//        usersRef?.addSnapshotListener() { (querySnapshot, error) in
+//            guard let querySnapshot = querySnapshot else {
+//                print("Failed to fetch documents with error: \(String(describing: error))")
+//                return
+//            }
+//            self.parseUsersSnapshot(snapshot: querySnapshot)
+//            if self.usersRef == nil {
+//                self.setupCardListener()
+//            }
+//        }
+//    }
+//
+//    func parseUsersSnapshot(snapshot: QuerySnapshot) {
+//        snapshot.documentChanges.forEach { (change) in
+//            var user: User
+//            do {
+//                user = try change.document.data(as: User.self)
+//            } catch {
+//                fatalError("Unable to decode hero: \(error.localizedDescription)")
+//            }
+//            if change.type == .added {
+//                heroList.insert(hero, at: Int(change.newIndex))
+//            }
+//            else if change.type == .modified {
+//                heroList.remove(at: Int(change.oldIndex))
+//                heroList.insert(hero, at: Int(change.newIndex))
+//            }
+//            else if change.type == .removed {
+//                heroList.remove(at: Int(change.oldIndex))
+//            }
+//
+//        }
+//        listeners.invoke { (listener) in
+//            if listener.listenerType == ListenerType.heroes ||
+//                listener.listenerType == ListenerType.all {
+//                listener.onAllHeroesChange(change: .update, heroes: heroList)
+//            }
+//        }
+//
+//    }
+    
+    func login(email: String, password: String, completion: @escaping (String?) -> Void) {
+        Task {
+            do {
+                let authResult = try await authController.signIn(withEmail: email, password: password)
+                completion(nil) // login successful, no error message
+            } catch {
+                print("User creation failed with error \(String(describing: error))")
+                let errorDescription = (String(describing: error))
+                if let startRange = errorDescription.range(of: "NSLocalizedDescription=") {
+                    let startIndex = startRange.upperBound
+                    if let endRange = errorDescription[startIndex...].range(of: ".") {
+                        let endIndex = endRange.lowerBound
+                        let result = String(errorDescription[startIndex..<endIndex])
+                        completion(result) // login failed, pass error message
+                    }
+                }
+            }
+            //self.setupCardListener()
+
+        }
+    }
+    
+    func signup(email: String, password: String, completion: @escaping (String?) -> Void) {
+        Task {
+            do {
+                let authResult = try await authController.createUser(withEmail: email, password: password)
+                let userUID = authResult.user.uid // Get the user's UID
+                
+                let userData: [String: Any] = [
+                    "email": email, // Add any additional user data here
+                    // ...
+                ]
+                
+                // Reference to the "users" collection
+                let usersRef = firestoreDatabase.collection("users")
+                
+                // Create a new document with the user's UID as the document ID
+                let userDocRef = usersRef.document(userUID)
+                userDocRef.setData(userData) { error in
+                    if let error = error {
+                        print("Error creating user document: \(error)")
+                        completion("Failed to create user document.")
+                    } else {
+                        // Create an empty subcollection "cards" within the user's document
+                        let cardsCollectionRef = userDocRef.collection("cards")
+                        cardsCollectionRef.addDocument(data: [:]) { error in
+                            if let error = error {
+                                print("Error creating cards subcollection: \(error)")
+                                completion("Failed to create cards subcollection.")
+                            } else {
+                                completion(nil) // Signup successful, no error message
+                            }
+                        }
+                    }
+                }
+            } catch {
+                print("User creation failed with error \(error)")
+                let errorDescription = (String(describing: error))
+                if let startRange = errorDescription.range(of: "NSLocalizedDescription=") {
+                    let startIndex = startRange.upperBound
+                    if let endRange = errorDescription[startIndex...].range(of: ".") {
+                        let endIndex = endRange.lowerBound
+                        let result = String(errorDescription[startIndex..<endIndex])
+                        completion(result) // Signup failed, pass error message
+                    }
+                }
+            }
+        }
+    }
+
+
+
     
 
 }

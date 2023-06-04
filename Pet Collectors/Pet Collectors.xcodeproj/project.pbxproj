@@ -11,7 +11,6 @@
 		1C0B32772A0F900500147232 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0B32762A0F900500147232 /* FirebaseFirestore */; };
 		1C0B32792A0F900500147232 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0B32782A0F900500147232 /* FirebaseFirestoreSwift */; };
 		1C0B327E2A0FA21B00147232 /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B327D2A0FA21B00147232 /* Breed.swift */; };
-		1C0B32802A0FA46C00147232 /* FirebaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B327F2A0FA46C00147232 /* FirebaseController.swift */; };
 		1C0B32822A11CFD400147232 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1C0B32812A11CFD400147232 /* GoogleService-Info.plist */; };
 		1C0B32852A14C28000147232 /* Breed+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B32832A14C28000147232 /* Breed+CoreDataClass.swift */; };
 		1C0B32862A14C28000147232 /* Breed+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B32842A14C28000147232 /* Breed+CoreDataProperties.swift */; };
@@ -37,6 +36,7 @@
 		1CA327DC2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */; };
 		1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */; };
 		1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */; };
+		1CCB6E9D2A2B1F8100C67F99 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB6E9C2A2B1F8100C67F99 /* LoginViewController.swift */; };
 		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
 		9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2E29F6402400005981 /* SceneDelegate.swift */; };
@@ -55,7 +55,6 @@
 
 /* Begin PBXFileReference section */
 		1C0B327D2A0FA21B00147232 /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
-		1C0B327F2A0FA46C00147232 /* FirebaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseController.swift; sourceTree = "<group>"; };
 		1C0B32812A11CFD400147232 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1C0B32832A14C28000147232 /* Breed+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Breed+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1C0B32842A14C28000147232 /* Breed+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Breed+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		1CCB6E9C2A2B1F8100C67F99 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F818B2C29F6402400005981 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +125,7 @@
 				1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */,
 				1C69532C2A01CEA1004349D8 /* UserViewController.swift */,
 				1C69532E2A01DBFE004349D8 /* OfferViewController.swift */,
+				1CCB6E9C2A2B1F8100C67F99 /* LoginViewController.swift */,
 			);
 			path = "View-Controllers";
 			sourceTree = "<group>";
@@ -142,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				1C0B327D2A0FA21B00147232 /* Breed.swift */,
+				1C69532A2A00B514004349D8 /* User.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -155,7 +157,6 @@
 				1C1DCFA02A09D7650013662D /* Card+CoreDataProperties.swift */,
 				1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */,
 				1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */,
-				1C69532A2A00B514004349D8 /* User.swift */,
 				1C1DCF9C2A09D7250013662D /* DataModel.xcdatamodeld */,
 			);
 			path = DataModel;
@@ -167,7 +168,6 @@
 				1C1DCF9A2A09D70C0013662D /* MulticastDelegate.swift */,
 				1C4EE2D62A08B0CD008F0B7D /* DatabaseProtocol.swift */,
 				1C4EE2D82A08B0FA008F0B7D /* CoreDataController.swift */,
-				1C0B327F2A0FA46C00147232 /* FirebaseController.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -308,7 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C0B32802A0FA46C00147232 /* FirebaseController.swift in Sources */,
+				1CCB6E9D2A2B1F8100C67F99 /* LoginViewController.swift in Sources */,
 				9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */,
 				1C1DCFA12A09D7650013662D /* Card+CoreDataClass.swift in Sources */,
 				1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */,

@@ -128,7 +128,7 @@ class CardUtil {
                                     switch description {
                                     case .success(let detailData):
                                         let breed = capitalizeFirstLetterAndAfterSpace(getDogBreed())
-                                        let rarityArr = [0.75, 0.1, 0.05, 0.025, 0.001]
+                                        let rarityArr = [0.75, 0.15, 0.025, 0.005, 0.001]
                                         let randomInt = chooseEventIndex(probs: rarityArr)
                                         let statistics = decodeJSONStatistics(jsonData: data)
                                         let retval = ["breed": breed, "details": detailData, "rarity": Rarity(rawValue: Int32(randomInt)), "imageURL": imageURL, "statistics": statistics] as [String: Any]
@@ -425,4 +425,18 @@ class BreedUtil {
     }
     
     
+}
+
+
+class UIUtil {
+    static func displayMessage(_ title: String, _ message: String, from viewController: UIViewController) {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+            
+            DispatchQueue.main.async {
+                viewController.present(alertController, animated: true, completion: nil)
+            }
+        }
+
 }
