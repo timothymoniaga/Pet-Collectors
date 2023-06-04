@@ -160,10 +160,13 @@ class OpenViewController: UIViewController {
         let topCard = cards[cards.count - 1]
         if(!topCard.isFlipped) {
             activityIndicator.startAnimating()
+            view.isUserInteractionEnabled = false
             
             CardUtil.createCard { result in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
+                    self.view.isUserInteractionEnabled = true
+
                 }
                 switch result {
                 case .success(let cardData):

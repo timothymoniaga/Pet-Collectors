@@ -20,8 +20,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Collection" id="yAV-cK-Zj0"/>
+                    <navigationItem key="navigationItem" title="Collection" id="yAV-cK-Zj0">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="hDn-TV-Vpm"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="logOutButton" destination="hDn-TV-Vpm" id="7it-Ki-Tes"/>
                         <segue destination="NgK-BO-gzK" kind="show" identifier="moreInfoSegue" id="PwM-gQ-QLV"/>
                     </connections>
                 </viewController>

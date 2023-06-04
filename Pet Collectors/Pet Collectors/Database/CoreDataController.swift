@@ -24,8 +24,9 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     var timerFetchedResultsController: NSFetchedResultsController<PackTimer>?
     var cardFetchedResultsController: NSFetchedResultsController<Card>?
     var persistentContainer: NSPersistentContainer
+    var userUID: String?
     //var listeners = MulticastDelegate<DatabaseListener>()
-
+    
     override init() {
         persistentContainer = NSPersistentContainer(name: "DataModel")
         persistentContainer.loadPersistentStores() { (description, error ) in
@@ -39,34 +40,12 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         firestoreDatabase = Firestore.firestore()
         breedRef = firestoreDatabase.collection("breeds")
         
-//        authController.signInAnonymously { authResult, error in
-//            if let error = error {
-//                // Handle the error
-//                print("Anonymous sign-in failed: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            // Anonymous sign-in successful
-//            // You can access the anonymous user's information from `authResult.user`
-//            guard let user = authResult?.user else {
-//                print("Anonymous user not available")
-//                return
-//            }
-//
-//            // Use the anonymous user's information as needed
-//            let uid = user.uid
-//            print("Anonymous user ID: \(uid)")
-//
-//            // Proceed with further operations, such as writing to Firestore
-//            // or accessing protected resources
-//
-//        }
-
         super.init()
         self.copyBreedsToArray()
-
+        
     }
     
+    // Function that was used when wikipidea api was in use. Now useless
     private func copyBreedsToArray() {
         breedRef?.getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -82,15 +61,9 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             for document in querySnapshot!.documents {
                 // Extract the breed field from each document
                 if let breed = document.data()["breed"] as? String {
-                    // Create a new Breed object and add it to the breedList array
-//                    let newBreed = Breed()
-//                    newBreed.name = breed
                     self.breedList.append(breed)
                 }
             }
-            
-            // Notify listeners or perform any additional tasks
-            // ...
         }
     }
     
@@ -116,28 +89,62 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             print("Failed to remove PackTimer objects: \(error)")
         }
     }
-
-    
-    private func addBreed(name: String) -> Breed{
-        let breed = NSEntityDescription.insertNewObject(forEntityName: "Breed", into: persistentContainer.viewContext) as! Breed
-        breed.name = name
-        return breed
-    }
     
     func addCard(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String) -> Card {
         let card = NSEntityDescription.insertNewObject(forEntityName:
-        "Card", into: persistentContainer.viewContext) as! Card
-            card.breed = breed
-            card.statistics = statistics
-            card.cardRarity = rarity
-            card.details = details
-            card.imageURL = imageURL
+                                                        "Card", into: persistentContainer.viewContext) as! Card
+        card.breed = breed
+        card.statistics = statistics
+        card.cardRarity = rarity
+        card.details = details
+        card.imageURL = imageURL
+        
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            // Handle the case when the user is not logged in
+            return card
+        }
+        
+        let userDocRef = firestoreDatabase.collection("users").document(userUID)
+        let rarityValue = Int(card.rarity) // Convert Int32 to Int
+        userDocRef.collection("cards").addDocument(data: [
+            "breed": card.breed,
+            "statistics": card.statistics,
+            "rarity": rarityValue,
+            "details": card.details,
+            "imageURL": card.imageURL
+        ]) { error in
+            if let error = error {
+                print("Error adding card to subcollection: \(error)")
+            } else {
+                // Card added successfully
+            }
+        }
+
         
         
         return card
     }
     
+    // Removes all cards
+    func removeAllCards() {
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        
+        do {
+            let cards = try persistentContainer.viewContext.fetch(fetchRequest)
+            
+            for card in cards {
+                persistentContainer.viewContext.delete(card)
+            }
+            
+            //saveContext()
+        } catch {
+            print("Error removing cards: \(error)")
+        }
+    }
+
     
+    
+    // Function that was used when wikipidea api was in use. Now useless
     func addBreed(breedName: String) -> BreedFirebase {
         let breed = BreedFirebase()
         breed.breed = breedName
@@ -153,11 +160,11 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     
     
     func controllerDidChangeContent(_ controller:
-    NSFetchedResultsController<NSFetchRequestResult>) {
+                                    NSFetchedResultsController<NSFetchRequestResult>) {
         if controller == cardFetchedResultsController {
             listeners.invoke() { listener in
                 if listener.listenerType == .card || listener.listenerType == .all {
-                        listener.onCardsChange(change: .update, cards: fetchAllCards())
+                    listener.onCardsChange(change: .update, cards: fetchAllCards())
                 }
             }
         }
@@ -179,9 +186,9 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             listener.onCardsChange(change: .update, cards: fetchAllCards())
         }
         
-//        if listener.listenerType == .user || listener.listenerType == .all {
-//            listener.onTeamChange(change: .update, teamHeroes: fetchTeamHeroes())
-//        }
+        //        if listener.listenerType == .user || listener.listenerType == .all {
+        //            listener.onTeamChange(change: .update, teamHeroes: fetchTeamHeroes())
+        //        }
     }
     
     func removeListener(listener: DatabaseListener) {
@@ -217,8 +224,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             
             cardFetchedResultsController =
             NSFetchedResultsController<Card>(fetchRequest: request,
-            managedObjectContext: persistentContainer.viewContext,
-            sectionNameKeyPath: nil, cacheName: nil)
+                                             managedObjectContext: persistentContainer.viewContext,
+                                             sectionNameKeyPath: nil, cacheName: nil)
             cardFetchedResultsController?.delegate = self
             
             do {
@@ -232,77 +239,69 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
         return [Card]()
     }
-    
-//    func setupCardListener() {
-//        usersRef = database.collection("users")
-//        usersRef?.addSnapshotListener() { (querySnapshot, error) in
-//            guard let querySnapshot = querySnapshot else {
-//                print("Failed to fetch documents with error: \(String(describing: error))")
-//                return
-//            }
-//            self.parseUsersSnapshot(snapshot: querySnapshot)
-//            if self.usersRef == nil {
-//                self.setupCardListener()
-//            }
-//        }
-//    }
-//
-//    func parseUsersSnapshot(snapshot: QuerySnapshot) {
-//        snapshot.documentChanges.forEach { (change) in
-//            var user: User
-//            do {
-//                user = try change.document.data(as: User.self)
-//            } catch {
-//                fatalError("Unable to decode hero: \(error.localizedDescription)")
-//            }
-//            if change.type == .added {
-//                heroList.insert(hero, at: Int(change.newIndex))
-//            }
-//            else if change.type == .modified {
-//                heroList.remove(at: Int(change.oldIndex))
-//                heroList.insert(hero, at: Int(change.newIndex))
-//            }
-//            else if change.type == .removed {
-//                heroList.remove(at: Int(change.oldIndex))
-//            }
-//
-//        }
-//        listeners.invoke { (listener) in
-//            if listener.listenerType == ListenerType.heroes ||
-//                listener.listenerType == ListenerType.all {
-//                listener.onAllHeroesChange(change: .update, heroes: heroList)
-//            }
-//        }
-//
-//    }
-    
     func login(email: String, password: String, completion: @escaping (String?) -> Void) {
         Task {
             do {
                 let authResult = try await authController.signIn(withEmail: email, password: password)
-                completion(nil) // login successful, no error message
+                
+                // Clear existing cards from persistent storage
+                removeAllCards()
+                
+                let userUID = authResult.user.uid
+                let userDocRef = firestoreDatabase.collection("users").document(userUID)
+                let cardsCollectionRef = userDocRef.collection("cards")
+                
+                // Fetch the user's cards from Firestore
+                cardsCollectionRef.getDocuments { querySnapshot, error in
+                    if let error = error {
+                        print("Error fetching user cards: \(error)")
+                        completion("Failed to fetch user cards.")
+                    } else {
+                        // Process the fetched documents
+                        guard let documents = querySnapshot?.documents else {
+                            completion(nil) // Login successful, no error message
+                            return
+                        }
+                        
+                        for document in documents {
+                            // Extract card data from Firestore document
+                            let data = document.data()
+                            let breed = data["breed"] as? String ?? ""
+                            let statistics = data["statistics"] as? String ?? ""
+                            let rarity = Rarity(rawValue: data["rarity"] as! Int32) as! Rarity
+                            let details = data["details"] as? String ?? ""
+                            let imageURL = data["imageURL"] as? String ?? ""
+                            
+                            // Create and store the card in persistent storage
+                            let card = self.addCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
+                            // Process the card as needed
+                        }
+                        
+                        completion(nil) // Login successful, no error message
+                    }
+                }
             } catch {
-                print("User creation failed with error \(String(describing: error))")
+                print("User login failed with error \(error)")
                 let errorDescription = (String(describing: error))
                 if let startRange = errorDescription.range(of: "NSLocalizedDescription=") {
                     let startIndex = startRange.upperBound
                     if let endRange = errorDescription[startIndex...].range(of: ".") {
                         let endIndex = endRange.lowerBound
                         let result = String(errorDescription[startIndex..<endIndex])
-                        completion(result) // login failed, pass error message
+                        completion(result) // Login failed, pass error message
                     }
                 }
             }
-            //self.setupCardListener()
-
         }
     }
-    
+
     func signup(email: String, password: String, completion: @escaping (String?) -> Void) {
         Task {
             do {
                 let authResult = try await authController.createUser(withEmail: email, password: password)
                 let userUID = authResult.user.uid // Get the user's UID
+                
+                self.userUID = userUID
                 
                 let userData: [String: Any] = [
                     "email": email, // Add any additional user data here
@@ -326,6 +325,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                                 print("Error creating cards subcollection: \(error)")
                                 completion("Failed to create cards subcollection.")
                             } else {
+                                self.removeDocumentsFromSubcollection(collectionRef: cardsCollectionRef)
                                 completion(nil) // Signup successful, no error message
                             }
                         }
@@ -345,9 +345,27 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             }
         }
     }
-
-
-
     
-
+    func removeDocumentsFromSubcollection(collectionRef: CollectionReference) {
+        collectionRef.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No documents found in the subcollection")
+                return
+            }
+            
+            for document in documents {
+                document.reference.delete()
+            }
+            
+            print("All documents removed from the subcollection")
+        }
+    }
+    
+    
+    
 }

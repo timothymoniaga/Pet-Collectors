@@ -20,6 +20,7 @@ import UIKit
 //    }
 //}
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DatabaseListener {
+    @IBOutlet weak var logOutButton: UIBarButtonItem!
     
     var allBreeds: [Breed] = []
     var listenerType = ListenerType.card
