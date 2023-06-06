@@ -36,17 +36,19 @@ class CardViewCell: UICollectionViewCell {
 
         breed.translatesAutoresizingMaskIntoConstraints = false
         breed.textAlignment = .center
-        self.addSubview(breed)
+        breed.adjustsFontSizeToFitWidth = true
 
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFit
         image.layer.cornerRadius = 15
-        self.addSubview(image)
 
         details.translatesAutoresizingMaskIntoConstraints = false
         details.numberOfLines = 0
         details.adjustsFontSizeToFitWidth = true
+        
+        self.addSubview(image)
         self.addSubview(details)
+        self.addSubview(breed)
 
         NSLayoutConstraint.activate([
             breed.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
@@ -73,13 +75,17 @@ class CardViewCell: UICollectionViewCell {
         let colour = CardUtil.setColor(rarity: card.cardRarity.rawValue)
         self.backgroundColor = colour
         details.text = card.details
-        // decodeJSON(jsonData: card.statistics!)
-        ApiUtil.loadImageFromURL(urlString: card.imageURL ?? "") { image in
-            if let image = image {
-                self.image.image = image
-            } else {
-                self.image.image = UIImage(named: "PlaceholderPaw")
+        if(card.image == nil) {
+            ApiUtil.loadImageFromURL(urlString: card.imageURL ?? "") { image in
+                if let image = image {
+                    self.image.image = image.roundedImage(cornerRadius: 15)
+                    card.image = image.roundedImage(cornerRadius: 15)
+                } else {
+                    self.image.image = UIImage(named: "PlaceholderPaw")
+                }
             }
+        } else {
+            image.image = card.image
         }
     }
 }

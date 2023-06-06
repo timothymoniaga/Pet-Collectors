@@ -28,15 +28,18 @@ class InfoViewController: UIViewController {
         
         title = selectedCard?.breed
         
+        detailsLabel.showsVerticalScrollIndicator = true
         detailsLabel.text = "Description: \n" + (selectedCard?.details ?? "")
-//        detailsLabel.layer.borderColor = UIColor.black.cgColor
-//        detailsLabel.layer.borderWidth = 0.5
         detailsLabel.font = .systemFont(ofSize: 16)
         detailsLabel.isEditable = false
         detailsLabel.textContainerInset = .zero
-
         
-        statisticsLabel.text = "Statistics: \n" + (selectedCard?.statistics ?? "")
+        if let statistics = selectedCard?.statistics, statistics != "" {
+            statisticsLabel.text = "Statistics: \n" + (selectedCard?.statistics ?? "")
+        }
+        else {
+            statisticsLabel.text = "Statistics unavaliable for this dog breed 😕"
+        }
         statisticsLabel.font = .systemFont(ofSize: 16)
         statisticsLabel.numberOfLines = 0
         statisticsLabel.adjustsFontSizeToFitWidth = true

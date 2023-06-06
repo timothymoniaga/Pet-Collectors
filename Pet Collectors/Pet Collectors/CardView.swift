@@ -45,8 +45,8 @@ class CardView: UIView {
         self.layer.borderWidth = 0.5
         self.layer.cornerRadius = 15
         
-        self.addSubview(petCollectorsLabel)
         self.addSubview(image)
+        self.addSubview(petCollectorsLabel)
         
         petCollectorsLabel.translatesAutoresizingMaskIntoConstraints = false
         image.translatesAutoresizingMaskIntoConstraints = false

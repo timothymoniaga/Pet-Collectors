@@ -120,7 +120,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             if let error = error {
                 print("Error adding card to subcollection: \(error)")
             } else {
-                // Card added successfully
+                print("Card added successfully")
             }
         }
     }
@@ -135,8 +135,6 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             for card in cards {
                 persistentContainer.viewContext.delete(card)
             }
-            
-            //saveContext()
         } catch {
             print("Error removing cards: \(error)")
         }
@@ -185,10 +183,6 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         if listener.listenerType == .card || listener.listenerType == .all {
             listener.onCardsChange(change: .update, cards: fetchAllCards())
         }
-        
-        //        if listener.listenerType == .user || listener.listenerType == .all {
-        //            listener.onTeamChange(change: .update, teamHeroes: fetchTeamHeroes())
-        //        }
     }
     
     func removeListener(listener: DatabaseListener) {
@@ -389,9 +383,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     func logout(completion: @escaping (Bool) -> Void) {
         do {
             try authController.signOut()
-            //removeAllCards() // Remove all cards from persistent storage upon logout
-            completion(true)
             // Logout successful
+            completion(true)
         } catch {
             print("Logout failed with error: \(error)")
             completion(false) // Logout failed

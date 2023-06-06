@@ -31,7 +31,6 @@
 		1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532C2A01CEA1004349D8 /* UserViewController.swift */; };
 		1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532E2A01DBFE004349D8 /* OfferViewController.swift */; };
 		1C90CBAB2A25CBD800384A69 /* APIKEYS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */; };
-		1C90CBAD2A28555F00384A69 /* OpenCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAC2A28555F00384A69 /* OpenCardView.swift */; };
 		1C90CBAF2A28572F00384A69 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAE2A28572F00384A69 /* CardView.swift */; };
 		1CA327DC2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */; };
 		1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */; };
@@ -43,13 +42,7 @@
 		9F818B3429F6402400005981 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B3229F6402400005981 /* Main.storyboard */; };
 		9F818B3629F6402500005981 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B3529F6402500005981 /* Assets.xcassets */; };
 		9F818B3929F6402500005981 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B3729F6402500005981 /* LaunchScreen.storyboard */; };
-		9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B4229F6426100005981 /* TableTableViewController.swift */; };
-		9F818B4829F642C100005981 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B4629F642C100005981 /* TableViewCell.swift */; };
-		9F818B4929F642C100005981 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F818B4729F642C100005981 /* TableViewCell.xib */; };
 		9FBA689E29F8954F00E77871 /* CardDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBA689D29F8954F00E77871 /* CardDetails.swift */; };
-		9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E94929F68E7000B3156D /* ExampleCollectionViewController.swift */; };
-		9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E94C29F6908C00B3156D /* CollectionViewCell.swift */; };
-		9FC3E94F29F6908C00B3156D /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FC3E94D29F6908C00B3156D /* CollectionViewCell.xib */; };
 		9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC3E95029F691C300B3156D /* CollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +68,6 @@
 		1C69532C2A01CEA1004349D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		1C69532E2A01DBFE004349D8 /* OfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewController.swift; sourceTree = "<group>"; };
 		1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKEYS.swift; sourceTree = "<group>"; };
-		1C90CBAC2A28555F00384A69 /* OpenCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenCardView.swift; sourceTree = "<group>"; };
 		1C90CBAE2A28572F00384A69 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -89,13 +81,7 @@
 		9F818B3529F6402500005981 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F818B3829F6402500005981 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F818B3A29F6402500005981 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9F818B4229F6426100005981 /* TableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTableViewController.swift; sourceTree = "<group>"; };
-		9F818B4629F642C100005981 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		9F818B4729F642C100005981 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		9FBA689D29F8954F00E77871 /* CardDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetails.swift; sourceTree = "<group>"; };
-		9FC3E94929F68E7000B3156D /* ExampleCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewController.swift; sourceTree = "<group>"; };
-		9FC3E94C29F6908C00B3156D /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		9FC3E94D29F6908C00B3156D /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
 		9FC3E95029F691C300B3156D /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -197,7 +183,6 @@
 				1C0B327A2A0FA15600147232 /* View-Controllers */,
 				1C4EE2D52A08B060008F0B7D /* Database */,
 				1C4EE2D42A08B04B008F0B7D /* DataModel */,
-				9FC3E94B29F68E9A00B3156D /* Examples */,
 				9F818B2C29F6402400005981 /* AppDelegate.swift */,
 				9F818B2E29F6402400005981 /* SceneDelegate.swift */,
 				9F818B3229F6402400005981 /* Main.storyboard */,
@@ -207,23 +192,9 @@
 				9FBA689D29F8954F00E77871 /* CardDetails.swift */,
 				1C4EE2D22A08AA8B008F0B7D /* Util.swift */,
 				1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */,
-				1C90CBAC2A28555F00384A69 /* OpenCardView.swift */,
 				1C90CBAE2A28572F00384A69 /* CardView.swift */,
 			);
 			path = "Pet Collectors";
-			sourceTree = "<group>";
-		};
-		9FC3E94B29F68E9A00B3156D /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-				9FC3E94929F68E7000B3156D /* ExampleCollectionViewController.swift */,
-				9F818B4229F6426100005981 /* TableTableViewController.swift */,
-				9F818B4629F642C100005981 /* TableViewCell.swift */,
-				9F818B4729F642C100005981 /* TableViewCell.xib */,
-				9FC3E94C29F6908C00B3156D /* CollectionViewCell.swift */,
-				9FC3E94D29F6908C00B3156D /* CollectionViewCell.xib */,
-			);
-			path = Examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,10 +264,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F818B3929F6402500005981 /* LaunchScreen.storyboard in Resources */,
-				9F818B4929F642C100005981 /* TableViewCell.xib in Resources */,
 				9F818B3629F6402500005981 /* Assets.xcassets in Resources */,
 				9F818B3429F6402400005981 /* Main.storyboard in Resources */,
-				9FC3E94F29F6908C00B3156D /* CollectionViewCell.xib in Resources */,
 				1C0B32822A11CFD400147232 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,7 +278,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CCB6E9D2A2B1F8100C67F99 /* LoginViewController.swift in Sources */,
-				9FC3E94A29F68E7000B3156D /* ExampleCollectionViewController.swift in Sources */,
 				1C1DCFA12A09D7650013662D /* Card+CoreDataClass.swift in Sources */,
 				1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */,
 				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
@@ -318,13 +286,11 @@
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
 				1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
-				1C90CBAD2A28555F00384A69 /* OpenCardView.swift in Sources */,
 				1C1DCF9E2A09D7250013662D /* DataModel.xcdatamodeld in Sources */,
 				1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */,
 				1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */,
 				1C90CBAF2A28572F00384A69 /* CardView.swift in Sources */,
 				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
-				9F818B4829F642C100005981 /* TableViewCell.swift in Sources */,
 				1C69532B2A00B514004349D8 /* User.swift in Sources */,
 				9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */,
 				1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */,
@@ -332,10 +298,8 @@
 				1C90CBAB2A25CBD800384A69 /* APIKEYS.swift in Sources */,
 				1C6953252A00AFF3004349D8 /* SearchViewController.swift in Sources */,
 				1C0B327E2A0FA21B00147232 /* Breed.swift in Sources */,
-				9FC3E94E29F6908C00B3156D /* CollectionViewCell.swift in Sources */,
 				1C0B32862A14C28000147232 /* Breed+CoreDataProperties.swift in Sources */,
 				1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */,
-				9F818B4329F6426100005981 /* TableTableViewController.swift in Sources */,
 				9FC3E95129F691C300B3156D /* CollectionViewController.swift in Sources */,
 				9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */,
 				9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */,

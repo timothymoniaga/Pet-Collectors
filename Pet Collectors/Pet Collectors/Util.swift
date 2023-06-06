@@ -40,7 +40,6 @@ class ApiUtil {
     static func wikipideaAPI(for dogBreed: String, completion: @escaping (Result<String, Error>) -> Void) {
         let encodedDogBreed = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let urlString = "https://en.wikipedia.org/api/rest_v1/page/summary/" + (encodedDogBreed ?? "")
-        //print(urlString)
         guard let url = URL(string: urlString) else { return }
         
         ApiUtil.makeApiCall(url: url) { data, error in
@@ -123,7 +122,6 @@ class CardUtil {
                         getDogStatistics { statisticResult in
                             switch statisticResult {
                             case .success(let data):
-                                //let dogBreed = getDogBreed()
                                 getDogDescription { description in
                                     switch description {
                                     case .success(let detailData):
@@ -303,7 +301,6 @@ class CardUtil {
                 capitalizedString.replaceSubrange(nextIndex...nextIndex, with: String(capitalizedString[nextIndex]).capitalized)
             }
         }
-        //self.currentDog = capitalizedString
         return capitalizedString
     }
     
@@ -346,7 +343,6 @@ class CardUtil {
                 }
                 
                 //can get json object to string but it is more efficient to use decodable rather than looping through all characters of the json data
-                //let text = String(data: jsonData, encoding: .utf8)
                 print(text)
                 retVal = text
             }

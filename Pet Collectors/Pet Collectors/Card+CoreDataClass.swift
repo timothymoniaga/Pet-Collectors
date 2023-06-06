@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 enum Rarity: Int32 {
     case common = 0
@@ -34,6 +35,8 @@ enum CodingKeys: String, CodingKey {
 @objc(Card)
 public class Card: NSManagedObject {
 
+    public var image: UIImage?
+    
 }
 
 extension Card {

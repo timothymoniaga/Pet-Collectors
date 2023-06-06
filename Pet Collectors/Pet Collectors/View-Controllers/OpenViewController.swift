@@ -21,6 +21,7 @@ class OpenViewController: UIViewController {
     var currentCard: Card?
     let countdownLabel = UILabel()
     let activityIndicator = UIActivityIndicatorView()
+    let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     var countdownTime: TimeInterval = 24 * 60 * 60
     var timer: Timer?
     var cardTaps = 2
@@ -121,8 +122,9 @@ class OpenViewController: UIViewController {
     }
     
     func setup() {
-        createbreeds.isEnabled = true
-        createbreeds.isHidden = false
+        //enable and hidden for dubgging
+        createbreeds.isEnabled = false
+        createbreeds.isHidden = true
         
         countdownLabel.text = "Come back in for your next pack!"
         countdownLabel.font = .boldSystemFont(ofSize: 36)
@@ -133,9 +135,14 @@ class OpenViewController: UIViewController {
         
         activityIndicator.color = .white
         
+        blurView.isHidden = true
+        blurView.alpha = 0.2
+        
         view.addSubview(countdownLabel)
         view.addSubview(activityIndicator)
+        view.addSubview(blurView)
         
+        blurView.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -146,7 +153,12 @@ class OpenViewController: UIViewController {
             countdownLabel.heightAnchor.constraint(equalToConstant: 150),
             
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            blurView.topAnchor.constraint(equalTo: view.topAnchor),
+            blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         countdownLabel.isHidden = true
         
@@ -155,16 +167,19 @@ class OpenViewController: UIViewController {
     }
     
     @objc func onClick() {
+        view.bringSubviewToFront(blurView)
         view.bringSubviewToFront(activityIndicator)
         let topCard = cards[cards.count - 1]
         if(!topCard.isFlipped) {
             activityIndicator.startAnimating()
-            view.isUserInteractionEnabled = false
+            blurView.isHidden = false
+            //view.isUserInteractionEnabled = false
             
             CardUtil.createCard { result in
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
-                    self.view.isUserInteractionEnabled = true
+                    self.blurView.isHidden = true
+                    //self.view.isUserInteractionEnabled = true
 
                 }
                 switch result {
@@ -182,11 +197,9 @@ class OpenViewController: UIViewController {
                 }
             }
         } else if (topCard.isFlipped) {
-            //placeHolderCard.isHidden = true
             topCard.isHidden = true
             topCard.removeFromSuperview()
             cards.removeLast()
-            //startCountdown()
         }
         if (cards.isEmpty) {
             startCountdown()
@@ -194,51 +207,53 @@ class OpenViewController: UIViewController {
         
     }
     
+    // Was used for creating a list of breeds for wikipidea.
     @IBAction func createListOfBreeds(_ sender: Any) {
-        databaseController?.removeTimers()
+        /// Remove timers for dubgging
+        //databaseController?.removeTimers()
 
-//        BreedUtil.getAllBreeds { result in
-//            switch result {
-//            case .success(let message):
-//                print("List of all dog breeds: \(message)")
-//
-//                let data = message.data(using: .utf8)
-//                print(data)
-//
-//                do {
-//                    let decoder = JSONDecoder()
-//                    let breeds = try decoder.decode(DogBreeds.self, from: data!)
-//
-//                    var masterBreedArray = []
-//                    for (key, _) in breeds.message {
-//                        masterBreedArray.append(key)
-//                    }
-//                    print(masterBreedArray)
-//
-//                    for breedName in masterBreedArray {
-//                        ApiUtil.wikipideaAPI(for: breedName as! String) { result in
-//                            switch result {
-//                            case .success( _):
-//                                self.databaseController?.addBreed(breedName: breedName as! String)
-//
-//                            case .failure(let error):
-//                                print("Error fetching data: \(error.localizedDescription)")
-//                            }
-//                        }
-//                    }
-//                    //print(resultArray)
-//                }
-//
-//                catch {
-//                    print("Error decoding JSON: \(error)")
-//                }
-//
-//            case .failure(let error):
-//                print("Error fetching data: \(error.localizedDescription)")
-//                // Handle the error here
-//            }
-//        }
-//
+        BreedUtil.getAllBreeds { result in
+            switch result {
+            case .success(let message):
+                print("List of all dog breeds: \(message)")
+
+                let data = message.data(using: .utf8)
+                print(data)
+
+                do {
+                    let decoder = JSONDecoder()
+                    let breeds = try decoder.decode(DogBreeds.self, from: data!)
+
+                    var masterBreedArray = []
+                    for (key, _) in breeds.message {
+                        masterBreedArray.append(key)
+                    }
+                    print(masterBreedArray)
+
+                    for breedName in masterBreedArray {
+                        ApiUtil.wikipideaAPI(for: breedName as! String) { result in
+                            switch result {
+                            case .success( _):
+                                self.databaseController?.addBreed(breedName: breedName as! String)
+
+                            case .failure(let error):
+                                print("Error fetching data: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                    //print(resultArray)
+                }
+
+                catch {
+                    print("Error decoding JSON: \(error)")
+                }
+
+            case .failure(let error):
+                print("Error fetching data: \(error.localizedDescription)")
+                // Handle the error here
+            }
+        }
+
     }
     
     

@@ -26,8 +26,14 @@
                                 <action selector="logOut:" destination="BYZ-38-t0r" id="MNo-Q6-o7P"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="Zoom Out" id="G9j-9j-WeT">
+                            <connections>
+                                <action selector="switchZoom:" destination="BYZ-38-t0r" id="KPJ-30-nvU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="collectionViewZoomButton" destination="G9j-9j-WeT" id="H31-bZ-I5J"/>
                         <outlet property="logOutButton" destination="hDn-TV-Vpm" id="7it-Ki-Tes"/>
                         <segue destination="NgK-BO-gzK" kind="show" identifier="moreInfoSegue" id="PwM-gQ-QLV"/>
                         <segue destination="UR7-DD-G2y" kind="show" identifier="logoutSegue" id="fQ3-f3-oD1"/>
@@ -456,6 +462,7 @@
         <image name="Mail" width="30" height="30"/>
         <image name="Open" width="32" height="34"/>
         <image name="Trade" width="31" height="34"/>
+        <image name="Zoom Out" width="26" height="26"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

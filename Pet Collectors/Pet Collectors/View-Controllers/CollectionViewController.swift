@@ -13,6 +13,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBOutlet weak var logOutButton: UIBarButtonItem!
     
+    @IBOutlet weak var collectionViewZoomButton: UIBarButtonItem!
     var allBreeds: [Breed] = []
     var listenerType = ListenerType.card
     var imageURL: String?
@@ -32,7 +33,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
         setup()
-        //getRandomDogAPI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,9 +67,11 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             let currentCellSize = layout.itemSize
-            if currentCellSize.width <= 300 && currentCellSize.height <= 500 {
+            if currentCellSize.width < 300 && currentCellSize.height < 500 {
+                collectionViewZoomButton.image = UIImage(named: "Swipe")
                 return currentCellSize
             } else {
+                collectionViewZoomButton.image = UIImage(named: "Zoom Out")
                 return CGSize(width: 300, height: 500)
             }
         }
@@ -110,6 +112,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     
     func setup() {
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
@@ -118,6 +121,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.register(CardViewCell.self, forCellWithReuseIdentifier: REUSE_IDENTIFIER)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = true
         
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             // Set the initial size of the collection view cells
@@ -126,8 +130,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         
         pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
         collectionView.addGestureRecognizer(pinchGestureRecognizer)
-        
-        // collectionView.backgroundColor = .gray
         
         view.addSubview(collectionView)
         
@@ -169,13 +171,22 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     }
 
     
+    @IBAction func switchZoom(_ sender: Any) {
+        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        if let zoomOut = UIImage(named: "Zoom Out"), collectionViewZoomButton.image?.isEqual(zoomOut) == true {
+            layout?.itemSize = CGSize(width: 96, height: 160)
+        }
+        if let swipe = UIImage(named: "Swipe"), collectionViewZoomButton.image?.isEqual(swipe) == true {
+            layout?.itemSize = CGSize(width: 300, height: 500)
+        }
+        collectionView.reloadData()
+    }
     
     @IBAction func logOut(_ sender: Any) {
         print("Hello, Logout button pressed")
         
         do {
             try databaseController?.authController.signOut()
-            //removeAllCards() // Remove all cards from persistent storage upon logout
             performSegue(withIdentifier: "logoutSegue", sender: nil)
             print("Logout Successful")
             // Logout successful
