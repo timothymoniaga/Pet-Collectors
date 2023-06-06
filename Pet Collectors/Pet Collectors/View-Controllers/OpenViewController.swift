@@ -81,7 +81,6 @@ class OpenViewController: UIViewController {
             card.addGestureRecognizer(tapGesture)
             view.addSubview(card)
             
-            print(i)
             card.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 card.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: CGFloat(i) * 7.5),
@@ -122,8 +121,8 @@ class OpenViewController: UIViewController {
     }
     
     func setup() {
-        createbreeds.isEnabled = false
-        createbreeds.isHidden = true
+        createbreeds.isEnabled = true
+        createbreeds.isHidden = false
         
         countdownLabel.text = "Come back in for your next pack!"
         countdownLabel.font = .boldSystemFont(ofSize: 36)
@@ -170,10 +169,13 @@ class OpenViewController: UIViewController {
                 }
                 switch result {
                 case .success(let cardData):
-                    self.currentCard = self.databaseController?.addCard(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
+                    let newCard = self.databaseController?.addCardPersistentStorage(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
+                    self.currentCard = newCard
                     print(cardData)
                     topCard.changeCard(card: self.currentCard ?? Card())
                     topCard.isFlipped = true
+                    
+                    self.databaseController?.addCardFirestore(card: newCard ?? Card())
                 case .failure(let error):
                     // Handle the error here
                     print(error)
@@ -192,49 +194,51 @@ class OpenViewController: UIViewController {
         
     }
     
-    @IBAction func addCard(_ sender: Any) {
-        BreedUtil.getAllBreeds { result in
-            switch result {
-            case .success(let message):
-                print("List of all dog breeds: \(message)")
-                
-                let data = message.data(using: .utf8)
-                print(data)
-                
-                do {
-                    let decoder = JSONDecoder()
-                    let breeds = try decoder.decode(DogBreeds.self, from: data!)
-                    
-                    var masterBreedArray = []
-                    for (key, _) in breeds.message {
-                        masterBreedArray.append(key)
-                    }
-                    print(masterBreedArray)
-                    
-                    for breedName in masterBreedArray {
-                        ApiUtil.wikipideaAPI(for: breedName as! String) { result in
-                            switch result {
-                            case .success( _):
-                                self.databaseController?.addBreed(breedName: breedName as! String)
-                                
-                            case .failure(let error):
-                                print("Error fetching data: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                    //print(resultArray)
-                }
-                
-                catch {
-                    print("Error decoding JSON: \(error)")
-                }
-                
-            case .failure(let error):
-                print("Error fetching data: \(error.localizedDescription)")
-                // Handle the error here
-            }
-        }
-        
+    @IBAction func createListOfBreeds(_ sender: Any) {
+        databaseController?.removeTimers()
+
+//        BreedUtil.getAllBreeds { result in
+//            switch result {
+//            case .success(let message):
+//                print("List of all dog breeds: \(message)")
+//
+//                let data = message.data(using: .utf8)
+//                print(data)
+//
+//                do {
+//                    let decoder = JSONDecoder()
+//                    let breeds = try decoder.decode(DogBreeds.self, from: data!)
+//
+//                    var masterBreedArray = []
+//                    for (key, _) in breeds.message {
+//                        masterBreedArray.append(key)
+//                    }
+//                    print(masterBreedArray)
+//
+//                    for breedName in masterBreedArray {
+//                        ApiUtil.wikipideaAPI(for: breedName as! String) { result in
+//                            switch result {
+//                            case .success( _):
+//                                self.databaseController?.addBreed(breedName: breedName as! String)
+//
+//                            case .failure(let error):
+//                                print("Error fetching data: \(error.localizedDescription)")
+//                            }
+//                        }
+//                    }
+//                    //print(resultArray)
+//                }
+//
+//                catch {
+//                    print("Error decoding JSON: \(error)")
+//                }
+//
+//            case .failure(let error):
+//                print("Error fetching data: \(error.localizedDescription)")
+//                // Handle the error here
+//            }
+//        }
+//
     }
     
     

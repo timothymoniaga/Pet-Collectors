@@ -8,18 +8,8 @@
 
 import UIKit
 
-
-
-//struct Image: Decodable {
-//    let message: String
-//    let status: String
-//    
-//    enum CodingKeys: String, CodingKey {
-//        case message = "imageURL"
-//        case status
-//    }
-//}
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DatabaseListener {
+    
     @IBOutlet weak var logOutButton: UIBarButtonItem!
     
     var allBreeds: [Breed] = []
@@ -130,9 +120,23 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         ])
         
     }
+    
     func onTimerChange(change: DatabaseChange, timer: PackTimer) {
     }
     
     
+    @IBAction func logOut(_ sender: Any) {
+        print("Hello, Logout button pressed")
+        
+        do {
+            try databaseController?.authController.signOut()
+            //removeAllCards() // Remove all cards from persistent storage upon logout
+            performSegue(withIdentifier: "logoutSegue", sender: nil)
+            print("Logout Successful")
+            // Logout successful
+        } catch {
+            print("Logout failed with error: \(error)")
+        }
+    }
 }
 

@@ -10,21 +10,42 @@ import Firebase
 
 class LoginViewController: UIViewController {
 
-    var authController: Auth?
+    //var authController: Auth?
     weak var databaseController: DatabaseProtocol?
 
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    var handle: AuthStateDidChangeListenerHandle?
+    var segueFlag = true // For preventing a double segue.
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        authController = Auth.auth()
+
+        //authController = Auth.auth()
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
-        // passwordTextField.isSecureTextEntry = true
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        tabBarController?.tabBar.isHidden = true
+        passwordTextField.isSecureTextEntry = true
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        handle = Auth.auth().addStateDidChangeListener({(auth, user) in
+            if(user != nil && self.segueFlag) {
+                self.segueFlag = true
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            }
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
     
 
@@ -58,6 +79,7 @@ class LoginViewController: UIViewController {
                 }
             }
         }
+        segueFlag = false
     }
 
     

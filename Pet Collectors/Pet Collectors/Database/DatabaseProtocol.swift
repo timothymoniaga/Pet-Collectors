@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Firebase
 
 enum DatabaseChange {
     case add
@@ -33,14 +33,15 @@ protocol DatabaseListener: AnyObject {
 protocol DatabaseProtocol: AnyObject {
     
     var breedList: [String] { get }
+    var authController: Auth { get }
     //var startDateTime: Date? { get set }
     //var endDateTime: Date? { get set }
 
     func cleanup()
     func addListener(listener: DatabaseListener)
     func removeListener(listener: DatabaseListener)
-    func addCard(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String )
-    -> Card
+    func addCardPersistentStorage(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String ) -> Card
+    func addCardFirestore(card: Card)
     func addBreed(breedName: String) -> BreedFirebase
     func setDates(startDate: Date, endDate: Date)
     func removeTimers()
@@ -48,5 +49,6 @@ protocol DatabaseProtocol: AnyObject {
     
     func login(email: String, password: String, completion: @escaping (String?) -> Void)
     func signup(email: String, password: String, completion: @escaping (String?) -> Void)
+    func logout(completion: @escaping (Bool) -> Void)
 }
 

@@ -90,7 +90,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
-    func addCard(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String) -> Card {
+    func addCardPersistentStorage(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String) -> Card {
         let card = NSEntityDescription.insertNewObject(forEntityName:
                                                         "Card", into: persistentContainer.viewContext) as! Card
         card.breed = breed
@@ -99,9 +99,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         card.details = details
         card.imageURL = imageURL
         
+        return card
+    }
+    
+    func addCardFirestore(card: Card) {
         guard let userUID = Auth.auth().currentUser?.uid else {
             // Handle the case when the user is not logged in
-            return card
+            return
         }
         
         let userDocRef = firestoreDatabase.collection("users").document(userUID)
@@ -119,10 +123,6 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 // Card added successfully
             }
         }
-
-        
-        
-        return card
     }
     
     // Removes all cards
@@ -273,7 +273,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                             let imageURL = data["imageURL"] as? String ?? ""
                             
                             // Create and store the card in persistent storage
-                            let card = self.addCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
+                            let card = self.addCardPersistentStorage(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
                             // Process the card as needed
                         }
                         
@@ -345,6 +345,20 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             }
         }
     }
+    
+    func logout(completion: @escaping (Bool) -> Void) {
+        do {
+            try authController.signOut()
+            //removeAllCards() // Remove all cards from persistent storage upon logout
+            completion(true)
+            // Logout successful
+        } catch {
+            print("Logout failed with error: \(error)")
+            completion(false) // Logout failed
+        }
+        
+    }
+
     
     func removeDocumentsFromSubcollection(collectionRef: CollectionReference) {
         collectionRef.getDocuments { (snapshot, error) in
