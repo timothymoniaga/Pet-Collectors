@@ -36,8 +36,17 @@ class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         
         handle = Auth.auth().addStateDidChangeListener({(auth, user) in
-            if(user != nil && self.segueFlag) {
+            if let user = user, self.segueFlag {
                 self.segueFlag = true
+                let UID = user.uid
+                self.databaseController?.copyUserCardsToPersistentStorage(userUID: UID) { success in
+                    if success {
+                        print("Cards copied from Firebase successfully")
+                    } else {
+                        print("Error copying cards")
+                    }
+                }
+                
                 self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         })

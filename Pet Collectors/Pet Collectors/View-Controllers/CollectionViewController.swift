@@ -3,7 +3,8 @@
 //  Pet Collectors
 //
 //  Created by Timothy Moniaga on 24/4/2023.
-// TODO: Move card creating functionality to Open View controller, add core data and persistent storage to pass data along from Open to Collection view. Make collection view 'zoomable'
+// ✅ TODO: Move card creating functionality to Open View controller, add core data and persistent storage to pass data along from Open to Collection view.
+// ✅ TODO: Make collection view 'zoomable'
 //
 
 import UIKit
@@ -22,6 +23,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     var currentDog: Card?
     var selectedImage: String?
     weak var databaseController: DatabaseProtocol?
+    private var pinchGestureRecognizer: UIPinchGestureRecognizer!
     
     
     override func viewDidLoad() {
@@ -63,9 +65,20 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let currentCellSize = layout.itemSize
+            if currentCellSize.width <= 300 && currentCellSize.height <= 500 {
+                return currentCellSize
+            } else {
+                return CGSize(width: 300, height: 500)
+            }
+        }
+        
+        // Default size if the layout is not a UICollectionViewFlowLayout
         return CGSize(width: 300, height: 500)
     }
-    
+
+
     // Centres the card on initial view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -106,6 +119,14 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            // Set the initial size of the collection view cells
+            layout.itemSize = CGSize(width: 300, height: 500)
+        }
+        
+        pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchGesture(_:)))
+        collectionView.addGestureRecognizer(pinchGestureRecognizer)
+        
         // collectionView.backgroundColor = .gray
         
         view.addSubview(collectionView)
@@ -123,6 +144,30 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     
     func onTimerChange(change: DatabaseChange, timer: PackTimer) {
     }
+    
+    @objc func handlePinchGesture(_ gestureRecognizer: UIPinchGestureRecognizer) {
+        guard gestureRecognizer.view != nil else { return }
+        
+        if gestureRecognizer.state == .changed {
+            let pinchScale = gestureRecognizer.scale
+            let currentCellSize = collectionView(collectionView, layout: collectionView.collectionViewLayout, sizeForItemAt: IndexPath(item: 0, section: 0))
+            
+            // Calculate the new width and height based on the pinch scale and the desired ratio of 3:5
+            let newWidth = currentCellSize.width * pinchScale
+            let newHeight = newWidth * (5 / 3)
+            
+            // Update the cell size in the collection view layout
+            let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            layout?.itemSize = CGSize(width: newWidth, height: newHeight)
+            
+            // Reload the collection view to apply the new cell size
+            collectionView.reloadData()
+            
+            // Reset the gesture scale to 1 to avoid cumulative scaling
+            gestureRecognizer.scale = 1.0
+        }
+    }
+
     
     
     @IBAction func logOut(_ sender: Any) {

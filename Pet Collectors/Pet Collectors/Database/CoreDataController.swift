@@ -239,6 +239,46 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
         return [Card]()
     }
+    
+    func copyUserCardsToPersistentStorage(userUID: String, completion: @escaping (Bool) -> Void) {
+        
+        // Clear existing cards from persistent storage
+        removeAllCards()
+        
+        let userDocRef = firestoreDatabase.collection("users").document(userUID)
+        let cardsCollectionRef = userDocRef.collection("cards")
+        
+        cardsCollectionRef.getDocuments { querySnapshot, error in
+            if let error = error {
+                print("Error fetching user cards: \(error)")
+                completion(false) // Copying user cards failed
+            } else {
+                // Process the fetched documents
+                guard let documents = querySnapshot?.documents else {
+                    completion(true) // No cards to copy
+                    return
+                }
+                
+                for document in documents {
+                    // Extract card data from Firestore document
+                    let data = document.data()
+                    let breed = data["breed"] as? String ?? ""
+                    let statistics = data["statistics"] as? String ?? ""
+                    let rarity = Rarity(rawValue: data["rarity"] as! Int32) as! Rarity
+                    let details = data["details"] as? String ?? ""
+                    let imageURL = data["imageURL"] as? String ?? ""
+                    
+                    // Create and store the card in persistent storage
+                    _ = self.addCardPersistentStorage(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
+                    // Process the card as needed
+                }
+                
+                completion(true) // Copying user cards successful
+            }
+        }
+    }
+
+    
     func login(email: String, password: String, completion: @escaping (String?) -> Void) {
         Task {
             do {
