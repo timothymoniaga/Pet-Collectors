@@ -91,8 +91,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
     
     func addCardPersistentStorage(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String) -> Card {
-        let card = NSEntityDescription.insertNewObject(forEntityName:
-                                                        "Card", into: persistentContainer.viewContext) as! Card
+        let card = NSEntityDescription.insertNewObject(forEntityName: "Card", into: persistentContainer.viewContext) as! Card
         card.breed = breed
         card.statistics = statistics
         card.cardRarity = rarity
@@ -110,7 +109,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         
         let userDocRef = firestoreDatabase.collection("users").document(userUID)
         let rarityValue = Int(card.rarity) // Convert Int32 to Int
-        userDocRef.collection("cards").addDocument(data: [
+        
+        let newCardRef = userDocRef.collection("cards").addDocument(data: [
             "breed": card.breed,
             "statistics": card.statistics,
             "rarity": rarityValue,
@@ -123,7 +123,59 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 print("Card added successfully")
             }
         }
+        
+        // Access the ID of the newly added card document
+        let newCardID = newCardRef.documentID
+        print("Newly added card ID: \(newCardID)")
+        card.cardID = newCardID
     }
+    
+    func addCardToTradeCollection(cardID: String, _ viewController: UIViewController) {
+        let db = Firestore.firestore()
+        if let userID = Auth.auth().currentUser?.uid {
+            // Construct the card reference path
+            let cardRefPath = "users/\(userID)/cards/\(cardID)"
+            
+            // Get the Firestore document reference for the card
+            let cardRef = db.document(cardRefPath)
+            
+            // Query the "trades" collection for documents with the same card reference
+            db.collection("trades").whereField("cardReference", isEqualTo: cardRef).getDocuments { querySnapshot, error in
+                if let error = error {
+                    print("Error querying trades collection: \(error)")
+                    return
+                }
+                
+                // Check if any matching documents were found
+                if let documents = querySnapshot?.documents, !documents.isEmpty {
+                    print("Card reference already exists in trades collection")
+                    
+                    UIUtil.displayMessageDimiss("Error", "Card has already been added", viewController)
+                    return
+                }
+                
+                // No repeat reference found, proceed to add the card to the trades collection
+                let tradeDocument = db.collection("trades").document()
+                
+                // Set the user and card reference fields in the trade document
+                tradeDocument.setData([
+                    "user": userID,
+                    "cardReference": cardRef
+                ]) { error in
+                    if let error = error {
+                        print("Error adding card to trade collection: \(error)")
+                    } else {
+                        print("Card added to trade collection successfully")
+                    }
+                }
+            }
+        } else {
+            print("User ID not available")
+        }
+    }
+
+
+
     
     // Removes all cards
     func removeAllCards() {
@@ -157,8 +209,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
     
     
-    func controllerDidChangeContent(_ controller:
-                                    NSFetchedResultsController<NSFetchRequestResult>) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if controller == cardFetchedResultsController {
             listeners.invoke() { listener in
                 if listener.listenerType == .card || listener.listenerType == .all {
@@ -255,6 +306,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 
                 for document in documents {
                     // Extract card data from Firestore document
+                    let cardID = document.documentID
                     let data = document.data()
                     let breed = data["breed"] as? String ?? ""
                     let statistics = data["statistics"] as? String ?? ""
@@ -263,14 +315,18 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                     let imageURL = data["imageURL"] as? String ?? ""
                     
                     // Create and store the card in persistent storage
-                    _ = self.addCardPersistentStorage(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
-                    // Process the card as needed
+                    let card = self.addCardPersistentStorage(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
+                    
+                    // Store the card ID in the card object
+                    card.cardID = cardID
+                    
                 }
                 
                 completion(true) // Copying user cards successful
             }
         }
     }
+
 
     
     func login(email: String, password: String, completion: @escaping (String?) -> Void) {

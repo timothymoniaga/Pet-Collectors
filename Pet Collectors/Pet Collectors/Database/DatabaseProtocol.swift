@@ -36,6 +36,7 @@ protocol DatabaseProtocol: AnyObject {
     func removeListener(listener: DatabaseListener)
     func addCardPersistentStorage(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String ) -> Card
     func addCardFirestore(card: Card)
+    func addCardToTradeCollection(cardID: String, _ viewController: UIViewController)
     func addBreed(breedName: String) -> BreedFirebase
     func setDates(startDate: Date, endDate: Date)
     func removeTimers()

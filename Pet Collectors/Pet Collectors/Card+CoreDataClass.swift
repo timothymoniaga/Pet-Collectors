@@ -36,6 +36,7 @@ enum CodingKeys: String, CodingKey {
 public class Card: NSManagedObject {
 
     public var image: UIImage?
+    public var cardID: String?
     
 }
 

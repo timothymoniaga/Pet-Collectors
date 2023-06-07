@@ -425,13 +425,31 @@ class BreedUtil {
 
 
 class UIUtil {
-    static func displayMessage(_ title: String, _ message: String, from viewController: UIViewController) {
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-            
-            DispatchQueue.main.async {
-                viewController.present(alertController, animated: true, completion: nil)
-            }
+    
+    static func displayMessageContinueCancel(_ title: String, _ message: String, _ viewController: UIViewController, completion: @escaping (Bool) -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            completion(false) // User selected "Cancel"
+        })
+        
+        alertController.addAction(UIAlertAction(title: "Continue", style: .default) { _ in
+            completion(true) // User selected "Continue"
+        })
+        
+        DispatchQueue.main.async {
+            viewController.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    static func displayMessageDimiss(_ title: String, _ message: String, _ viewController: UIViewController) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+        
+        DispatchQueue.main.async {
+            viewController.present(alertController, animated: true, completion: nil)
+        }
+    }
+
 }

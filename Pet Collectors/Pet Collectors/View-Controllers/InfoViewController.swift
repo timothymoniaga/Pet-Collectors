@@ -8,15 +8,19 @@
 import UIKit
 
 class InfoViewController: UIViewController {
-
+    
     var selectedCard: Card?
     let image = UIImageView()
     let detailsLabel = UITextView()
     let statisticsLabel = UILabel()
+    weak var databaseController: DatabaseProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        databaseController = appDelegate?.databaseController
+        
         setup()
     }
     
@@ -75,10 +79,10 @@ class InfoViewController: UIViewController {
             
         ])
         loadImageFromURL(urlString: selectedCard?.imageURL ?? "")
-
+        
     }
     
-
+    
     func loadImageFromURL(urlString: String) {
         image.image = UIImage(named: "PlaceholderPaw")
         guard let url = URL(string: urlString) else { return }
@@ -99,7 +103,7 @@ class InfoViewController: UIViewController {
     }
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
@@ -114,5 +118,15 @@ class InfoViewController: UIViewController {
         
     }
     
-
+    @IBAction func addCardForTrade(_ sender: Any) {
+        UIUtil.displayMessageContinueCancel("Add card to trade", "Are you sure you want to add this card to trade?", self) { isContinue in
+            if isContinue {
+                guard let cardID = self.selectedCard?.cardID else {
+                    return
+                }
+                self.databaseController?.addCardToTradeCollection(cardID: cardID, self)
+            } else {}
+        }
+        
+    }
 }

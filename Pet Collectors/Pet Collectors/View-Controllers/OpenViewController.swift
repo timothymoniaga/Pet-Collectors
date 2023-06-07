@@ -187,7 +187,7 @@ class OpenViewController: UIViewController {
                     let newCard = self.databaseController?.addCardPersistentStorage(breed: cardData["breed"] as! String, statistics: cardData["statistics"] as! String, rarity: cardData["rarity"] as! Rarity, details: cardData["details"] as! String, imageURL: cardData["imageURL"] as! String)
                     self.currentCard = newCard
                     print(cardData)
-                    topCard.changeCard(card: self.currentCard ?? Card())
+                    topCard.changeCard(card: newCard ?? Card())
                     topCard.isFlipped = true
                     
                     self.databaseController?.addCardFirestore(card: newCard ?? Card())

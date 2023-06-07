@@ -83,7 +83,13 @@
                         <viewLayoutGuide key="safeArea" id="eoC-ct-1O8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="QJR-bb-6Hw"/>
+                    <navigationItem key="navigationItem" id="QJR-bb-6Hw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2iN-yp-RPo">
+                            <connections>
+                                <action selector="addCardForTrade:" destination="NgK-BO-gzK" id="ui5-ya-4cg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="afw-Ly-cog" kind="show" identifier="imageSegue" id="GiQ-kn-zgY"/>
                     </connections>
