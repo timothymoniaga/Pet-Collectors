@@ -440,6 +440,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         do {
             try authController.signOut()
             // Logout successful
+            
             completion(true)
         } catch {
             print("Logout failed with error: \(error)")

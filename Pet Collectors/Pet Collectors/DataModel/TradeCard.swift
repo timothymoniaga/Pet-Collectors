@@ -15,6 +15,7 @@ class TradeCard {
     var details: String
     var imageURL: String
     var cardReference: DocumentReference
+    var originalRarity: Rarity?
     
     init(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String, cardReference: DocumentReference) {
         self.breed = breed

@@ -74,11 +74,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
                     
                     if let cardReference = cardReference { // Unwrap the optional cardReference
                         let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL, cardReference: documentReference)
+                        tradeCard.originalRarity = rarity // Assign the original rarity
                         tradeCards.append(tradeCard)
                     }
-                    
-//                    let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL, cardReference: cardReference)
-//                    tradeCards.append(tradeCard)
                 }
             }
             

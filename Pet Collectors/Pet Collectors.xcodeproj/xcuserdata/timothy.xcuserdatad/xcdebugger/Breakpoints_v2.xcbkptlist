@@ -183,54 +183,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FF30C166-69CB-46DE-9E6C-F239D80A5638"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pet Collectors/Cells/CardTableViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "configure(with:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FF30C166-69CB-46DE-9E6C-F239D80A5638 - 484f860267ed260"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Pet_Collectors.CardTableViewCell.configure(with: Pet_Collectors.TradeCard) -&gt; ()"
-                  moduleName = "Pet Collectors"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/Cells/CardTableViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  uuid = "FF30C166-69CB-46DE-9E6C-F239D80A5638 - 484f860267ed260"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Pet_Collectors.CardTableViewCell.configure(with: Pet_Collectors.TradeCard) -&gt; ()"
-                  moduleName = "Pet Collectors"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/Cells/CardTableViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "60">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "F562A65B-B86D-4FCD-AADB-EDF5B1300160"
             shouldBeEnabled = "No"
             ignoreCount = "0"

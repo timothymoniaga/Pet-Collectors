@@ -49,17 +49,22 @@ class CardTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with card: TradeCard){
+    func configure(with card: TradeCard) {
         breedLabel.text = card.breed
         
-        if(card.rarity != .common) {
-            breedLabel.textColor = CardUtil.setColor(rarity: card.rarity.rawValue)
+        if let originalRarity = card.originalRarity, originalRarity != .common {
+            breedLabel.textColor = CardUtil.setColor(rarity: originalRarity.rawValue)
+        } else {
+            breedLabel.textColor = .black
         }
-//
-//        if(card.rarity.rawValue >= 3) {
-//            breedLabel.font = .boldSystemFont(ofSize: 16)
-//        }
+        
+        if let originalRarity = card.originalRarity, originalRarity.rawValue >= 2 {
+            breedLabel.font = .boldSystemFont(ofSize: 16)
+        } else {
+            breedLabel.font = .systemFont(ofSize: 16)
+        }
     }
+
 
 }
 
