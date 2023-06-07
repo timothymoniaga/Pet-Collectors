@@ -173,7 +173,7 @@
                     <navigationItem key="navigationItem" title="Trade" id="WMj-0G-Xp4">
                         <barButtonItem key="leftBarButtonItem" systemItem="search" id="dPk-pR-hBk">
                             <connections>
-                                <segue destination="8UM-AU-i4s" kind="show" id="wbC-m2-vqY"/>
+                                <segue destination="UOn-4W-p9Y" kind="show" id="Oxl-Yq-67N"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="Mail" id="zL8-5E-iRQ">
@@ -230,18 +230,15 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="User" id="zSw-hj-VMA"/>
-                    <connections>
-                        <segue destination="WV5-J2-pZs" kind="show" identifier="offerSegue" id="snd-x8-XN0"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iPe-bo-Yt5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5351.9083969465646" y="1417.605633802817"/>
         </scene>
-        <!--View Controller-->
+        <!--Offer View Controller-->
         <scene sceneID="QYF-9w-PZi">
             <objects>
-                <viewController id="WV5-J2-pZs" sceneMemberID="viewController">
+                <viewController id="WV5-J2-pZs" customClass="OfferViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qn8-IV-leS">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -252,23 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qza-VN-xiF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5352" y="2129"/>
-        </scene>
-        <!--Search-->
-        <scene sceneID="rdo-gw-sEJ">
-            <objects>
-                <viewController id="8UM-AU-i4s" customClass="SearchViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="SaO-G8-wgA">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Uws-eN-MOA"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Search" id="CqO-u3-1Yl"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Wd-wg-fpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5352" y="-880"/>
+            <point key="canvasLocation" x="6598" y="1497"/>
         </scene>
         <!--Open-->
         <scene sceneID="WVu-h0-EJ7">
@@ -461,6 +442,38 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1765.6488549618321" y="-27.464788732394368"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="gdI-oi-uSr">
+            <objects>
+                <tableViewController id="UOn-4W-p9Y" customClass="SearchViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="lrQ-JY-hSt">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TradeCardCell" id="ioP-Ph-nc9">
+                                <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ioP-Ph-nc9" id="eLi-h0-sEm">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="UOn-4W-p9Y" id="zZt-7L-wCo"/>
+                            <outlet property="delegate" destination="UOn-4W-p9Y" id="E2S-vm-ciu"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Vt4-ic-JAv"/>
+                    <connections>
+                        <segue destination="WV5-J2-pZs" kind="show" identifier="offerSegue" id="XiH-dP-x7i"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qgx-Oj-ieo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6599" y="770"/>
         </scene>
     </scenes>
     <resources>

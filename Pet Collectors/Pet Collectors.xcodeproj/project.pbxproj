@@ -36,6 +36,8 @@
 		1CA327DD2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */; };
 		1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */; };
 		1CCB6E9D2A2B1F8100C67F99 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB6E9C2A2B1F8100C67F99 /* LoginViewController.swift */; };
+		1CCB6EA12A30C60B00C67F99 /* TradeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB6EA02A30C60B00C67F99 /* TradeCard.swift */; };
+		1CCB6EA32A30C7EE00C67F99 /* CardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB6EA22A30C7EE00C67F99 /* CardTableViewCell.swift */; };
 		9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */; };
 		9F818B2D29F6402400005981 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2C29F6402400005981 /* AppDelegate.swift */; };
 		9F818B2F29F6402400005981 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F818B2E29F6402400005981 /* SceneDelegate.swift */; };
@@ -73,6 +75,8 @@
 		1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PackTimer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		1CCB6E9C2A2B1F8100C67F99 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1CCB6EA02A30C60B00C67F99 /* TradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCard.swift; sourceTree = "<group>"; };
+		1CCB6EA22A30C7EE00C67F99 /* CardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTableViewCell.swift; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F818B2C29F6402400005981 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 			children = (
 				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
 				1C6953262A00B38C004349D8 /* UserTableViewCell.swift */,
+				1CCB6EA22A30C7EE00C67F99 /* CardTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -144,6 +149,7 @@
 				1CA327DA2A0AF55200BD5E6F /* PackTimer+CoreDataClass.swift */,
 				1CA327DB2A0AF55200BD5E6F /* PackTimer+CoreDataProperties.swift */,
 				1C1DCF9C2A09D7250013662D /* DataModel.xcdatamodeld */,
+				1CCB6EA02A30C60B00C67F99 /* TradeCard.swift */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -285,12 +291,14 @@
 				1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
 				1C4EE2D92A08B0FA008F0B7D /* CoreDataController.swift in Sources */,
+				1CCB6EA12A30C60B00C67F99 /* TradeCard.swift in Sources */,
 				1C69531F29FF7956004349D8 /* TradeViewController.swift in Sources */,
 				1C1DCF9E2A09D7250013662D /* DataModel.xcdatamodeld in Sources */,
 				1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */,
 				1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */,
 				1C90CBAF2A28572F00384A69 /* CardView.swift in Sources */,
 				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
+				1CCB6EA32A30C7EE00C67F99 /* CardTableViewCell.swift in Sources */,
 				1C69532B2A00B514004349D8 /* User.swift in Sources */,
 				9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */,
 				1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */,

@@ -13,6 +13,7 @@ class InfoViewController: UIViewController {
     let image = UIImageView()
     let detailsLabel = UITextView()
     let statisticsLabel = UILabel()
+    // let tradeVC: TradeViewController = TradeViewController()
     weak var databaseController: DatabaseProtocol?
     
     override func viewDidLoad() {
@@ -125,6 +126,7 @@ class InfoViewController: UIViewController {
                     return
                 }
                 self.databaseController?.addCardToTradeCollection(cardID: cardID, self)
+                // self.tradeVC.tradeCards.append(self.selectedCard ?? Card())
             } else {}
         }
         

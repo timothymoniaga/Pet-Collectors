@@ -9,9 +9,12 @@ import UIKit
 
 class OfferViewController: UIViewController {
 
+    var offerCard: TradeCard?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = offerCard?.breed ?? "Offer"
         // Do any additional setup after loading the view.
     }
     

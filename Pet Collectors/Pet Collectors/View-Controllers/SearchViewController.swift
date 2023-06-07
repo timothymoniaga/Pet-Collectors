@@ -6,46 +6,162 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
-class SearchViewController: UIViewController, UISearchBarDelegate {
+class SearchViewController: UITableViewController, UISearchBarDelegate {
+    
+    let CELL_IDENTIFIER = CardTableViewCell.reuseIdentifier
+    private var tradeCards: [TradeCard] = []
+    private let firestoreDatabase = Firestore.firestore()
+    private var tradesListener: ListenerRegistration?
+    var selectedTradeCard: TradeCard?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setup()
+        fetchTradeCards()
+    }
+    
+    deinit {
+        tradesListener?.remove()
+    }
+    
+    func fetchTradeCards() {
+        tradesListener = firestoreDatabase.collection("trades").addSnapshotListener { [weak self] snapshot, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error fetching trade cards: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No trade cards available")
+                return
+            }
+            
+            var tradeCards: [TradeCard] = []
+            let dispatchGroup = DispatchGroup() // Create a dispatch group to wait for async operations
+            
+            for document in documents {
+                let documentReference = document.reference
+                let data = document.data()
+                let cardReference = data["cardReference"] as? DocumentReference
+                
+                dispatchGroup.enter() // Enter the dispatch group
+                
+                cardReference?.getDocument { cardSnapshot, cardError in
+                    defer {
+                        dispatchGroup.leave() // Leave the dispatch group when the async operation completes
+                    }
+                    
+                    if let cardError = cardError {
+                        print("Error fetching card: \(cardError)")
+                        return
+                    }
+                    
+                    guard let cardData = cardSnapshot?.data() else {
+                        print("Card data not found")
+                        return
+                    }
+                    
+                    let breed = cardData["breed"] as? String ?? ""
+                    let statistics = cardData["statistics"] as? String ?? ""
+                    let rarity = Rarity(rawValue: cardData["rarity"] as? Int32 ?? 0) ?? .common
+                    let details = cardData["details"] as? String ?? ""
+                    let imageURL = cardData["imageURL"] as? String ?? ""
+                    
+                    if let cardReference = cardReference { // Unwrap the optional cardReference
+                        let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL, cardReference: documentReference)
+                        tradeCards.append(tradeCard)
+                    }
+                    
+//                    let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL, cardReference: cardReference)
+//                    tradeCards.append(tradeCard)
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self.tradeCards = tradeCards
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    private func setup() {
+        tableView.register(CardTableViewCell.self, forCellReuseIdentifier: "tradeCardCell")
         
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
-        // Ensure the search bar is always visible.
         navigationItem.hidesSearchBarWhenScrolling = false
-        
-        
-        // Do any additional setup after loading the view.
+    }
+
+    
+    // MARK: - Table View
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tradeCards.count
     }
     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath) as! CardTableViewCell
+        
+        let card = tradeCards[indexPath.row]
+        cell.configure(with: card)
+
+        return cell
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedTradeCard = tradeCards[indexPath.row]
+        performSegue(withIdentifier: "offerSegue", sender: nil)
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // Handle search button click event
-    }
+           guard let searchText = searchBar.text else { return }
+           
+           // Filter the tradeCards array based on the search text
+           let filteredCards = tradeCards.filter { card in
+               let cardDetails = "\(card.breed) \(card.statistics) \(card.rarity) \(card.details)"
+               return cardDetails.localizedCaseInsensitiveContains(searchText)
+           }
+           
+           // Update the filtered tradeCards array and reload the table view
+           tradeCards = filteredCards
+           tableView.reloadData()
+       }
+
+       func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+           searchBar.text = nil
+           tradeCards = [] // Clear the filtered tradeCards array
+           fetchTradeCards() // Refetch all trade cards
+       }
+
+       func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+           guard let searchText = searchBar.text else { return }
+           
+           // Filter the tradeCards array based on the search text
+           let filteredCards = tradeCards.filter { card in
+               let cardDetails = "\(card.breed) \(card.statistics) \(card.rarity) \(card.details)"
+               return cardDetails.localizedCaseInsensitiveContains(searchText)
+           }
+           
+           // Update the filtered tradeCards array and reload the table view
+           tradeCards = filteredCards
+           tableView.reloadData()
+           
+       }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        // Handle cancel button click event
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "offerSegue" {
+               if let destinationVC = segue.destination as? OfferViewController {
+                   // Pass any necessary data to the destination view controller
+                   destinationVC.offerCard = selectedTradeCard
+               }
+           }
     }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Handle text change event
-    }
-    
 }
