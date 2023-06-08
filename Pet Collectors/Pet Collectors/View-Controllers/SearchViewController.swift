@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseFirestore
 
 class SearchViewController: UITableViewController, UISearchBarDelegate {
@@ -28,6 +29,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func fetchTradeCards() {
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("Current user ID not found")
+            return
+        }
+        
         tradesListener = firestoreDatabase.collection("trades").addSnapshotListener { [weak self] snapshot, error in
             guard let self = self else { return }
             
@@ -48,6 +54,11 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
                 let documentReference = document.reference
                 let data = document.data()
                 let cardReference = data["cardReference"] as? DocumentReference
+                
+                // Check if the cardReference contains the current user ID
+                if let cardReferencePath = cardReference?.path, cardReferencePath.contains(currentUserId) {
+                    continue // Skip this trade document
+                }
                 
                 dispatchGroup.enter() // Enter the dispatch group
                 
@@ -98,7 +109,6 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    
     // MARK: - Table View
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -158,7 +168,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         if segue.identifier == "offerSegue" {
                if let destinationVC = segue.destination as? OfferViewController {
                    // Pass any necessary data to the destination view controller
-                   destinationVC.offerCard = selectedTradeCard
+                   destinationVC.selectedCard = selectedTradeCard
                }
            }
     }

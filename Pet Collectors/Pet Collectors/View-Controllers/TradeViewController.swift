@@ -175,7 +175,7 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     @objc func addButtonTapped() {
-        UIUtil.displayMessageContinueCancel("Add card to trade", "To trade, select a card from your collection and click the '+' in the top right corner?", self) { isContinue in
+        UIUtil.displayMessageContinueCancel("Add card to trade", "To trade, select a card from your collection and click the '+' in the top right corner", self) { isContinue in
             if isContinue {
                 // Using the tab bar controller to reduce use of segues
                 if let tabBarController = self.tabBarController {

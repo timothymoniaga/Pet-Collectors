@@ -86,8 +86,8 @@ class OpenViewController: UIViewController {
             NSLayoutConstraint.activate([
                 card.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: CGFloat(i) * 7.5),
                 card.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(i) * -7.5),
-                card.heightAnchor.constraint(equalToConstant: CGFloat(card.HEIGHT)),
-                card.widthAnchor.constraint(equalToConstant: CGFloat(card.WIDTH))
+                card.heightAnchor.constraint(equalToConstant: CGFloat(card.height)),
+                card.widthAnchor.constraint(equalToConstant: CGFloat(card.width))
             ])
         }
     }

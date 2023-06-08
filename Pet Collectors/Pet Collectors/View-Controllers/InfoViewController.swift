@@ -126,6 +126,7 @@ class InfoViewController: UIViewController {
                     return
                 }
                 self.databaseController?.addCardToTradeCollection(cardID: cardID, self)
+                UIUtil.displayMessageDimiss("Success!", "Card added successfully!", self)
                 // self.tradeVC.tradeCards.append(self.selectedCard ?? Card())
             } else {}
         }

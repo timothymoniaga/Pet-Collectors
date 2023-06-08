@@ -11,8 +11,8 @@ class CardView: UIView {
     
     let image = UIImageView()
     let petCollectorsLabel = UILabel()
-    let HEIGHT = 500
-    let WIDTH = 300
+    var height = 500
+    var width = 300
     var isFlipped = false
     /*
      // Only override draw() if you perform custom drawing.
@@ -61,8 +61,8 @@ class CardView: UIView {
             image.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             image.widthAnchor.constraint(equalTo: self.widthAnchor),
             
-            self.widthAnchor.constraint(equalToConstant: 300),
-            self.heightAnchor.constraint(equalToConstant: 500)
+            self.widthAnchor.constraint(equalToConstant: CGFloat(width)),
+            self.heightAnchor.constraint(equalToConstant: CGFloat(height))
         ])
         
     }
@@ -72,6 +72,22 @@ class CardView: UIView {
         
         DispatchQueue.main.async {
             self.backgroundColor = CardUtil.setColor(rarity: card.cardRarity.rawValue )
+            self.petCollectorsLabel.text = card.breed
+        }
+        
+        ApiUtil.loadImageFromURL(urlString: card.imageURL ?? "") { picture in
+            if let picture = picture {
+                self.image.image = picture
+            } else {
+                self.image.image = UIImage(named: "PlaceholderPaw")
+            }
+        }
+    }
+    
+    func configure(card: TradeCard) {
+        
+        DispatchQueue.main.async {
+            self.backgroundColor = CardUtil.setColor(rarity: card.rarity.rawValue )
             self.petCollectorsLabel.text = card.breed
         }
         
