@@ -324,6 +324,85 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             print("Error removing cards: \(error)")
         }
     }
+    
+    func completeOfferAndPerformTrade(_ offer: Offer, completion: @escaping (Error?) -> Void) {
+        let cardRef1 = offer.card // card that the other user offered
+        let cardRef2 = offer.offeredCard //card that the current user offered
+        let tradeRef = offer.tradeRef
+        
+        // Retrieve the card documents using the provided card references
+        cardRef1.getDocument { (snapshot1, error) in
+            if let error = error {
+                completion(error)
+                return
+            }
+            
+            cardRef2.getDocument { (snapshot2, error) in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                
+                // Swap the card documents
+                if let cardDocument1 = snapshot1, let cardDocument2 = snapshot2 {
+                    // Update the document fields for each card document to swap their locations
+                    let cardData1 = cardDocument1.data()
+                    let cardData2 = cardDocument2.data()
+                    
+                    // Swap the necessary fields or update as per your requirements
+                    // For example, you can swap the "users" field or any other relevant fields
+                    let updatedCardData1: [String: Any] = [
+                        "breed": cardData2?["breed"],
+                        "details": cardData2?["details"],
+                        "imageURL": cardData2?["imageURL"],
+                        "rarity": cardData2?["rarity"],
+                        "statistics": cardData2?["statistics"]
+                    ]
+                    
+                    let updatedCardData2: [String: Any] = [
+                        "breed": cardData1?["breed"],
+                        "details": cardData1?["details"],
+                        "imageURL": cardData1?["imageURL"],
+                        "rarity": cardData1?["rarity"],
+                        "statistics": cardData1?["statistics"]
+                    ]
+                    
+                    // Save the updated card documents back to Firestore
+                    cardRef1.updateData(updatedCardData1) { (error) in
+                        if let error = error {
+                            completion(error)
+                            return
+                        }
+                        
+                        cardRef2.updateData(updatedCardData2) { (error) in
+                            if let error = error {
+                                completion(error)
+                                return
+                            }
+                            
+                            // Delete the offer document
+                            self.firestoreDatabase.collection("offers").document(offer.id!).delete { (error) in
+                                if let error = error {
+                                    completion(error)
+                                    return
+                                }
+                                
+                                // Delete the trade document
+                                tradeRef.delete { (error) in
+                                    if let error = error {
+                                        completion(error)
+                                    } else {
+                                        completion(nil)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     
     
@@ -519,6 +598,8 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
     func signup(email: String, password: String, completion: @escaping (String?) -> Void) {
+        removeAllCards()
+        
         Task {
             do {
                 let authResult = try await authController.createUser(withEmail: email, password: password)

@@ -15,6 +15,7 @@ class OfferTableViewCell: UITableViewCell {
     let myCardLabel = UILabel()
     let theirCardLabel = UILabel()
     weak var databaseController: DatabaseProtocol?
+    var currentOffer: Offer?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

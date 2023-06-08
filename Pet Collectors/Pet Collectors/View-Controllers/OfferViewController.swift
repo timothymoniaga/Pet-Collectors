@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class OfferViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -13,12 +14,17 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
     let cardHeight = 250
     let cardWidth = 150
     let wantCard = CardView()
-    var offerCard = CardView()
+    let offerCard = CardView()
     let tradeImage = UIImageView()
     let infoLabel = UILabel()
     let offerButton = UIButton(type: .custom)
+    let rejectButton = UIButton(type: .custom)
+    let acceptButton = UIButton(type: .custom)
     var offeredCard: Card?
     weak var databaseController: DatabaseProtocol?
+    var activeOffer = false
+    var selectedOffer: Offer?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +35,10 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         tabBarController?.tabBar.isHidden = true
         title = "Offer"
         setup()
+        
+        if activeOffer {
+            temp()
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -104,6 +114,42 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
                 offerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
                 
             ])
+            
+            if activeOffer {
+                offerButton.removeFromSuperview()
+                infoLabel.removeFromSuperview()
+                
+                acceptButton.backgroundColor = UIColor.systemGreen
+                acceptButton.setTitle("Accept Offer", for: .normal)
+                acceptButton.setTitleColor(.white, for: .normal)
+                acceptButton.layer.cornerRadius = 5
+                acceptButton.addTarget(self, action: #selector(acceptOffer), for: .touchUpInside)
+                
+                rejectButton.backgroundColor = UIColor.systemRed
+                rejectButton.setTitle("Decline Offer", for: .normal)
+                rejectButton.setTitleColor(.white, for: .normal)
+                rejectButton.layer.cornerRadius = 5
+                rejectButton.addTarget(self, action: #selector(declineOffer), for: .touchUpInside)
+                
+                view.addSubview(acceptButton)
+                view.addSubview(rejectButton)
+                
+                acceptButton.translatesAutoresizingMaskIntoConstraints = false
+                rejectButton.translatesAutoresizingMaskIntoConstraints = false
+                
+                NSLayoutConstraint.activate([
+                    acceptButton.topAnchor.constraint(equalTo: offerCard.bottomAnchor, constant: 20),
+                    acceptButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+                    acceptButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+                    acceptButton.widthAnchor.constraint(equalToConstant: 100),
+
+                    rejectButton.topAnchor.constraint(equalTo: offerCard.bottomAnchor, constant: 20),
+                    rejectButton.leadingAnchor.constraint(equalTo: acceptButton.trailingAnchor, constant: 20),
+                    rejectButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+                    rejectButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+                    rejectButton.widthAnchor.constraint(equalTo: acceptButton.widthAnchor)
+                ])
+            }
         }
     }
     
@@ -125,6 +171,37 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
+    @objc func acceptOffer() {
+        if let offer = selectedOffer {
+            databaseController?.completeOfferAndPerformTrade(offer) { (error) in
+                if let error = error {
+                    print("Error completing offer and performing trade: \(error)")
+                } else {
+                    print("Offer completed and trade performed successfully.")
+                    UIUtil.displayMessageDimiss("Congratulations!", "Trade Successful", self)
+                    guard let userUID = Auth.auth().currentUser?.uid else {
+                        // Handle the case when the user is not logged in
+                        return
+                    }
+                    self.databaseController?.copyUserCardsToPersistentStorage(userUID: userUID) { success in
+                        if success {
+                            print("Cards copied from Firebase successfully")
+                        } else {
+                            print("Error copying cards")
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        
+    }
+    
+    @objc func declineOffer() {
+        
+    }
+    
 
     
     
@@ -136,6 +213,31 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             if let destinationVC = segue.destination as? CollectionViewController {
                 destinationVC.tradeActive = true
                 destinationVC.delegate = self
+            }
+        }
+    }
+    
+    func temp() {
+        print(selectedOffer?.card.path)
+        if let currentOffer = selectedOffer {
+            print(currentOffer.card.path)
+            print(currentOffer.offeredCard.path)
+            databaseController?.convertToTradeCard(from: currentOffer.card) { (tradeCard, error) in
+                if let error = error {
+                    // Handle the error
+                    print("Error converting DocumentReference to TradeCard: \(error)")
+                    return
+                }
+                
+                if let tradeCard = tradeCard {
+                    // Successfully converted to TradeCard
+                    print("Converted TradeCard: \(tradeCard)")
+                    self.selectedCard = tradeCard
+                    self.setup()
+                } else {
+                    // Document doesn't exist or invalid data format
+                    print("Unable to convert DocumentReference to TradeCard")
+                }
             }
         }
     }

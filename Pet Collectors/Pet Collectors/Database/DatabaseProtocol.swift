@@ -49,6 +49,7 @@ protocol DatabaseProtocol: AnyObject {
     func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String, viewController: UIViewController)
     func listenForOffers(completion: @escaping ([Offer]?, Error?) -> Void)
     func convertToTradeCard(from documentReference: DocumentReference, completion: @escaping (TradeCard?, Error?) -> Void)
+    func completeOfferAndPerformTrade(_ offer: Offer, completion: @escaping (Error?) -> Void)
     
 }
 

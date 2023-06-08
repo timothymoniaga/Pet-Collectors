@@ -38,7 +38,6 @@ class CardTableViewCell: UITableViewCell {
         breedLabel.text = "Breed"
         breedLabel.numberOfLines = 0
         breedLabel.contentMode = .center
-        breedLabel.backgroundColor = .lightGray
         
         contentView.addSubview(breedLabel)
 

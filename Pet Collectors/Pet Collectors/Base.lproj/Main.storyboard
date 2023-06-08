@@ -212,7 +212,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Incoming Offers" id="3dS-gX-pd4"/>
                     <connections>
-                        <segue destination="lLD-4C-oVb" kind="show" identifier="userSegue" id="Ltu-w9-3em"/>
+                        <segue destination="WV5-J2-pZs" kind="presentation" identifier="incomingOfferSegue" id="fce-2K-J91"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MBF-eX-XDw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -224,7 +224,7 @@
             <objects>
                 <viewController id="lLD-4C-oVb" customClass="UserViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9Zc-I8-JrS">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="5SS-bz-em6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -233,7 +233,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iPe-bo-Yt5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5351.9083969465646" y="1417.605633802817"/>
+            <point key="canvasLocation" x="5234" y="1457"/>
         </scene>
         <!--Offer View Controller-->
         <scene sceneID="QYF-9w-PZi">
@@ -447,10 +447,10 @@
             </objects>
             <point key="canvasLocation" x="1765.6488549618321" y="-27.464788732394368"/>
         </scene>
-        <!--Offer-->
+        <!--Search-->
         <scene sceneID="gdI-oi-uSr">
             <objects>
-                <tableViewController id="UOn-4W-p9Y" customClass="SearchViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Search" id="UOn-4W-p9Y" customClass="SearchViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="lrQ-JY-hSt">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -470,7 +470,7 @@
                             <outlet property="delegate" destination="UOn-4W-p9Y" id="E2S-vm-ciu"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Offer" id="Vt4-ic-JAv"/>
+                    <navigationItem key="navigationItem" title="Search" id="Vt4-ic-JAv"/>
                     <connections>
                         <segue destination="WV5-J2-pZs" kind="show" identifier="offerSegue" id="XiH-dP-x7i"/>
                     </connections>
@@ -481,6 +481,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="fce-2K-J91"/>
         <segue reference="FCU-2G-Oe7"/>
     </inferredMetricsTieBreakers>
     <resources>

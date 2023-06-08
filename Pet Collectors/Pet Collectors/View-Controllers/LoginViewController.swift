@@ -34,10 +34,11 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print(Auth.auth().currentUser?.uid)
         handle = Auth.auth().addStateDidChangeListener({(auth, user) in
             if let user = user, self.segueFlag {
                 self.segueFlag = true
+                print(user.uid)
                 let UID = user.uid
                 self.databaseController?.copyUserCardsToPersistentStorage(userUID: UID) { success in
                     if success {
@@ -83,6 +84,7 @@ class LoginViewController: UIViewController {
                 self.displayMessage("Error", errorMessage)
             } else {
                 // Login successful, perform segue
+                print(Auth.auth().currentUser?.uid)
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
                 }

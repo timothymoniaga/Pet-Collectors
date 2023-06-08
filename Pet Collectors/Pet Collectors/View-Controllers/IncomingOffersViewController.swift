@@ -11,7 +11,7 @@ class IncomingOffersViewController: UITableViewController {
     
     let CELL_IDENTIFIER = OfferTableViewCell.reuseIdentifier
     var offers: [Offer] = []
-    var selectedUser: Offer?
+    var selectedOffer: Offer?
     weak var databaseController: DatabaseProtocol?
     
     override func viewDidLoad() {
@@ -64,58 +64,25 @@ class IncomingOffersViewController: UITableViewController {
 //    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedUser = offers[indexPath.row]
-        //performSegue(withIdentifier: "userSegue", sender: nil)
+        selectedOffer = offers[indexPath.row]
+        performSegue(withIdentifier: "incomingOfferSegue", sender: nil)
         
     }
-    
-    
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "userSegue" {
-//            if let destinationVC = segue.destination as? UserViewController {
-//                // Pass any necessary data to the destination view controller
-//                destinationVC.user = selectedUser
-//            }
-//        }
+        if segue.identifier == "incomingOfferSegue" {
+            if let destinationVC = segue.destination as? OfferViewController {
+                // Pass any necessary data to the destination view controller
+                destinationVC.activeOffer = true
+                destinationVC.selectedOffer = self.selectedOffer
+                
+                //print(selectedOffer.)
+                print("=============================")
+                
+            }
+        }
     }
 }
