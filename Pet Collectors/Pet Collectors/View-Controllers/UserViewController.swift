@@ -13,12 +13,12 @@ class UserViewController: UIViewController {
     var profilePicture = UIImageView()
     var offerButton = UIButton()
     
-    var user: User?
+    var user: Offer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = user?.userName ?? "User"
+        //title = user?.userName ?? "User"
         setup()
         // Do any additional setup after loading the view.
     }
@@ -78,7 +78,7 @@ class UserViewController: UIViewController {
         offerButton.addTarget(self, action: #selector(didTapOfferButton), for: .touchUpInside)
 
         
-        profilePicture.image = user?.image
+       // profilePicture.image = user?.image
     }
     
     @objc func didTapOfferButton() {

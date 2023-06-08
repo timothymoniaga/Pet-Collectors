@@ -25,9 +25,9 @@
 		1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532029FF7970004349D8 /* OpenViewController.swift */; };
 		1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953222A00AAB0004349D8 /* ImageViewController.swift */; };
 		1C6953252A00AFF3004349D8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953242A00AFF3004349D8 /* SearchViewController.swift */; };
-		1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953262A00B38C004349D8 /* UserTableViewCell.swift */; };
-		1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953282A00B46C004349D8 /* UsersTableViewController.swift */; };
-		1C69532B2A00B514004349D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* User.swift */; };
+		1C6953272A00B38C004349D8 /* OfferTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953262A00B38C004349D8 /* OfferTableViewCell.swift */; };
+		1C6953292A00B46C004349D8 /* IncomingOffersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6953282A00B46C004349D8 /* IncomingOffersViewController.swift */; };
+		1C69532B2A00B514004349D8 /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532A2A00B514004349D8 /* Offer.swift */; };
 		1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532C2A01CEA1004349D8 /* UserViewController.swift */; };
 		1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C69532E2A01DBFE004349D8 /* OfferViewController.swift */; };
 		1C90CBAB2A25CBD800384A69 /* APIKEYS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */; };
@@ -64,9 +64,9 @@
 		1C69532029FF7970004349D8 /* OpenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenViewController.swift; sourceTree = "<group>"; };
 		1C6953222A00AAB0004349D8 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		1C6953242A00AFF3004349D8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		1C6953262A00B38C004349D8 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
-		1C6953282A00B46C004349D8 /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
-		1C69532A2A00B514004349D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		1C6953262A00B38C004349D8 /* OfferTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferTableViewCell.swift; sourceTree = "<group>"; };
+		1C6953282A00B46C004349D8 /* IncomingOffersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingOffersViewController.swift; sourceTree = "<group>"; };
+		1C69532A2A00B514004349D8 /* Offer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offer.swift; sourceTree = "<group>"; };
 		1C69532C2A01CEA1004349D8 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		1C69532E2A01DBFE004349D8 /* OfferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferViewController.swift; sourceTree = "<group>"; };
 		1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKEYS.swift; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 				1C69532029FF7970004349D8 /* OpenViewController.swift */,
 				1C6953222A00AAB0004349D8 /* ImageViewController.swift */,
 				1C6953242A00AFF3004349D8 /* SearchViewController.swift */,
-				1C6953282A00B46C004349D8 /* UsersTableViewController.swift */,
+				1C6953282A00B46C004349D8 /* IncomingOffersViewController.swift */,
 				1CA327DE2A0AFC8600BD5E6F /* InfoViewController.swift */,
 				1C69532C2A01CEA1004349D8 /* UserViewController.swift */,
 				1C69532E2A01DBFE004349D8 /* OfferViewController.swift */,
@@ -124,7 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */,
-				1C6953262A00B38C004349D8 /* UserTableViewCell.swift */,
+				1C6953262A00B38C004349D8 /* OfferTableViewCell.swift */,
 				1CCB6EA22A30C7EE00C67F99 /* CardTableViewCell.swift */,
 			);
 			path = Cells;
@@ -134,7 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				1C0B327D2A0FA21B00147232 /* Breed.swift */,
-				1C69532A2A00B514004349D8 /* User.swift */,
+				1C69532A2A00B514004349D8 /* Offer.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -286,7 +286,7 @@
 				1CCB6E9D2A2B1F8100C67F99 /* LoginViewController.swift in Sources */,
 				1C1DCFA12A09D7650013662D /* Card+CoreDataClass.swift in Sources */,
 				1C69532D2A01CEA1004349D8 /* UserViewController.swift in Sources */,
-				1C6953292A00B46C004349D8 /* UsersTableViewController.swift in Sources */,
+				1C6953292A00B46C004349D8 /* IncomingOffersViewController.swift in Sources */,
 				1C1DCF9B2A09D70C0013662D /* MulticastDelegate.swift in Sources */,
 				1C69532F2A01DBFE004349D8 /* OfferViewController.swift in Sources */,
 				1C69532129FF7970004349D8 /* OpenViewController.swift in Sources */,
@@ -297,9 +297,9 @@
 				1CA327DF2A0AFC8600BD5E6F /* InfoViewController.swift in Sources */,
 				1C4EE2D32A08AA8B008F0B7D /* Util.swift in Sources */,
 				1C90CBAF2A28572F00384A69 /* CardView.swift in Sources */,
-				1C6953272A00B38C004349D8 /* UserTableViewCell.swift in Sources */,
+				1C6953272A00B38C004349D8 /* OfferTableViewCell.swift in Sources */,
 				1CCB6EA32A30C7EE00C67F99 /* CardTableViewCell.swift in Sources */,
-				1C69532B2A00B514004349D8 /* User.swift in Sources */,
+				1C69532B2A00B514004349D8 /* Offer.swift in Sources */,
 				9F0CC66E29F753ED00B5A612 /* CardViewCell.swift in Sources */,
 				1C6953232A00AAB0004349D8 /* ImageViewController.swift in Sources */,
 				9FBA689E29F8954F00E77871 /* CardDetails.swift in Sources */,

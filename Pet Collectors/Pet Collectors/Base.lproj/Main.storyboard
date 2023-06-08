@@ -187,10 +187,10 @@
             </objects>
             <point key="canvasLocation" x="6278.6259541984728" y="-27.464788732394368"/>
         </scene>
-        <!--Users Table View Controller-->
+        <!--Incoming Offers-->
         <scene sceneID="V1A-m7-et8">
             <objects>
-                <tableViewController id="7VO-LU-jgm" customClass="UsersTableViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="7VO-LU-jgm" customClass="IncomingOffersViewController" customModule="Pet_Collectors" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="BIc-JZ-2sQ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -210,7 +210,7 @@
                             <outlet property="delegate" destination="7VO-LU-jgm" id="peR-Zg-mnu"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="3dS-gX-pd4"/>
+                    <navigationItem key="navigationItem" title="Incoming Offers" id="3dS-gX-pd4"/>
                     <connections>
                         <segue destination="lLD-4C-oVb" kind="show" identifier="userSegue" id="Ltu-w9-3em"/>
                     </connections>

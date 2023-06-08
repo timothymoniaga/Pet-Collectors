@@ -117,6 +117,12 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         } else {
             print("Error cannot add offer document")
         }
+        
+        UIUtil.displayMessageDimiss("Offer sent!", "Offer has been sent!", self)
+        
+        if let navigationController = navigationController {
+            navigationController.popViewController(animated: true)
+        }
     }
     
 

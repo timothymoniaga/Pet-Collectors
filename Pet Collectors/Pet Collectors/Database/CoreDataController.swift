@@ -233,6 +233,82 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
             }
         }
     }
+    
+    func listenForOffers(completion: @escaping ([Offer]?, Error?) -> Void) {
+        let collectionRef = firestoreDatabase.collection("offers")
+        
+        if let userID = Auth.auth().currentUser?.uid {
+
+        // Listen for realtime updates
+            collectionRef.addSnapshotListener { (snapshot, error) in
+                if let error = error {
+                    // Error occurred
+                    completion(nil, error)
+                    return
+                }
+                
+                var offers: [Offer] = []
+                
+                for document in snapshot!.documents {
+                    let documentData = document.data()
+                    
+                    if let cardRef = documentData["card"] as? DocumentReference,
+                       let offeredCardRef = documentData["for"] as? DocumentReference,
+                       let tradeRef = documentData["tradeRef"] as? DocumentReference {
+                        
+                        print(cardRef.path)
+                        print(userID)
+                        
+                        if(cardRef.path.contains(userID ?? "")) {
+                            let offer = Offer(card: cardRef, offeredCard: offeredCardRef, tradeRef: tradeRef)
+                            offer.id = document.documentID
+                            offers.append(offer)
+                        }
+                    }
+                }
+                
+                
+                completion(offers, nil)
+            }
+        }
+    }
+
+    func convertToTradeCard(from documentReference: DocumentReference, completion: @escaping (TradeCard?, Error?) -> Void) {
+        documentReference.getDocument { (document, error) in
+            if let error = error {
+                // Handle the error
+                completion(nil, error)
+                return
+            }
+
+            guard let document = document, document.exists else {
+                // Document doesn't exist
+                completion(nil, nil)
+                return
+            }
+
+            // Extract the data from the document
+            guard let data = document.data(),
+                  let breed = data["breed"] as? String,
+                  let statistics = data["statistics"] as? String,
+                  let rarityRawValue = data["rarity"] as? Int32,
+                  let rarity = Rarity(rawValue: rarityRawValue),
+                  let details = data["details"] as? String,
+                  let imageURL = data["imageURL"] as? String
+            else {
+                // Invalid data format
+                completion(nil, nil)
+                return
+            }
+
+            // Create the TradeCard object
+            let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL, cardReference: documentReference)
+
+            // Pass the TradeCard object to the completion handler
+            completion(tradeCard, nil)
+        }
+    }
+
 
     // Removes all cards
     func removeAllCards() {

@@ -47,6 +47,8 @@ protocol DatabaseProtocol: AnyObject {
     func logout(completion: @escaping (Bool) -> Void)
     func copyUserCardsToPersistentStorage(userUID: String, completion: @escaping (Bool) -> Void)
     func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String, viewController: UIViewController)
+    func listenForOffers(completion: @escaping ([Offer]?, Error?) -> Void)
+    func convertToTradeCard(from documentReference: DocumentReference, completion: @escaping (TradeCard?, Error?) -> Void)
     
 }
 
