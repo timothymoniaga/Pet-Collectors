@@ -113,7 +113,7 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
     
     @objc func offerButtonTapped() {
         if let cardRef = selectedCard?.cardReference, let offerCardRef = offeredCard?.cardID {
-            databaseController?.createOfferDocument(with: cardRef, for: offerCardRef)
+            databaseController?.createOfferDocument(with: cardRef, for: offerCardRef, viewController: self)
         } else {
             print("Error cannot add offer document")
         }

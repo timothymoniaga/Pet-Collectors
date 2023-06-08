@@ -175,7 +175,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
     
-    func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String) {
+    func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String, viewController: UIViewController) {
         
         if let userID = Auth.auth().currentUser?.uid {
             // Construct the card reference path
@@ -195,26 +195,42 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
 
                 // Access the field values
                 if let wantCardRef = document.get("cardReference") as? DocumentReference {
-                    print("Field value: \(wantCardRef)")
-                    // Use the field value as needed
                     
-                    let offerData: [String: Any] = [
-                        "tradeRef": cardReference,
-                        "card": wantCardRef,
-                        "for": forCardRef
-                    ]
+                    let query = self.firestoreDatabase.collection("offers")
+                        .whereField("tradeRef", isEqualTo: cardReference)
+                        .whereField("card", isEqualTo: wantCardRef)
+                        .whereField("for", isEqualTo: forCardRef)
                     
-                    self.firestoreDatabase.collection("offers").addDocument(data: offerData) { error in
+                    query.getDocuments { (snapshot, error) in
                         if let error = error {
-                            print("Error creating offer document: \(error)")
-                        } else {
-                            print("Offer document created successfully.")
+                            print("Error querying documents: \(error)")
+                            return
+                        }
+                        
+                        if let snapshot = snapshot, !snapshot.isEmpty {
+                            // A matching document already exists
+                            print("Offer document already exists with the same field values.")
+                            UIUtil.displayMessageDimiss("Error", "You have already made this offer", viewController)
+                            
+                            return
+                        }
+                        
+                        let offerData: [String: Any] = [
+                            "tradeRef": cardReference,
+                            "card": wantCardRef,
+                            "for": forCardRef
+                        ]
+                        
+                        self.firestoreDatabase.collection("offers").addDocument(data: offerData) { error in
+                            if let error = error {
+                                print("Error creating offer document: \(error)")
+                            } else {
+                                print("Offer document created successfully.")
+                            }
                         }
                     }
                 }
             }
-            // Get the Firestore document reference for the card
-            
         }
     }
 
