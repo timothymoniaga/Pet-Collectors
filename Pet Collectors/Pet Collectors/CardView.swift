@@ -91,7 +91,7 @@ class CardView: UIView {
             self.petCollectorsLabel.text = card.breed
         }
         
-        ApiUtil.loadImageFromURL(urlString: card.imageURL ?? "") { picture in
+        ApiUtil.loadImageFromURL(urlString: card.imageURL) { picture in
             if let picture = picture {
                 self.image.image = picture
             } else {

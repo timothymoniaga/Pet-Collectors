@@ -92,12 +92,13 @@ class CardViewCell: UICollectionViewCell {
     func configureTrade(with card: TradeCard) {
         breed.text = card.breed
         image.image = UIImage(named: "PlaceholderPaw")
+        image.contentMode = .scaleAspectFit
         let colour = CardUtil.setColor(rarity: card.rarity.rawValue)
         self.backgroundColor = colour
         details.text = card.details
         
         // load image from url
-        ApiUtil.loadImageFromURL(urlString: card.imageURL ?? "") { image in
+        ApiUtil.loadImageFromURL(urlString: card.imageURL) { image in
             if let image = image {
                 self.image.image = image.roundedImage(cornerRadius: 15)
             } else {

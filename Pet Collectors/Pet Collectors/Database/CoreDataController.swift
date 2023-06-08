@@ -404,7 +404,16 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
 
-    
+    func deleteOfferDocument(offer: Offer) {
+        firestoreDatabase.collection("offers").document(offer.id!).delete { error in
+            if let error = error {
+                print("Error deleting offer document: \(error)")
+            } else {
+                print("Offer document deleted successfully.")
+            }
+        }
+    }
+
     
     // Function that was used when wikipidea api was in use. Now useless
     func addBreed(breedName: String) -> BreedFirebase {

@@ -50,6 +50,7 @@ protocol DatabaseProtocol: AnyObject {
     func listenForOffers(completion: @escaping ([Offer]?, Error?) -> Void)
     func convertToTradeCard(from documentReference: DocumentReference, completion: @escaping (TradeCard?, Error?) -> Void)
     func completeOfferAndPerformTrade(_ offer: Offer, completion: @escaping (Error?) -> Void)
+    func deleteOfferDocument(offer: Offer)
     
 }
 

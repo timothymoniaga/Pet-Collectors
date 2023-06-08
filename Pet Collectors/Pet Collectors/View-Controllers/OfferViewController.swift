@@ -11,6 +11,7 @@ import Firebase
 class OfferViewController: UIViewController, UINavigationControllerDelegate {
 
     var selectedCard: TradeCard?
+    var offeredTradeCard: TradeCard?
     let cardHeight = 250
     let cardWidth = 150
     let wantCard = CardView()
@@ -33,7 +34,6 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         databaseController = appDelegate?.databaseController
         navigationController?.delegate = self
         tabBarController?.tabBar.isHidden = true
-        title = "Offer"
         setup()
         
         if activeOffer {
@@ -58,11 +58,14 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             wantCard.height = cardHeight
             wantCard.width = cardWidth
             
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectCard))
-            
-            offerCard.addGestureRecognizer(tapGesture)
-            offerCard.height = cardHeight
-            offerCard.width = cardWidth
+            if(!activeOffer) {
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectCard))
+                
+                offerCard.addGestureRecognizer(tapGesture)
+                offerCard.height = cardHeight
+                offerCard.width = cardWidth
+            }
+
             
             infoLabel.text = "Tap on the card above to select your card to trade"
             infoLabel.font = .italicSystemFont(ofSize: 12)
@@ -90,8 +93,8 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             NSLayoutConstraint.activate([
                 wantCard.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
                 wantCard.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-                wantCard.heightAnchor.constraint(equalToConstant: CGFloat(wantCard.height)),
-                wantCard.widthAnchor.constraint(equalToConstant: CGFloat(wantCard.width)),
+                wantCard.heightAnchor.constraint(equalToConstant: CGFloat(cardHeight)),
+                wantCard.widthAnchor.constraint(equalToConstant: CGFloat(cardWidth)),
                 
                 tradeImage.topAnchor.constraint(equalTo: wantCard.bottomAnchor, constant: 20),
                 tradeImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
@@ -100,8 +103,8 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
                 
                 offerCard.topAnchor.constraint(equalTo: tradeImage.bottomAnchor, constant: 20),
                 offerCard.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-                offerCard.heightAnchor.constraint(equalToConstant: CGFloat(offerCard.height)),
-                offerCard.widthAnchor.constraint(equalToConstant: CGFloat(offerCard.width)),
+                offerCard.heightAnchor.constraint(equalToConstant: CGFloat(cardHeight)),
+                offerCard.widthAnchor.constraint(equalToConstant: CGFloat(cardWidth)),
                 
                 infoLabel.topAnchor.constraint(equalTo: offerCard.bottomAnchor),
                 infoLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -118,6 +121,12 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             if activeOffer {
                 offerButton.removeFromSuperview()
                 infoLabel.removeFromSuperview()
+                
+                if let card = offeredTradeCard {
+                    offerCard.configure(card: card)
+                    offerCard.height = cardHeight
+                    offerCard.width = cardWidth
+                }
                 
                 acceptButton.backgroundColor = UIColor.systemGreen
                 acceptButton.setTitle("Accept Offer", for: .normal)
@@ -183,9 +192,12 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
                         // Handle the case when the user is not logged in
                         return
                     }
+                    // to update the collection view controller
                     self.databaseController?.copyUserCardsToPersistentStorage(userUID: userUID) { success in
                         if success {
-                            print("Cards copied from Firebase successfully")
+                            if let navigationController = self.navigationController {
+                                navigationController.popViewController(animated: true)
+                            }
                         } else {
                             print("Error copying cards")
                         }
@@ -193,13 +205,16 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
                 }
             }
         }
-        
-        
-        
     }
     
     @objc func declineOffer() {
-        
+        if let offer = selectedOffer {
+            databaseController?.deleteOfferDocument(offer: offer)
+        }
+        UIUtil.displayMessageDimiss("Declined!", "Trade Offer has been declined", self)
+        if let navigationController = self.navigationController {
+            navigationController.popViewController(animated: true)
+        }
     }
     
 
@@ -218,7 +233,6 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func temp() {
-        print(selectedOffer?.card.path)
         if let currentOffer = selectedOffer {
             print(currentOffer.card.path)
             print(currentOffer.offeredCard.path)
@@ -239,6 +253,25 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
                     print("Unable to convert DocumentReference to TradeCard")
                 }
             }
+            
+            databaseController?.convertToTradeCard(from: currentOffer.offeredCard) { (tradeCard, error) in
+                if let error = error {
+                    // Handle the error
+                    print("Error converting DocumentReference to TradeCard: \(error)")
+                    return
+                }
+                
+                if let tradeCard = tradeCard {
+                    // Successfully converted to TradeCard
+                    print("Converted TradeCard: \(tradeCard)")
+                    self.offeredTradeCard = tradeCard
+                    self.setup()
+                } else {
+                    // Document doesn't exist or invalid data format
+                    print("Unable to convert DocumentReference to TradeCard")
+                }
+            }
+            
         }
     }
 }
