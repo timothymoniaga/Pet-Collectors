@@ -131,16 +131,16 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
     
     func addCardToTradeCollection(cardID: String, _ viewController: UIViewController) {
-        let db = Firestore.firestore()
+        //let db = Firestore.firestore()
         if let userID = Auth.auth().currentUser?.uid {
             // Construct the card reference path
             let cardRefPath = "users/\(userID)/cards/\(cardID)"
             
             // Get the Firestore document reference for the card
-            let cardRef = db.document(cardRefPath)
+            let cardRef = firestoreDatabase.document(cardRefPath)
             
             // Query the "trades" collection for documents with the same card reference
-            db.collection("trades").whereField("cardReference", isEqualTo: cardRef).getDocuments { querySnapshot, error in
+            firestoreDatabase.collection("trades").whereField("cardReference", isEqualTo: cardRef).getDocuments { querySnapshot, error in
                 if let error = error {
                     print("Error querying trades collection: \(error)")
                     return
@@ -155,7 +155,7 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
                 }
                 
                 // No repeat reference found, proceed to add the card to the trades collection
-                let tradeDocument = db.collection("trades").document()
+                let tradeDocument = self.firestoreDatabase.collection("trades").document()
                 
                 // Set the user and card reference fields in the trade document
                 tradeDocument.setData([
@@ -174,9 +174,50 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
 
-
-
     
+    func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String) {
+        
+        if let userID = Auth.auth().currentUser?.uid {
+            // Construct the card reference path
+            let cardRefPath = "users/\(userID)/cards/\(tradeCardReference)"
+            let forCardRef = firestoreDatabase.document(cardRefPath)
+            
+            cardReference.getDocument { (document, error) in
+                if let error = error {
+                    print("Error fetching document: \(error)")
+                    return
+                }
+
+                guard let document = document, document.exists else {
+                    print("Document does not exist")
+                    return
+                }
+
+                // Access the field values
+                if let wantCardRef = document.get("cardReference") as? DocumentReference {
+                    print("Field value: \(wantCardRef)")
+                    // Use the field value as needed
+                    
+                    let offerData: [String: Any] = [
+                        "tradeRef": cardReference,
+                        "card": wantCardRef,
+                        "for": forCardRef
+                    ]
+                    
+                    self.firestoreDatabase.collection("offers").addDocument(data: offerData) { error in
+                        if let error = error {
+                            print("Error creating offer document: \(error)")
+                        } else {
+                            print("Offer document created successfully.")
+                        }
+                    }
+                }
+            }
+            // Get the Firestore document reference for the card
+            
+        }
+    }
+
     // Removes all cards
     func removeAllCards() {
         let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()

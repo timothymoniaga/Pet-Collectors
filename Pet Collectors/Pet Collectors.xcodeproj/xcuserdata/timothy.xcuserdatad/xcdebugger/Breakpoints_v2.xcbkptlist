@@ -46,8 +46,8 @@
             filePath = "Pet Collectors/View-Controllers/CollectionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "collectionView(_:layout:sizeForItemAt:)"
             landmarkType = "7">
             <Locations>
@@ -94,8 +94,8 @@
             filePath = "Pet Collectors/View-Controllers/CollectionViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "handlePinchGesture(_:)"
             landmarkType = "7">
             <Locations>
@@ -127,6 +127,51 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "170"
                   endingLineNumber = "170"
+                  offsetFromSymbolStart = "1684">
+               </Location>
+               <Location
+                  uuid = "62809387-0A20-4751-8FAC-6217B38F51C1 - d558405c88d35859"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.CollectionViewController.handlePinchGesture(__C.UIPinchGestureRecognizer) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/CollectionViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "171"
+                  endingLineNumber = "171"
+                  offsetFromSymbolStart = "1684">
+               </Location>
+               <Location
+                  uuid = "62809387-0A20-4751-8FAC-6217B38F51C1 - d558405c88d358c5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.CollectionViewController.handlePinchGesture(__C.UIPinchGestureRecognizer) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/CollectionViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "175"
+                  endingLineNumber = "175"
+                  offsetFromSymbolStart = "1684">
+               </Location>
+               <Location
+                  uuid = "62809387-0A20-4751-8FAC-6217B38F51C1 - d558405c88d358e2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.CollectionViewController.handlePinchGesture(__C.UIPinchGestureRecognizer) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/CollectionViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "176"
+                  endingLineNumber = "176"
                   offsetFromSymbolStart = "1684">
                </Location>
             </Locations>
@@ -193,6 +238,70 @@
             startingLineNumber = "113"
             endingLineNumber = "113"
             landmarkName = "fetchTradeCards()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3D3F3452-7FB7-4143-B060-34417E70C125"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pet Collectors/View-Controllers/OfferViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "prepare(for:sender:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3D3F3452-7FB7-4143-B060-34417E70C125 - 8377db9d4dc5470c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.OfferViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/OfferViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "608">
+               </Location>
+               <Location
+                  uuid = "3D3F3452-7FB7-4143-B060-34417E70C125 - 8377db9d4dc5470c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pet_Collectors.OfferViewController.prepare(for: __C.UIStoryboardSegue, sender: Swift.Optional&lt;Any&gt;) -&gt; ()"
+                  moduleName = "Pet Collectors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/timothy/Documents/Uni/FIT3178/Pet-Collectors/Pet%20Collectors/Pet%20Collectors/View-Controllers/OfferViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "744">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ADBEDFD8-BC33-437E-A40A-E656DA19EB7F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pet Collectors/View-Controllers/OfferViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

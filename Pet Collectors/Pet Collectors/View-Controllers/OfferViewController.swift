@@ -7,31 +7,41 @@
 
 import UIKit
 
-class OfferViewController: UIViewController {
+class OfferViewController: UIViewController, UINavigationControllerDelegate {
 
     var selectedCard: TradeCard?
     let cardHeight = 250
     let cardWidth = 150
     let wantCard = CardView()
-    let offerCard = CardView()
+    var offerCard = CardView()
     let tradeImage = UIImageView()
     let infoLabel = UILabel()
     let offerButton = UIButton(type: .custom)
+    var offeredCard: Card?
+    weak var databaseController: DatabaseProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        databaseController = appDelegate?.databaseController
+        navigationController?.delegate = self
         tabBarController?.tabBar.isHidden = true
         title = "Offer"
         setup()
         // Do any additional setup after loading the view.
     }
     
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+            // Tab bar comes back
+        if viewController is SearchViewController {
+                tabBarController?.tabBar.isHidden = false
+            }
+        }
     
     private func setup() {
         
         tradeImage.image = UIImage(named: "Swap")
-
         
         if let tradeCard = selectedCard {
             wantCard.configure(card: tradeCard)
@@ -47,7 +57,6 @@ class OfferViewController: UIViewController {
             infoLabel.text = "Tap on the card above to select your card to trade"
             infoLabel.font = .italicSystemFont(ofSize: 12)
             infoLabel.textAlignment = .center
-            //infoLabel.backgroundColor = .lightGray
             
             offerButton.backgroundColor = UIColor.lightGray
             offerButton.setTitle("Make Offer", for: .normal)
@@ -88,7 +97,6 @@ class OfferViewController: UIViewController {
                 infoLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
                 infoLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
                 infoLabel.heightAnchor.constraint(equalToConstant: 20),
-                //infoLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
                 
                 offerButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 20),
                 offerButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
@@ -100,22 +108,39 @@ class OfferViewController: UIViewController {
     }
     
     @objc func selectCard() {
-        
+        performSegue(withIdentifier: "collectionSegue", sender: nil)
     }
     
     @objc func offerButtonTapped() {
+        if let cardRef = selectedCard?.cardReference, let offerCardRef = offeredCard?.cardID {
+            databaseController?.createOfferDocument(with: cardRef, for: offerCardRef)
+        } else {
+            print("Error cannot add offer document")
+        }
     }
     
 
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "collectionSegue" {
+            if let destinationVC = segue.destination as? CollectionViewController {
+                destinationVC.tradeActive = true
+                destinationVC.delegate = self
+            }
+        }
     }
-    */
+}
 
+extension OfferViewController: CollectionViewControllerDelegate {
+    func didSelectCard(_ card: Card) {
+        // convert card to TradeCard then set as the offer card and configure
+        offerCard.changeCard(card: card)
+        offerButton.backgroundColor = .systemBlue
+        offerButton.isEnabled = true
+        offeredCard = card
+    }
 }

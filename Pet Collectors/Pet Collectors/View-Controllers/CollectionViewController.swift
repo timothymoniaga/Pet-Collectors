@@ -9,10 +9,13 @@
 
 import UIKit
 
+protocol CollectionViewControllerDelegate: AnyObject {
+    func didSelectCard(_ card: Card)
+}
+
 class CollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DatabaseListener {
     
     @IBOutlet weak var logOutButton: UIBarButtonItem!
-    
     @IBOutlet weak var collectionViewZoomButton: UIBarButtonItem!
     var allBreeds: [Breed] = []
     var listenerType = ListenerType.card
@@ -21,10 +24,12 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     private let REUSE_IDENTIFIER = CardViewCell.reuseIdentifier
     private var collectionView: UICollectionView!
     var allCards: [Card] = []
-    var currentDog: Card?
+    var selectedCard: Card?
     var selectedImage: String?
     weak var databaseController: DatabaseProtocol?
     private var pinchGestureRecognizer: UIPinchGestureRecognizer!
+    var tradeActive = false
+    weak var delegate: CollectionViewControllerDelegate?
     
     
     override func viewDidLoad() {
@@ -92,15 +97,20 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        currentDog = allCards[indexPath.row]
-        performSegue(withIdentifier: "moreInfoSegue", sender: nil)
+        selectedCard = allCards[indexPath.row]
+        if(tradeActive) {
+            delegate?.didSelectCard(selectedCard ?? Card())
+            UIUtil.displayMessageDimiss("Success!", "Card has been successfully added as an offer. Swipe down to continue", self)
+        } else {
+            performSegue(withIdentifier: "moreInfoSegue", sender: nil)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "moreInfoSegue" {
             if let destinationVC = segue.destination as? InfoViewController {
                 // Pass any necessary data to the destination view controller
-                destinationVC.selectedCard = currentDog
+                destinationVC.selectedCard = selectedCard
             }
         }
     }

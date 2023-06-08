@@ -46,5 +46,6 @@ protocol DatabaseProtocol: AnyObject {
     func signup(email: String, password: String, completion: @escaping (String?) -> Void)
     func logout(completion: @escaping (Bool) -> Void)
     func copyUserCardsToPersistentStorage(userUID: String, completion: @escaping (Bool) -> Void)
+    func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String)
 }
 
