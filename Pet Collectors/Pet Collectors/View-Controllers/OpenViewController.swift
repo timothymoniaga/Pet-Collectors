@@ -36,6 +36,22 @@ class OpenViewController: UIViewController {
         setup()
         }
     
+    
+    /**
+     Performs the initial setup for the timer.
+
+     This method calculates the future date by adding one day to the current date and sets up the timer based on the current state.
+
+     If `currentTimer` is empty, it sets the start and end dates in the database controller and creates unopened cards.
+
+     If `currentTimer` is not empty, it checks if the end date has passed. If it has, it removes the existing timers, sets the start and end dates in the database controller, and creates unopened cards.
+
+     If the end date hasn't passed, it calculates the remaining seconds and starts the countdown.
+     
+     - Warning: In case of failure to calculate the future date, an error message is printed and the method returns.
+
+     - Important: The method relies on the `createUnopenedCards()` and `startCountdown()` methods for creating unopened cards and starting the countdown, respectively.
+     */
     func timerSetup() {
         let currentDate = Date()
         var dateComponent = DateComponents()
@@ -67,6 +83,15 @@ class OpenViewController: UIViewController {
         }
     }
     
+    /**
+     Creates unopened card views and adds them to the view hierarchy.
+
+     This method creates three instances of `CardView` and appends them to the `cards` array. It then adds a tap gesture recognizer to each card and adds them to the view.
+
+     - Important: The method relies on the `onClick` method for handling the tap event.
+
+     - SeeAlso: `onClick(_:)`
+     */
     func createUnopenedCards() {
         var cardViews: [CardView] = []
         
@@ -92,7 +117,15 @@ class OpenViewController: UIViewController {
         }
     }
     
-    
+    /**
+     Starts the countdown timer and updates the countdown label.
+
+     This method reveals the countdown label and invalidates any existing timer. It creates a new timer that fires every second. On each timer tick, it decrements the `countdownTime` property, formats the countdown time as a string in hours, minutes, and seconds, and updates the countdown label with the formatted string. When the countdown reaches zero, it stops the timer and hides the countdown label.
+
+     - Warning: The method assumes the existence of the `timer` property as an instance variable of type `Timer?` to manage the countdown timer.
+
+     - Note: The `countdownTime` property represents the remaining time in seconds.
+     */
     func startCountdown() {
         countdownLabel.isHidden = false
         // Invalidate the timer if it's already running
@@ -121,14 +154,16 @@ class OpenViewController: UIViewController {
         }
     }
     
+    /**
+     Sets up the UI elements and their constraints on the cell.
+     */
     func setup() {
-        //enable and hidden for dubgging
+        ///enable and hidden for dubgging
         createbreeds.isEnabled = false
         createbreeds.isHidden = true
         
         countdownLabel.text = "Come back in for your next pack!"
         countdownLabel.font = .boldSystemFont(ofSize: 36)
-        
         countdownLabel.numberOfLines = 0
         countdownLabel.adjustsFontSizeToFitWidth = true
         countdownLabel.textAlignment = .center
@@ -166,6 +201,21 @@ class OpenViewController: UIViewController {
         
     }
     
+    /**
+     Handles the tap gesture on the top card in the card stack.
+
+     When the top card is tapped, this method brings the blur view and activity indicator to the front, starts the activity indicator animation, and initiates the card creation process.
+
+     If the top card is not flipped, it calls the `createCard` method to create a new card asynchronously. Upon success, it adds the new card to the persistent storage and updates the top card's content. It then marks the top card as flipped and adds the new card to Firestore.
+
+     If the top card is already flipped, it removes the top card from the view and the `cards` array.
+
+     If all the cards are removed from the stack, it starts the countdown for the next pack.
+
+     - Note: The `CardUtil.createCard` method is used to create a new card asynchronously. The `CardView` class is assumed to be a custom subclass of `UIView` representing a card.
+
+     - SeeAlso: `createCard(completion:)`, `databaseController`
+     */
     @objc func onClick() {
         view.bringSubviewToFront(blurView)
         view.bringSubviewToFront(activityIndicator)
@@ -207,7 +257,15 @@ class OpenViewController: UIViewController {
         
     }
     
-    // Was used for creating a list of breeds for wikipidea.
+    /**
+     Creates a list of dog breeds using an external API and adds them to the Firestore database.
+
+     This method retrieves a list of all dog breeds from an external API using the `BreedUtil.getAllBreeds` method. Upon success, it decodes the response into a `DogBreeds` object and extracts the breed names. It then makes an API request to fetch additional information for each breed using the `ApiUtil.wikipediaAPI(for:)` method. Upon success, it adds the breed to the Firestore database using the `databaseController?.addBreed(breedName:)` method.
+
+     - Note: This method is not used any longed and was used for creating a list of breeds
+
+     - Important: This method is intended for creating a list of dog breeds and may not be directly related to the main functionality of the application.
+     */
     @IBAction func createListOfBreeds(_ sender: Any) {
         /// Remove timers for dubgging
         //databaseController?.removeTimers()
@@ -241,7 +299,6 @@ class OpenViewController: UIViewController {
                             }
                         }
                     }
-                    //print(resultArray)
                 }
 
                 catch {
@@ -255,16 +312,4 @@ class OpenViewController: UIViewController {
         }
 
     }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }

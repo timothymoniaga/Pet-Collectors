@@ -25,12 +25,10 @@ class InfoViewController: UIViewController {
         setup()
     }
     
-    func setup() {
-        
-        let labelText = "Description: \n" + (selectedCard?.details ?? "")
-        print(labelText.debugDescription)
-        let attributedText = NSMutableAttributedString(string: labelText)
-        
+    /**
+     Sets up the UI elements and their constraints on the cell.
+     */
+    private func setup() {
         title = selectedCard?.breed
         
         detailsLabel.showsVerticalScrollIndicator = true
@@ -53,7 +51,6 @@ class InfoViewController: UIViewController {
         image.addGestureRecognizer(tapGesture)
         image.contentMode = .scaleAspectFit
         image.isUserInteractionEnabled = true
-        //image.image.layer.cornerRadius = 15
         
         view.addSubview(detailsLabel)
         view.addSubview(statisticsLabel)
@@ -79,26 +76,24 @@ class InfoViewController: UIViewController {
             statisticsLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
             
         ])
-        loadImageFromURL(urlString: selectedCard?.imageURL ?? "")
-        
-    }
-    
-    
-    func loadImageFromURL(urlString: String) {
-        image.image = UIImage(named: "PlaceholderPaw")
-        guard let url = URL(string: urlString) else { return }
-        DispatchQueue.global().async {
-            if let imageData = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    let dogImage = UIImage(data: imageData)
-                    let roundedImage = dogImage?.roundedImage(cornerRadius: 10)
-                    self.image.image = roundedImage
-                    
-                }
+        ApiUtil.loadImageFromURL(urlString: selectedCard?.imageURL ?? "") { image in
+            if let image = image {
+                self.image.image = image.roundedImage(cornerRadius: 15)
+            } else {
+                self.image.image = UIImage(named: "PlaceholderPaw")
             }
         }
     }
     
+    /**
+     Handles the click event on an image and performs a segue to another view controller.
+
+     This method is invoked when an image is clicked or tapped. It triggers a segue with the identifier "imageSegue" to transition to another view controller.
+
+     - Note: This method is typically used to navigate to a different view controller or present additional information when an image is clicked.
+
+     - SeeAlso: `performSegue(withIdentifier:sender:)`
+     */
     @objc func imageClick() {
         performSegue(withIdentifier: "imageSegue", sender: nil)
     }
@@ -119,6 +114,18 @@ class InfoViewController: UIViewController {
         
     }
     
+    /**
+     Adds a selected card to the trade collection.
+
+     This method is invoked when the user wants to add a selected card to the trade collection. It displays a confirmation message to ensure the user wants to proceed with adding the card. If the user confirms, the selected card's ID is retrieved and passed to the `addCardToTradeCollection(cardID:sender:)` method of the `databaseController` to add the card to the trade collection.
+
+     - Important: The `UIUtil.displayMessageContinueCancel(_:message:completion:)` method is used to display the confirmation message dialog. The method expects a closure that is executed based on the user's choice. The `UIUtil.displayMessageDimiss(_:message:controller:)` method is used to display a success message after the card is added to the trade collection.
+
+     - Parameters:
+       - sender: The sender of the action, typically a button or UI control.
+
+     - Note: This method is typically used in conjunction with user interactions to add a card to a trade collection. It provides a confirmation step to prevent accidental additions.
+     */
     @IBAction func addCardForTrade(_ sender: Any) {
         UIUtil.displayMessageContinueCancel("Add card to trade", "Are you sure you want to add this card to trade?", self) { isContinue in
             if isContinue {
@@ -127,9 +134,7 @@ class InfoViewController: UIViewController {
                 }
                 self.databaseController?.addCardToTradeCollection(cardID: cardID, self)
                 UIUtil.displayMessageDimiss("Success!", "Card added successfully!", self)
-                // self.tradeVC.tradeCards.append(self.selectedCard ?? Card())
             } else {}
         }
-        
     }
 }

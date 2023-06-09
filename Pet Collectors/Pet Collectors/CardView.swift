@@ -14,13 +14,6 @@ class CardView: UIView {
     var height = 500
     var width = 300
     var isFlipped = false
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,6 +24,9 @@ class CardView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /**
+     Sets up the UI elements and their constraints on the cell.
+     */
     func setup() {
         
         petCollectorsLabel.text = "Pet Collectors"
@@ -67,7 +63,18 @@ class CardView: UIView {
         
     }
     
-    
+    /**
+     Changes the displayed card with the provided card data.
+
+     This function updates the view to display the information from the given `Card` object. It sets the background color based on the rarity of the card and sets the `petCollectorsLabel` text to the breed of the card. The card image is loaded from the URL specified in the `imageURL` property of the card. If the image loading is successful, it is set as the image of the view. Otherwise, a placeholder image is used.
+
+     - Parameters:
+       - card: The `Card` object containing the card data to be displayed.
+
+     - Important: The function performs UI updates on the main DispatchQueue.
+
+     - Note: The `CardUtil.setColor(rarity:)` method is used to determine the background color based on the rarity of the card.
+     */
     func changeCard(card: Card) {
         
         DispatchQueue.main.async {
@@ -84,6 +91,18 @@ class CardView: UIView {
         }
     }
     
+    /**
+     Configures the view to display the information from the provided `TradeCard` object.
+
+     This function updates the view to display the information from the given `TradeCard` object. It sets the background color based on the rarity of the card and sets the `petCollectorsLabel` text to the breed of the card. The card image is loaded from the URL specified in the `imageURL` property of the card. If the image loading is successful, it is set as the image of the view. Otherwise, a placeholder image is used.
+
+     - Parameters:
+       - card: The `TradeCard` object containing the card data to be displayed.
+
+     - Important: The function performs UI updates on the main DispatchQueue.
+
+     - Note: The `CardUtil.setColor(rarity:)` method is used to determine the background color based on the rarity of the card.
+     */
     func configure(card: TradeCard) {
         
         DispatchQueue.main.async {

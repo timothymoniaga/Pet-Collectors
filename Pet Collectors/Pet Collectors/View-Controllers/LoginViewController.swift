@@ -56,31 +56,30 @@ class LoginViewController: UIViewController {
         super.viewWillDisappear(animated)
         Auth.auth().removeStateDidChangeListener(handle!)
     }
-    
 
-    /*
-    // MARK: - Navigation
+    /**
+     Performs the login process with the provided email and password.
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     This method is called when the login button is tapped. It retrieves the email and password entered by the user from the text fields. If both fields are not empty, it invokes the `login(email:password:completion:)` method of the `databaseController` to perform the login process.
 
+     - Parameters:
+        - sender: The sender object that triggered the action.
+
+     - Note: The completion handler receives an optional error message if the login process fails. If the login is successful, it performs the segue with the identifier "loginSegue".
+
+     */
     @IBAction func login(_ sender: Any) {
-            
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
             print("Email and password cannot be empty")
-            displayMessage("Error", "Email or password cannot be empty.")
+            UIUtil.displayMessageDimiss("Error", "Email or password cannot be empty.", self)
             return
         }
         
         databaseController?.login(email: email, password: password) { errorMessage in
             if let errorMessage = errorMessage {
                 // Login failed, show error message
-                self.displayMessage("Error", errorMessage)
+                UIUtil.displayMessageDimiss("Error", errorMessage, self)
             } else {
                 // Login successful, perform segue
                 DispatchQueue.main.async {
@@ -92,20 +91,30 @@ class LoginViewController: UIViewController {
     }
 
     
-    
+    /**
+     Performs the signup process with the provided email and password.
+
+     This method is called when the signup button is tapped. It retrieves the email and password entered by the user from the text fields. If both fields are not empty, it invokes the `signup(email:password:completion:)` method of the `databaseController` to perform the signup process.
+
+     - Parameters:
+        - sender: The sender object that triggered the action.
+
+     - Note: The completion handler receives an optional error message if the signup process fails. If the signup is successful, it performs the segue with the identifier "loginSegue".
+
+     - SeeAlso: `signup(email:password:completion:)`
+     */
     @IBAction func signup(_ sender: Any) {
-        
         guard let email = emailTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
             print("Email and password cannot be empty")
-            displayMessage("Error", "Email or password cannot be empty.")
+            UIUtil.displayMessageDimiss("Error", "Email or password cannot be empty.", self)
             return
         }
         
         databaseController?.signup(email: email, password: password) { errorMessage in
             if let errorMessage = errorMessage {
                 // Login failed, show error message
-                self.displayMessage("Error", errorMessage)
+                UIUtil.displayMessageDimiss("Error", errorMessage, self)
             } else {
                 // Login successful, perform segue
                 DispatchQueue.main.async {
@@ -114,18 +123,4 @@ class LoginViewController: UIViewController {
             }
         }
     }
-    
-    func displayMessage(_ title: String, _ message: String) {
-            let alertController = UIAlertController(title: title, message: message,
-            preferredStyle: .alert)
-            
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default,
-            handler: nil))
-            
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
-        
-    }
-
 }

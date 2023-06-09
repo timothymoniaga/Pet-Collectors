@@ -59,10 +59,6 @@ class IncomingOffersViewController: UITableViewController {
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 70 // return the desired height for the cell
-//    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedOffer = offers[indexPath.row]
         performSegue(withIdentifier: "incomingOfferSegue", sender: nil)
@@ -78,10 +74,6 @@ class IncomingOffersViewController: UITableViewController {
                 // Pass any necessary data to the destination view controller
                 destinationVC.activeOffer = true
                 destinationVC.selectedOffer = self.selectedOffer
-                
-                //print(selectedOffer.)
-                print("=============================")
-                
             }
         }
     }

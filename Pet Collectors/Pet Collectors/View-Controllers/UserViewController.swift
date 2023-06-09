@@ -18,27 +18,16 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //title = user?.userName ?? "User"
         setup()
-        // Do any additional setup after loading the view.
     }
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
+    /**
+     Sets up the UI elements and their constraints on the cell.
      */
-    
-    func setup() {
+    private func setup() {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // set scroll direction as horizontal
+        layout.scrollDirection = .horizontal
         
-        // Initialize collection view with flow layout
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,15 +65,19 @@ class UserViewController: UIViewController {
         offerButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
         offerButton.layer.cornerRadius = 10
         offerButton.addTarget(self, action: #selector(didTapOfferButton), for: .touchUpInside)
-
         
-       // profilePicture.image = user?.image
     }
     
+    /**
+     Handles the tap gesture on the offer button.
+
+     This method is invoked when the user taps the offer button. It triggers a segue with the identifier "offerSegue" to transition to the next screen for making an offer.
+
+     - Important: Ensure that the segue with the identifier "offerSegue" is properly set up in the storyboard.
+
+     - SeeAlso: `performSegue(withIdentifier:sender:)`
+     */
     @objc func didTapOfferButton() {
         performSegue(withIdentifier: "offerSegue", sender: self)
     }
-
-
-    
 }

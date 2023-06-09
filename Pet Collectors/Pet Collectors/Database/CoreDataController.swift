@@ -12,8 +12,6 @@ import FirebaseFirestoreSwift
 
 class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsControllerDelegate {
     
-    //var startDateTime: Date?
-    //var endDateTime: Date?
     var breedList: [String] = []
     var authController: Auth
     var firestoreDatabase: Firestore
@@ -25,7 +23,6 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     var cardFetchedResultsController: NSFetchedResultsController<Card>?
     var persistentContainer: NSPersistentContainer
     var userUID: String?
-    //var listeners = MulticastDelegate<DatabaseListener>()
     
     override init() {
         persistentContainer = NSPersistentContainer(name: "DataModel")
@@ -67,6 +64,17 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    /**
+     Sets the start and end dates for a pack timer.
+
+     This method is used to set the start and end dates for a pack timer. It creates a new `PackTimer` object and assigns the provided start and end dates to its `startDate` and `endDate` properties, respectively.
+
+     - Parameters:
+        - startDate: The start date of the pack timer.
+        - endDate: The end date of the pack timer.
+
+     - Note: The `PackTimer` object is created and persisted using the Core Data context associated with the `persistentContainer`.
+    */
     func setDates(startDate: Date, endDate: Date) {
         let packTimer = NSEntityDescription.insertNewObject(forEntityName: "PackTimer", into: persistentContainer.viewContext) as! PackTimer
         packTimer.startDate = startDate
@@ -74,6 +82,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         
     }
     
+    /**
+     Removes all pack timers from persistent storage.
+
+     This method deletes all `PackTimer` objects from the persistent storage. It creates a fetch request to retrieve all `PackTimer` objects and then deletes each timer using the Core Data context. Finally, it saves the context to persist the changes.
+
+     - Note: This method should be called when you want to remove all pack timers from the persistent storage.
+     */
     func removeTimers() {
         let fetchRequest: NSFetchRequest<PackTimer> = PackTimer.fetchRequest()
         
@@ -90,6 +105,23 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    
+    /**
+     Adds a new card to the persistent storage.
+
+     This method is used to add a new card to the persistent storage. It creates a new `Card` object and sets the provided values for its `breed`, `statistics`, `cardRarity`, `details`, and `imageURL` properties. The created card object is then returned.
+
+     - Parameters:
+        - breed: The breed of the card.
+        - statistics: The statistics of the card.
+        - rarity: The rarity of the card.
+        - details: The details of the card.
+        - imageURL: The URL of the card's image.
+
+     - Returns: The created `Card` object.
+
+     - Note: The `Card` object is created and persisted using the Core Data context associated with the `persistentContainer`.
+     */
     func addCardPersistentStorage(breed: String, statistics: String, rarity: Rarity, details: String, imageURL: String) -> Card {
         let card = NSEntityDescription.insertNewObject(forEntityName: "Card", into: persistentContainer.viewContext) as! Card
         card.breed = breed
@@ -101,6 +133,17 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return card
     }
     
+    
+    /**
+     Adds a card to the Firestore database under the user's collection.
+
+     This method is used to add a card to the Firestore database. It requires a valid authenticated user to associate the card with the user's collection. The card's properties such as breed, statistics, rarity, details, and imageURL are stored in the Firestore document under the user's collection. The method prints an error message if adding the card fails.
+
+     - Parameters:
+        - card: The card object to be added to the Firestore database.
+
+     - Note: The card's `cardID` property is updated with the ID of the newly added card document in Firestore.
+     */
     func addCardFirestore(card: Card) {
         guard let userUID = Auth.auth().currentUser?.uid else {
             // Handle the case when the user is not logged in
@@ -130,6 +173,18 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         card.cardID = newCardID
     }
     
+    
+    /**
+     Adds a card to the trades collection in the Firestore database.
+
+     This method is used to add a card to the trades collection in the Firestore database. It checks if the card has already been added to the trades collection by querying for documents with the same card reference. If no matching documents are found, the card is added to the trades collection under a new trade document. If a matching document exists, an error message is displayed.
+
+     - Parameters:
+        - cardID: The ID of the card to be added to the trades collection.
+        - viewController: The view controller to display an error message if the card has already been added.
+
+     - Note: The card reference consists of the user ID and the card ID in the format "users/{userID}/cards/{cardID}".
+     */
     func addCardToTradeCollection(cardID: String, _ viewController: UIViewController) {
         //let db = Firestore.firestore()
         if let userID = Auth.auth().currentUser?.uid {
@@ -174,7 +229,18 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
 
-    
+    /**
+     Creates an offer document in the Firestore database.
+
+     This method is used to create an offer document in the Firestore database. It checks if an offer document already exists with the same field values (tradeRef, card, and for), and displays an error message if a matching document is found. If no matching document is found, a new offer document is created with the provided field values.
+
+     - Parameters:
+        - cardReference: The document reference of the card involved in the trade.
+        - tradeCardReference: The ID of the trade card.
+        - viewController: The view controller to display an error message if a matching offer document already exists.
+
+     - Note: The offer document is created in the "offers" collection in Firestore.
+     */
     func createOfferDocument(with cardReference: DocumentReference, for tradeCardReference: String, viewController: UIViewController) {
         
         if let userID = Auth.auth().currentUser?.uid {
@@ -234,6 +300,16 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    /**
+     Listens for offers in the Firestore database.
+
+     This method sets up a listener to listen for changes in the "offers" collection in the Firestore database. It retrieves the offers that belong to the currently authenticated user and returns them through the completion handler. If an error occurs while listening for offers, the error is returned through the completion handler.
+
+     - Parameters:
+        - completion: A closure that is called when the offers are retrieved or an error occurs. The closure receives an optional array of offers and an optional error as parameters.
+
+     - Note: The offers are filtered based on the current user ID.
+     */
     func listenForOffers(completion: @escaping ([Offer]?, Error?) -> Void) {
         let collectionRef = firestoreDatabase.collection("offers")
         
@@ -273,6 +349,17 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
 
+    /**
+     Converts a Firestore document to a TradeCard object.
+
+     This method retrieves a document from Firestore using the provided document reference and converts it into a TradeCard object. It extracts the necessary data fields from the document and creates a TradeCard instance with the extracted data. If the document doesn't exist or the data format is invalid, it returns `nil` through the completion handler.
+
+     - Parameters:
+        - documentReference: The Firestore document reference to convert to a TradeCard.
+        - completion: A closure that is called when the conversion is completed or an error occurs. The closure receives an optional TradeCard object and an optional error as parameters.
+
+     - Note: The TradeCard object is created using the extracted data fields from the Firestore document.
+     */
     func convertToTradeCard(from documentReference: DocumentReference, completion: @escaping (TradeCard?, Error?) -> Void) {
         documentReference.getDocument { (document, error) in
             if let error = error {
@@ -310,7 +397,11 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
 
-    // Removes all cards
+    /**
+     Removes all cards from the persistent storage.
+
+     This method deletes all Card entities from the persistent storage using Core Data. It fetches all the existing Card entities and iterates over them to delete each entity. Any errors encountered during the deletion process are logged to the console.
+     */
     func removeAllCards() {
         let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
         
@@ -325,6 +416,16 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    
+    /**
+     Completes an offer and performs a trade.
+
+     This method completes an offer by swapping the card documents between the users involved in the trade. It takes an Offer object as input, which contains references to the card documents and the trade document. It retrieves the card documents using the provided references, swaps their necessary fields, and updates the card documents in Firestore. Then, it deletes the offer document and the trade document from Firestore. If any error occurs during the process, the completion closure is called with the corresponding error. Otherwise, completion is called with a `nil` error, indicating a successful trade completion.
+
+     - Parameters:
+        - offer: The Offer object representing the trade offer to be completed.
+        - completion: A closure that is called when the offer completion and trade process is finished or an error occurs. The closure receives an optional error as a parameter.
+     */
     func completeOfferAndPerformTrade(_ offer: Offer, completion: @escaping (Error?) -> Void) {
         let cardRef1 = offer.card // card that the other user offered
         let cardRef2 = offer.offeredCard //card that the current user offered
@@ -404,6 +505,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
 
+    /**
+     Deletes an offer document from Firestore.
+
+     This function deletes the offer document associated with the provided Offer object from the Firestore database. It takes an Offer object as input and uses its `id` property to identify and delete the corresponding offer document. If the deletion is successful, the completion closure is not called. Otherwise, if an error occurs during the deletion process, the completion closure is called with the corresponding error.
+
+     - Parameter offer: The Offer object representing the offer document to be deleted.
+     */
     func deleteOfferDocument(offer: Offer) {
         firestoreDatabase.collection("offers").document(offer.id!).delete { error in
             if let error = error {
@@ -415,7 +523,17 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
     
-    // Function that was used when wikipidea api was in use. Now useless
+    /**
+     Adds a breed to Firestore.
+
+     This function adds a breed to Firestore using the provided breed name. It creates a new `BreedFirebase` object, sets its breed property to the provided breed name, and attempts to add the breed document to Firestore. If the breed document is successfully added, the `id` property of the `BreedFirebase` object is set to the generated document ID. If an error occurs during the serialization or addition process, an error message is printed.
+
+     - Parameter breedName: The name of the breed to be added.
+
+     - Returns: The `BreedFirebase` object representing the added breed.
+     
+     - Note: This function is no longer used since the Wikipedia API is no longer in use.
+     */
     func addBreed(breedName: String) -> BreedFirebase {
         let breed = BreedFirebase()
         breed.breed = breedName
@@ -429,7 +547,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return breed
     }
     
-    
+    /**
+     Notifies listeners about changes in the fetched results controller.
+
+     This function is called when changes occur in the `NSFetchedResultsController` for the `Card` entity. It notifies the registered listeners by invoking their respective callback methods. If a listener's `listenerType` is `.card` or `.all`, the `onCardsChange` method is called with the `.update` change type and the fetched cards.
+
+     - Parameter controller: The `NSFetchedResultsController` that triggered the change event.
+     */
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if controller == cardFetchedResultsController {
             listeners.invoke() { listener in
@@ -440,6 +564,11 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    /**
+     Saves changes to Core Data and performs cleanup.
+
+     This function saves any pending changes in the `persistentContainer.viewContext` and performs cleanup tasks. If there are changes in the view context, the changes are saved. If saving fails, a fatal error is triggered with the corresponding error message.
+     */
     func cleanup() {
         if persistentContainer.viewContext.hasChanges {
             do {
@@ -450,6 +579,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    /**
+     Adds a database listener.
+
+     This function adds a new listener to the `listeners` set. It adds the provided `DatabaseListener` object as a delegate to the `listeners` set. If the listener's `listenerType` is `.card` or `.all`, it immediately calls the `onCardsChange` method of the listener with the `.update` change type and all the fetched cards.
+     
+     - Parameter listener: The `DatabaseListener` object to be added as a listener.
+     */
     func addListener(listener: DatabaseListener) {
         listeners.addDelegate(listener)
         if listener.listenerType == .card || listener.listenerType == .all {
@@ -457,10 +593,25 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    /**
+     Removes a database listener.
+
+     This function removes a listener from the `listeners` set. It removes the provided `DatabaseListener` object as a delegate from the `listeners` set.
+
+     - Parameter listener: The `DatabaseListener` object to be removed as a listener.
+     */
     func removeListener(listener: DatabaseListener) {
         listeners.removeDelegate(listener)
     }
     
+    
+    /**
+     Fetches pack timers from Core Data.
+
+     This function retrieves the pack timers stored in Core Data. If the `timerFetchedResultsController` is `nil`, it creates a new `NSFetchedResultsController` and performs the fetch request. The pack timers are sorted in ascending order based on their start dates. If the fetch request fails, an error message is printed.
+
+     - Returns: An array of `PackTimer` objects representing the fetched pack timers. If no pack timers are found, an empty array is returned.
+     */
     func fetchTimer() -> [PackTimer] {
         if timerFetchedResultsController == nil {
             let request: NSFetchRequest<PackTimer> = PackTimer.fetchRequest()
@@ -482,6 +633,14 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return [PackTimer]()
     }
     
+    
+    /**
+     Fetches all cards from Core Data.
+
+     This function retrieves all the cards stored in Core Data. If the `cardFetchedResultsController` is `nil`, it creates a new `NSFetchedResultsController` and performs the fetch request. The cards are sorted in ascending order based on their breed names. If the fetch request fails, an error message is printed.
+
+     - Returns: An array of `Card` objects representing the fetched cards. If no cards are found, an empty array is returned.
+     */
     func fetchAllCards() -> [Card] {
         if cardFetchedResultsController == nil {
             let request: NSFetchRequest<Card> = Card.fetchRequest()
@@ -506,6 +665,19 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         return [Card]()
     }
     
+    
+    /**
+     Copies user cards from Firestore to persistent storage.
+
+     This function retrieves the cards associated with a user from Firestore and copies them to the persistent storage using Core Data. It first removes any existing cards from the persistent storage by calling the `removeAllCards()` function. Then, it fetches the user's card documents from Firestore and processes them.
+
+     If an error occurs while fetching the user's cards or processing the documents, the function prints an error message and calls the completion handler with a `false` value. If there are no cards to copy, the completion handler is called with a `true` value. If the cards are successfully copied to the persistent storage, the completion handler is called with a `true` value.
+
+     - Parameters:
+        - userUID: The UID of the user whose cards will be copied.
+        - completion: A closure to be called when the operation is completed. It receives a boolean value indicating whether the copying process was successful (`true`) or not (`false`).
+
+     */
     func copyUserCardsToPersistentStorage(userUID: String, completion: @escaping (Bool) -> Void) {
         
         // Clear existing cards from persistent storage
@@ -549,7 +721,19 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
 
-    
+    /**
+     Authenticates a user and retrieves their cards upon successful login.
+
+     This function attempts to log in the user with the provided email and password using the `authController.signIn(withEmail:password:)` method. Upon successful authentication, the user's existing cards in persistent storage are cleared by calling the `removeAllCards()` function. Then, the function fetches the user's cards from Firestore and processes them.
+
+     If an error occurs during the login process, the function prints an error message and calls the completion handler with an optional error message string. If the login is successful and the user's cards are fetched successfully, the completion handler is called with a `nil` value to indicate successful login without any error message.
+
+     - Parameters:
+        - email: The email address of the user.
+        - password: The password for the user's account.
+        - completion: A closure to be called when the login operation is completed. It receives an optional string parameter, which is an error message in case of login failure, or `nil` if the login is successful without any error.
+
+     */
     func login(email: String, password: String, completion: @escaping (String?) -> Void) {
         Task {
             do {
@@ -606,6 +790,22 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
 
+    
+    /**
+     Registers a new user and initializes their data upon successful signup.
+
+     This function creates a new user account using the provided email and password by calling the `authController.createUser(withEmail:password:)` method. Upon successful account creation, the user's existing cards in persistent storage are cleared by calling the `removeAllCards()` function. The function then proceeds to create a new user document in Firestore's "users" collection, with the user's UID as the document ID. Additional user data can be added to the `userData` dictionary before saving it to the document.
+
+     Subsequently, the function creates an empty subcollection named "cards" within the user's document to store their cards. An empty document is initially added to the "cards" subcollection to facilitate future operations. The function then removes any existing documents from the "cards" subcollection using the `removeDocumentsFromSubcollection(collectionRef:)` method.
+
+     If an error occurs during the signup process, the function prints an error message and calls the completion handler with an optional error message string. If the signup is successful and the user's data is initialized successfully, the completion handler is called with a `nil` value to indicate successful signup without any error message.
+
+     - Parameters:
+        - email: The email address for the new user's account.
+        - password: The password for the new user's account.
+        - completion: A closure to be called when the signup operation is completed. It receives an optional string parameter, which is an error message in case of signup failure, or `nil` if the signup is successful without any error.
+
+     */
     func signup(email: String, password: String, completion: @escaping (String?) -> Void) {
         removeAllCards()
         
@@ -659,6 +859,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
         }
     }
     
+    /**
+     Logs out the current user.
+
+     This function signs out the currently authenticated user by calling the `authController.signOut()` method. If the logout operation is successful, the completion handler is called with a value of `true`. If an error occurs during the logout process, the function prints an error message and calls the completion handler with a value of `false`.
+
+     - Parameter completion: A closure to be called when the logout operation is completed. It receives a boolean parameter that indicates whether the logout was successful (`true`) or failed (`false`).
+     */
     func logout(completion: @escaping (Bool) -> Void) {
         do {
             try authController.signOut()
@@ -673,6 +880,13 @@ class CoreDataController: NSObject, DatabaseProtocol, NSFetchedResultsController
     }
 
     
+    /**
+     Removes all documents from a Firestore subcollection.
+
+     This function retrieves all documents from the provided `collectionRef` and deletes each document using the `delete()` method of its reference. If any error occurs during the retrieval or deletion process, an error message is printed. If the retrieval is successful but no documents are found in the subcollection, a corresponding message is printed.
+
+     - Parameter collectionRef: A reference to the Firestore subcollection from which the documents should be removed.
+     */
     func removeDocumentsFromSubcollection(collectionRef: CollectionReference) {
         collectionRef.getDocuments { (snapshot, error) in
             if let error = error {

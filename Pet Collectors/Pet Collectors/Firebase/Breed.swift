@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseFirestoreSwift
 
+// Firebase document
+
 class BreedFirebase: NSObject, Codable {
 
     @DocumentID var id: String?

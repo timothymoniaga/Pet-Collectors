@@ -28,7 +28,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     var selectedImage: String?
     weak var databaseController: DatabaseProtocol?
     private var pinchGestureRecognizer: UIPinchGestureRecognizer!
-    var tradeActive = false
+    var tradeActive = false // to understand if the tradeVC was the one that showed this view
     weak var delegate: CollectionViewControllerDelegate?
     
     
@@ -84,8 +84,8 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         // Default size if the layout is not a UICollectionViewFlowLayout
         return CGSize(width: 300, height: 500)
     }
-
-
+    
+    
     // Centres the card on initial view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -120,7 +120,9 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.reloadData()
     }
     
-    
+    /**
+     Sets up the UI elements and their constraints on the cell.
+     */
     func setup() {
         
         let layout = UICollectionViewFlowLayout()
@@ -132,7 +134,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = true
-        //collectionView.backgroundColor = .gray
         
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             // Set the initial size of the collection view cells
@@ -158,6 +159,15 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     func onTimerChange(change: DatabaseChange, timer: PackTimer) {
     }
     
+    
+    /**
+     Handler method for the pinch gesture recognizer.
+     
+     This method is called when a pinch gesture is detected on the collection view. It adjusts the size of the collection view cells based on the pinch scale to enable zooming functionality.
+     
+     - Parameters:
+     - gestureRecognizer: The `UIPinchGestureRecognizer` object that detected the pinch gesture.
+     */
     @objc func handlePinchGesture(_ gestureRecognizer: UIPinchGestureRecognizer) {
         guard gestureRecognizer.view != nil else { return }
         
@@ -180,9 +190,19 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
             gestureRecognizer.scale = 1.0
         }
     }
-
     
+    
+    /**
+     Action method called when the zoom switch button is tapped.
+     
+     This method toggles between two zoom levels for the collection view cells. It adjusts the item size in the collection view layout and reloads the collection view to apply the changes.
+     
+     - Parameters:
+     - sender: The object that triggered the action.
+     */
     @IBAction func switchZoom(_ sender: Any) {
+        // Toggle between zoom levels based on the current state of the zoom switch button
+        // Adjust the item size in the collection view layout and reload the collection view
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         if let zoomOut = UIImage(named: "Zoom Out"), collectionViewZoomButton.image?.isEqual(zoomOut) == true {
             layout?.itemSize = CGSize(width: 96, height: 160)
@@ -193,17 +213,27 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
         collectionView.reloadData()
     }
     
+    /**
+     Action method called when the logout button is tapped.
+     
+     This method handles the user logout functionality. It signs out the user using the authentication controller, performs a segue to the logout screen, and logs the outcome of the logout process.
+     
+     - Parameters:
+     - sender: The object that triggered the action.
+     */
     @IBAction func logOut(_ sender: Any) {
-        print("Hello, Logout button pressed")
-        
         do {
+            // Sign out the user using the authentication controller
             try databaseController?.authController.signOut()
+            
+            // Perform a segue to the logout screen
             performSegue(withIdentifier: "logoutSegue", sender: nil)
+            
+            // Log the successful logout
             print("Logout Successful")
-            // Logout successful
         } catch {
+            // Handle the failed logout
             print("Logout failed with error: \(error)")
         }
     }
 }
-

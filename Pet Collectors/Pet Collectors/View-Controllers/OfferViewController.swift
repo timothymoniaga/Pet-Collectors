@@ -37,9 +37,8 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         setup()
         
         if activeOffer {
-            temp()
+            configureIfActiveOffer()
         }
-        // Do any additional setup after loading the view.
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
@@ -49,6 +48,9 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             }
         }
     
+    /**
+     Sets up the UI elements and their constraints on the cell.
+     */
     private func setup() {
         
         tradeImage.image = UIImage(named: "Swap")
@@ -162,10 +164,28 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
+    /**
+     Handles the selection of a card.
+
+     This method is invoked when a card is selected. It triggers a segue with the identifier "collectionSegue" to transition to the collection screen.
+
+     - Important: Ensure that the segue with the identifier "collectionSegue" is properly set up in the storyboard.
+
+     - SeeAlso: `performSegue(withIdentifier:sender:)`
+     */
     @objc func selectCard() {
         performSegue(withIdentifier: "collectionSegue", sender: nil)
     }
     
+    /**
+     Handles the tap gesture on the offer button.
+
+     This method is invoked when the user taps the offer button. It creates an offer document in the database based on the selected card and the offered card. It displays a success message and pops the view controller from the navigation stack upon successful completion.
+
+     - Note: The `createOfferDocument(with:for:viewController:)` method is called to create an offer document in the database.
+
+     - Important: Ensure that the `selectedCard` and `offeredCard` properties are properly set before invoking this method.
+     */
     @objc func offerButtonTapped() {
         if let cardRef = selectedCard?.cardReference, let offerCardRef = offeredCard?.cardID {
             databaseController?.createOfferDocument(with: cardRef, for: offerCardRef, viewController: self)
@@ -180,6 +200,15 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
+    /**
+     Handles the acceptance of an offer.
+
+     This method is invoked when the user accepts an offer. It completes the offer, performs the trade, displays a success message, and updates the user's card collection. It then pops the view controller from the navigation stack.
+
+     - Note: The `completeOfferAndPerformTrade(_:completion:)` method is called to complete the offer and perform the trade. The `copyUserCardsToPersistentStorage(userUID:completion:)` method is called to update the user's card collection.
+
+     - Important: Ensure that the `selectedOffer` property is properly set before invoking this method.
+     */
     @objc func acceptOffer() {
         if let offer = selectedOffer {
             databaseController?.completeOfferAndPerformTrade(offer) { (error) in
@@ -207,6 +236,16 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
+    
+    /**
+     Handles the decline of an offer.
+
+     This method is invoked when the user declines an offer. It deletes the offer document from the database, displays a decline message, and pops the view controller from the navigation stack.
+
+     - Note: The `deleteOfferDocument(offer:)` method is called to delete the offer document from the database.
+
+     - Important: Ensure that the `selectedOffer` property is properly set before invoking this method.
+     */
     @objc func declineOffer() {
         if let offer = selectedOffer {
             databaseController?.deleteOfferDocument(offer: offer)
@@ -216,9 +255,6 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             navigationController.popViewController(animated: true)
         }
     }
-    
-
-    
     
     // MARK: - Navigation
 
@@ -231,8 +267,16 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
             }
         }
     }
-    
-    func temp() {
+    /**
+     Configures the view controller if there is an active offer.
+
+     This method is invoked to configure the view controller when there is an active offer (`selectedOffer`). It converts the offer's card and offered card from `DocumentReference` to `TradeCard` objects and sets them as `selectedCard` and `offeredTradeCard` respectively. It then calls the `setup()` method to update the UI.
+
+     - Note: The `convertToTradeCard(from:completion:)` method is used to convert `DocumentReference` to `TradeCard`.
+
+     - Important: Ensure that the `selectedOffer` property is properly set before invoking this method.
+     */
+    func configureIfActiveOffer() {
         if let currentOffer = selectedOffer {
             print(currentOffer.card.path)
             print(currentOffer.offeredCard.path)
@@ -277,6 +321,16 @@ class OfferViewController: UIViewController, UINavigationControllerDelegate {
 }
 
 extension OfferViewController: CollectionViewControllerDelegate {
+    /**
+     Handles the selection of a card in the CollectionViewController.
+
+     This method is invoked when a card is selected in the collection view. It converts the selected `Card` object to a `TradeCard` object and sets it as the offered card (`offeredCard`). It updates the UI by changing the background color of the offer button and enabling it.
+
+     - Parameters:
+        - card: The selected `Card` object.
+
+     - Note: The `changeCard(card:)` method is called to update the `offerCard` with the selected card details.
+     */
     func didSelectCard(_ card: Card) {
         // convert card to TradeCard then set as the offer card and configure
         offerCard.changeCard(card: card)

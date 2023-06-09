@@ -24,7 +24,6 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.title = "Trade"
         setup()
         fetchTradeCards()
-        // Do any additional setup after loading the view.
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,58 +47,70 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
                 cardReference.delete { error in
                     if let error = error {
                         print("Error deleting card reference: \(error)")
-                    } else {
-                        // Delete the item from the tradeCards array
-                        // Items do not need to be manually deleted as the listener takes care of the removal
-                        //self.tradeCards.remove(at: indexPath.item)
-                        //collectionView.deleteItems(at: [indexPath])
-                    }
+                    } else {}
                 }
             }
         }
     }
 
     
+    /**
+     Fetches the trade cards from the Firestore database and updates the collection view.
+
+     This method listens for changes in the "trades" collection in Firestore and retrieves the corresponding trade card data. It populates the `tradeCards` array with `TradeCard` objects and reloads the collection view to display the updated data.
+
+     The method handles asynchronous operations using a dispatch group to ensure all card data is fetched before updating the collection view.
+
+     Note: The method assumes that the Firestore database has a "trades" collection containing trade card documents with the following fields: "cardReference" (DocumentReference), "user" (String), "breed" (String), "statistics" (String), "rarity" (Int32), "details" (String), and "imageURL" (String).
+
+     Make sure to call this method during the setup phase of your view controller to populate the initial trade card data.
+
+     */
     func fetchTradeCards() {
         tradesListener = firestoreDatabase.collection("trades").addSnapshotListener { [weak self] snapshot, error in
             guard let self = self else { return }
-            
+
+            // Clear the existing trade cards array and reload the collection view
             self.tradeCards = []
             self.collectionView.reloadData()
+
             if let error = error {
                 print("Error fetching trade cards: \(error)")
                 return
             }
-            
+
+            // Check if there are any trade card documents available
             guard let documents = snapshot?.documents else {
                 print("No trade cards available")
                 return
             }
-            
+
             let dispatchGroup = DispatchGroup() // Create a dispatch group to wait for async operations
-            
+
+            // Iterate through the trade card documents
             for document in documents {
                 let documentReference = document.reference
                 let data = document.data()
                 let cardReference = data["cardReference"] as? DocumentReference
-                
+
                 dispatchGroup.enter() // Enter the dispatch group
-                
+
+                // Fetch the card data from the cardReference document
                 cardReference?.getDocument { cardSnapshot, cardError in
                     defer {
                         dispatchGroup.leave() // Leave the dispatch group when the async operation completes
                     }
-                    
+
                     if let cardError = cardError {
                         print("Error fetching card: \(cardError)")
                         return
                     }
-                    
+
                     guard let cardData = cardSnapshot?.data() else {
                         print("Card data not found")
                         return
                     }
-                    
+
                     // Check if the card belongs to the current user's UID
                     if Auth.auth().currentUser?.uid == data["user"] as? String {
                         let breed = cardData["breed"] as? String ?? ""
@@ -107,26 +118,27 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
                         let rarity = Rarity(rawValue: cardData["rarity"] as? Int32 ?? 0) ?? .common
                         let details = cardData["details"] as? String ?? ""
                         let imageURL = cardData["imageURL"] as? String ?? ""
-                        
+
                         if let cardReference = cardReference { // Unwrap the optional cardReference
                             let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL, cardReference: documentReference)
                             self.tradeCards.append(tradeCard)
                         }
-                        
-//                        let tradeCard = TradeCard(breed: breed, statistics: statistics, rarity: rarity, details: details, imageURL: imageURL)
-//                        self.tradeCards.append(tradeCard)
                     }
                 }
             }
-            
+
             dispatchGroup.notify(queue: .main) {
+                // Update the tradeCards array and reload the collection view on the main queue
                 self.tradeCards = self.tradeCards
                 self.collectionView.reloadData()
             }
         }
     }
+
     
-    
+    /**
+     Sets up the UI elements and their constraints on the cell.
+     */
     private func setup() {
         cardsForTradeLabel.text = "Your cards currently for trade:"
         cardsForTradeLabel.textAlignment = .center
@@ -141,7 +153,6 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
         collectionView.register(CardViewCell.self, forCellWithReuseIdentifier: REUSE_IDENTIFIER)
         collectionView.dataSource = self
         collectionView.delegate = self
-        //collectionView.backgroundColor = .gray
         
         addButton.backgroundColor = UIColor.systemBlue
         addButton.setTitle("Add Card", for: .normal)
@@ -174,6 +185,15 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
         ])
     }
     
+    /**
+     Handles the tap event of the add button.
+
+     This method displays a message dialog with the title "Add card to trade" and a message instructing the user to select a card from their collection and click the '+' button in the top right corner to initiate a trade.
+
+     Upon tapping the "Continue" button in the message dialog, the method sets the selected tab of the tab bar controller to the first tab, which is typically the collection view of the user's cards.
+
+     - Parameter sender: The object that triggered the action.
+     */
     @objc func addButtonTapped() {
         UIUtil.displayMessageContinueCancel("Add card to trade", "To trade, select a card from your collection and click the '+' in the top right corner", self) { isContinue in
             if isContinue {
@@ -181,18 +201,10 @@ class TradeViewController: UIViewController, UICollectionViewDataSource, UIColle
                 if let tabBarController = self.tabBarController {
                     tabBarController.selectedIndex = 0
                 }
-            } else {}
+            } else {
+                // Handle cancel action if desired
+            }
         }
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+
 }

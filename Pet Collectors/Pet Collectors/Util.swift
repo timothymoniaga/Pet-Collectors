@@ -10,6 +10,16 @@ import UIKit
 
 class ApiUtil {
     
+    /**
+     Makes an API call to the specified URL with optional headers.
+
+     This function performs a GET request to the provided `url` with optional `headers` included in the request. Upon completion, the `completion` closure is called with the resulting data or an error.
+
+     - Parameters:
+       - url: The URL to make the API call to.
+       - headers: Optional headers to include in the request.
+       - completion: A closure to be called when the API call is completed. It receives the data retrieved from the API call or an error, if any.
+     */
     static func makeApiCall(url: URL, headers: [String: String]? = nil, completion: @escaping (Data?, Error?) -> Void) {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -37,6 +47,17 @@ class ApiUtil {
         task.resume()
     }
     
+    /**
+     Fetches information about a dog breed from the Wikipedia API.
+
+     This function fetches information about the specified `dogBreed` from the Wikipedia API. It makes use of the `makeApiCall` function internally. Upon completion, the `completion` closure is called with a result containing either the fetched description as a `String` or an error.
+
+     - Parameters:
+       - dogBreed: The dog breed to fetch information for.
+       - completion: A closure to be called when the API call is completed. It receives a result containing either the fetched description or an error.
+     
+     - Note: Not used anymore
+     */
     static func wikipideaAPI(for dogBreed: String, completion: @escaping (Result<String, Error>) -> Void) {
         let encodedDogBreed = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let urlString = "https://en.wikipedia.org/api/rest_v1/page/summary/" + (encodedDogBreed ?? "")
@@ -73,6 +94,16 @@ class ApiUtil {
         }
     }
     
+    
+    /**
+     Loads an image from a URL asynchronously.
+
+     This function loads an image from the specified `urlString` asynchronously. It fetches the image data from the URL and converts it into a `UIImage`. Upon completion, the `completion` closure is called with the loaded image or `nil` if loading fails.
+
+     - Parameters:
+       - urlString: The URL string from which to load the image.
+       - completion: A closure to be called when the image loading is completed. It receives the loaded image or `nil`.
+     */
     static func loadImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(nil)
@@ -102,18 +133,27 @@ class CardUtil {
     static let API_KEY = "wc1HVS7jhkVlyrOr99Mk7g==r2pXzaSabDkQ79VH"
     static weak var databaseController: DatabaseProtocol?
 
+    
+    /**
+     Creates a card with random dog breed, image, statistics, and description.
+
+     This function creates a card by fetching a random dog breed from the database, retrieving a random dog image URL, fetching dog statistics, and generating a dog description using the OpenAI Chat Completions API. The resulting card contains the breed, details, rarity, imageURL, and statistics. The `completion` closure is called with a result containing either the created card or an error.
+
+     - Parameters:
+       - completion: A closure to be called when the card creation is completed. It receives a result containing either the created card or an error.
+     */
     static func createCard(completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         databaseController = appDelegate?.databaseController
         let breeds = databaseController?.breedList
-        print(breeds)
         
-        //using recursion to repeat this function until there is a successful call of all 3 api's ensuring a card is created. If the firestroe database cannot be reached. It will exit automatically
+        /// Using recursion to repeat this function until there is a successful call of all 3 api's ensuring a card is created. If the firestroe database cannot be reached. It will exit automatically
         func fetchCard() {
             guard let breeds = breeds else {
                 completion(.failure(NSError(domain: "Error: Failed to fetch breeds", code: -1, userInfo: nil)))
                 return
             }
+            
             if(!breeds.isEmpty) {
                 let dogbreed = breeds[Int.random(in: 0..<breeds.count)]
                 getRandomDogAPI(for: dogbreed) { imageURLResult in
@@ -156,6 +196,14 @@ class CardUtil {
         fetchCard()
     }
     
+    /**
+     Fetches a description of a dog breed using the OpenAI Chat Completions API.
+
+     This function fetches a description of a dog breed using the OpenAI Chat Completions API. It generates a description by providing a dog prompt to the API and receives the generated response. The `completion` closure is called with a result containing either the fetched description or an error.
+
+     - Parameters:
+       - completion: A closure to be called when the description fetching is completed. It receives a result containing either the fetched description or an error.
+     */
     static func getDogDescription(completion: @escaping (Result<String, Error>) -> Void) {
         let dogBreed = getDogBreed()
         let apiKey = APIKEYS().OPEN_AI
@@ -222,6 +270,16 @@ class CardUtil {
         task.resume()
     }
     
+    
+    /**
+     Fetches a random dog image URL for a given dog breed.
+
+     This function fetches a random dog image URL for the specified dog breed. It constructs the API URL using the dog breed parameter, makes an API call using the `makeApiCall` function, and retrieves the image URL from the response. The `completion` closure is called with a result containing either the fetched image URL or an error.
+
+     - Parameters:
+       - dogBreed: The breed of the dog for which to fetch a random image URL.
+       - completion: A closure to be called when the image URL fetching is completed. It receives a result containing either the fetched image URL or an error.
+     */
     static func getRandomDogAPI(for dogBreed: String, completion: @escaping (Result<String, Error>) -> Void) {
         print(dogBreed)
         let urlString = "https://dog.ceo/api/breed/\(dogBreed)/images/random"
@@ -256,6 +314,15 @@ class CardUtil {
         }
     }
     
+    
+    /**
+     Fetches dog statistics for the current dog breed.
+
+     This function fetches dog statistics for the current dog breed. It constructs the API URL using the current dog breed, makes an API call using the `makeApiCall` function, and retrieves the statistics data from the response. The `completion` closure is called with a result containing either the fetched statistics data or an error.
+
+     - Parameters:
+       - completion: A closure to be called when the statistics fetching is completed. It receives a result containing either the fetched statistics data or an error.
+     */
     static func getDogStatistics(completion: @escaping (Result<Data, Error>) -> Void) {
         let dogBreed = getDogBreed()
         let name = dogBreed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
@@ -279,6 +346,13 @@ class CardUtil {
         }
     }
     
+    /**
+     Retrieves the current dog breed based on the image URL.
+
+     This function retrieves the current dog breed based on the image URL stored in the `imageURL` property. It parses the breed from the URL and performs necessary string manipulations to format the breed name properly. The function returns the current dog breed as a string.
+
+     - Returns: The current dog breed as a string.
+     */
     static func getDogBreed() -> String {
         if let range = imageURL?.range(of: #"breeds/([\w-]+)/"#, options: .regularExpression) {
             var breed = imageURL?[range].replacingOccurrences(of: "-", with: " ") ?? "golden retriever"
@@ -292,6 +366,15 @@ class CardUtil {
         return "golden retiever"
     }
     
+    /**
+     Capitalizes the first letter of each word in a given string.
+
+     This function takes a string as input and capitalizes the first letter of each word in the string. It iterates through the string, identifies spaces followed by lowercase letters, and capitalizes the letter immediately after the space. The function returns the modified string with capitalized letters.
+
+     - Parameter string: The input string to be capitalized.
+
+     - Returns: The modified string with the first letter of each word capitalized.
+     */
     static func capitalizeFirstLetterAndAfterSpace(_ string: String) -> String {
         var capitalizedString = string.capitalized
         
@@ -304,6 +387,15 @@ class CardUtil {
         return capitalizedString
     }
     
+    /**
+     Chooses an index based on given probability weights.
+
+     This function selects an index from a given array of probability weights. It calculates the total probability by summing up the provided weights and then generates a random number between 0 and the total probability. The function iterates through the probability weights, subtracting each weight from the random number until it becomes non-positive. It returns the index corresponding to the first weight that causes the random number to be non-positive.
+
+     - Parameter probs: An array of probability weights.
+
+     - Returns: The index selected based on the probability weights.
+     */
     static func chooseEventIndex(probs: [Double]) -> Int {
         let totalProb = probs.reduce(0, +)
         var random = Double.random(in: 0..<totalProb)
@@ -316,6 +408,15 @@ class CardUtil {
         return 0
     }
     
+    /**
+     Decodes JSON data into a string representing dog statistics.
+
+     This function decodes the provided JSON data into a string representing dog statistics. It assumes the JSON data conforms to the structure defined by the `[CardDetails]` type. The function extracts the relevant details from the decoded data and formats them into a readable string representation. The resulting string contains different statistics and their corresponding values. If the decoding or extraction process encounters an error, an empty string is returned.
+
+     - Parameter jsonData: The JSON data to be decoded.
+
+     - Returns: A string representation of the extracted dog statistics.
+     */
     static func decodeJSONStatistics(jsonData: Data) -> String {
         // Assume jsonData is the JSON data received from API
         do {
@@ -355,6 +456,16 @@ class CardUtil {
         
     }
     
+    
+    /**
+     Sets the color based on the rarity level.
+
+     This function takes an `Int32` value representing the rarity level and returns a corresponding `UIColor` object. The function uses a `switch` statement to match the rarity level and assigns a specific color value based on the matching case. The color values are represented using the `#colorLiteral` syntax.
+
+     - Parameter rarity: The rarity level for which the color is to be determined.
+
+     - Returns: A `UIColor` object representing the color associated with the specified rarity level.
+     */
     static func setColor(rarity: Int32) -> UIColor{
         switch rarity {
         case 0:
@@ -375,6 +486,18 @@ class CardUtil {
 }
 
 class BreedUtil {
+    
+    /**
+     Retrieves a list of all dog breeds.
+
+     This function makes an API call to fetch a list of all dog breeds. It uses the "https://dog.ceo/api/breeds/list/all" endpoint to retrieve the data. Upon successful retrieval, the function returns the JSON string representation of the data.
+
+     - Parameter completion: A closure to be called upon completion, containing a `Result` object with either the JSON string or an error.
+
+     - Important: The completion closure is called asynchronously upon completion of the API request.
+
+     - Note: This function uses the `ApiUtil.makeApiCall` helper function internally to make the API request.
+     */
     static func getAllBreeds(completion: @escaping (Result<String, Error>) -> Void) {
         let urlString = "https://dog.ceo/api/breeds/list/all"
         guard let url = URL(string: urlString) else { return }
@@ -405,7 +528,19 @@ class BreedUtil {
         }
     }
 
-    
+    /**
+     Parses a JSON object to extract breed information.
+
+     This function takes a JSON object in the form of a `[String: Any]` dictionary and extracts breed information from it. The function iterates over the key-value pairs of the JSON object, looking for subarrays. If a subarray is found, the function appends each element of the subarray to a string array, prefixed with the key.
+
+     - Parameter jsonObject: The JSON object to be parsed.
+
+     - Returns: An array of strings representing the extracted breed information.
+
+     - Important: The function assumes that the JSON object follows a specific structure with subarrays containing breed names.
+
+     - Note: The function is commonly used to parse the response from the "getAllBreeds(completion:)" function.
+     */
     static func parseJsonObject(_ jsonObject: [String: Any]) -> [String] {
         var stringArray = [String]()
         
@@ -419,13 +554,26 @@ class BreedUtil {
         
         return stringArray
     }
-    
-    
 }
 
 
 class UIUtil {
     
+    /**
+     Displays an alert message with continue and cancel options.
+
+     This function creates and presents an alert controller with a given title and message on a specified view controller. The alert controller provides two options: "Continue" and "Cancel". When the user selects either option, the completion closure is called with a boolean parameter indicating the user's choice. If the user selects "Continue", the completion closure is called with `true`, and if the user selects "Cancel", the completion closure is called with `false`.
+
+     - Parameters:
+       - title: The title of the alert.
+       - message: The message displayed in the alert.
+       - viewController: The view controller on which to present the alert.
+       - completion: A closure to be called when the user selects an option, containing a boolean parameter indicating the user's choice. `true` represents the selection of "Continue", and `false` represents the selection of "Cancel".
+
+     - Important: The completion closure is called asynchronously when the user selects an option.
+
+     - Note: The function uses the main DispatchQueue to present the alert controller on the main thread.
+     */
     static func displayMessageContinueCancel(_ title: String, _ message: String, _ viewController: UIViewController, completion: @escaping (Bool) -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -442,6 +590,20 @@ class UIUtil {
         }
     }
     
+    /**
+     Displays an alert message with a dismiss option.
+
+     This function creates and presents an alert controller with a given title and message on a specified view controller. The alert controller provides a single option: "Dismiss". When the user selects the "Dismiss" option, the alert is dismissed without any further action.
+
+     - Parameters:
+       - title: The title of the alert.
+       - message: The message displayed in the alert.
+       - viewController: The view controller on which to present the alert.
+
+     - Important: The alert is presented asynchronously on the main thread using the main DispatchQueue.
+
+     - Note: The function does not provide a completion closure as it assumes no action is required after dismissing the alert.
+     */
     static func displayMessageDimiss(_ title: String, _ message: String, _ viewController: UIViewController) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         

@@ -6,9 +6,10 @@
 //
 
 import Foundation
-import UIKit
 import FirebaseFirestoreSwift
 import Firebase
+
+// Firebase Document for offers
 
 class Offer: NSObject{
     
