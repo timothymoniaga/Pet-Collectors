@@ -77,6 +77,7 @@
 		1CCB6E9C2A2B1F8100C67F99 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1CCB6EA02A30C60B00C67F99 /* TradeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCard.swift; sourceTree = "<group>"; };
 		1CCB6EA22A30C7EE00C67F99 /* CardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTableViewCell.swift; sourceTree = "<group>"; };
+		1CCB6EA62A333DAA00C67F99 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9F0CC66D29F753ED00B5A612 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		9F818B2929F6402400005981 /* Pet Collectors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pet Collectors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F818B2C29F6402400005981 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +200,7 @@
 				1C4EE2D22A08AA8B008F0B7D /* Util.swift */,
 				1C90CBAA2A25CBD800384A69 /* APIKEYS.swift */,
 				1C90CBAE2A28572F00384A69 /* CardView.swift */,
+				1CCB6EA62A333DAA00C67F99 /* README.md */,
 			);
 			path = "Pet Collectors";
 			sourceTree = "<group>";
